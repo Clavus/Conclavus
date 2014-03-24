@@ -6,11 +6,11 @@ function Wall:initialize( world )
 	
 	Entity.initialize(self)
 	
-	self:initializeBody()
+	self:initializeBody( world )
 
 end
 
-function Wall:initializeBody()
+function Wall:initializeBody( world )
 	
 	self._body = love.physics.newBody(world, 0, 0, "static")
 	
@@ -39,11 +39,9 @@ function Wall:buildFromPolygon(pol)
 	
 end
 
---[[
 function Wall:draw()
 	
-	love.graphics.line(self._body:getWorldPoints(self._shape:getPoints()))
+	--love.graphics.line(self._body:getWorldPoints(self._shape:getPoints()))
 	
 end
-]]--
 

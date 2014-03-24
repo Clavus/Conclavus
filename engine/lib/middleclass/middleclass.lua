@@ -65,18 +65,18 @@ local function _setDefaultInitializeMethod(klass, super)
 	end
 end
 
-local function _includeMixin(klass, mixin)
-	assert(type(mixin)=='table', "mixin must be a table")
-	for name,method in pairs(mixin) do
+local function _includeMixin(klass, aMixin)
+	assert(type(aMixin)=='table', "mixin must be a table")
+	for name,method in pairs(aMixin) do
 		if name ~= "included" and name ~= "static" then klass[name] = method end
 	end
-	if mixin.static then
-		for name,method in pairs(mixin.static) do
+	if aMixin.static then
+		for name,method in pairs(aMixin.static) do
 			klass.static[name] = method
 		end
 	end
-	if type(mixin.included)=="function" then mixin:included(klass) end
-  	klass.__mixins[mixin] = true
+	if type(aMixin.included)=="function" then aMixin:included(klass) end
+  	klass.__mixins[aMixin] = true
 end
 
 Object = _createClass("Object", nil)
@@ -136,10 +136,25 @@ function subclassOf(other, aClass)
 	return aClass.super == other or subclassOf(other, aClass.super)
 end
 
-function includes(mixin, aClass)
+function includes(aMixin, aClass)
 	--print("TEST: "..tostring(aClass))
 	--print(table.toString(_classes, "classes", true))
 	if not _classes[aClass] then return false end
-	if aClass.__mixins[mixin] then return true end
-	return includes(mixin, aClass.super)
+	if aClass.__mixins[aMixin] then return true end
+	return includes(aMixin, aClass.super)
+end
+
+-- Debug purposes
+
+function dumpMixins( aClass )
+	
+	local str = "Mixins for class "..tostring(aClass)..": "
+	for k, aMixin in pairs( mixin ) do -- global mixin table
+		if (aClass.__mixins[aMixin]) then
+			str = str..k..", "
+		end
+	end
+	
+	print(str)
+	
 end

@@ -9,6 +9,7 @@ function Entity:initialize()
 	self._angle = 0
 	self._index = _entIndex
 	self._relative_depth = 0
+	self._updaterate_mul = 1
 	
 	entCounter = entCounter + 1
 	self._entIndex = entCounter
@@ -78,6 +79,18 @@ end
 function Entity:getDepth()
 	
 	return -self._pos.y + self._relative_depth
+	
+end
+
+function Entity:setUpdateRateMultiplier( mul )
+	
+	self._updaterate_mul = mul
+	
+end
+
+function Entity:getUpdateRateMultiplier()
+	
+	return self._updaterate_mul
 	
 end
 

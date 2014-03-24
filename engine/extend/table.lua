@@ -79,7 +79,7 @@ end
 
 --[[---------------------------------------------------------
    Name: table.random( table )
-   Desc: Return a random key
+   Desc: Return a random value
 -----------------------------------------------------------]]
 function table.random (t)
   

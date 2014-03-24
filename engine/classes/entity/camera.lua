@@ -16,6 +16,13 @@ function Camera:initialize()
 	self._easingfunc = easing.inOutQuint
 	self._easingstart = -100
 	self._easingduration = 2
+	self._easingamplitude = 10
+	self._easingperiod = 1
+	
+	self._clamp_x1 = nil
+	self._clamp_y1 = nil
+	self._clamp_x2 = nil
+	self._clamp_y2 = nil
 	
 	self._targetscale = Vector(1,1)
 	self._scalespeed = 1
@@ -31,8 +38,8 @@ function Camera:update(dt)
 	
 		local t = engine.currentTime() - self._easingstart
 		if (t <= self._easingduration) then
-			self._pos.x = self._easingfunc(t, self._refpos.x, self._targetpos.x - self._refpos.x, self._easingduration)
-			self._pos.y = self._easingfunc(t, self._refpos.y, self._targetpos.y - self._refpos.y, self._easingduration)
+			self._pos.x = self._easingfunc(t, self._refpos.x, self._targetpos.x - self._refpos.x, self._easingduration, self._easingamplitude, self._easingperiod)
+			self._pos.y = self._easingfunc(t, self._refpos.y, self._targetpos.y - self._refpos.y, self._easingduration, self._easingamplitude, self._easingperiod)
 		else
 			self._pos = self._targetpos
 		end
@@ -40,6 +47,8 @@ function Camera:update(dt)
 	elseif (self._mode == "track") then
 		
 		local tx, ty = self:getTargetPos()
+		tx = tx + self._track_rel_x
+		ty = ty + self._track_rel_y
 		self._pos.x = math.approach(self._pos.x, tx, math.abs(tx - self._pos.x)*20*dt)
 		self._pos.y = math.approach(self._pos.y, ty, math.abs(ty - self._pos.y)*20*dt)
 		
@@ -47,6 +56,23 @@ function Camera:update(dt)
 	
 	self._scale.x = math.approach(self._scale.x, self._targetscale.x, self._scalespeed*dt)
 	self._scale.y = math.approach(self._scale.y, self._targetscale.y, self._scalespeed*dt)
+	
+	-- clamp
+	if (self._clamp_x1) then
+		self._pos.x = math.max( self._pos.x, self._clamp_x1 + self:getWidth() / 2 / self._scale.x )
+	end
+	
+	if (self._clamp_x2) then
+		self._pos.x = math.min( self._pos.x, self._clamp_x2 - self:getWidth() / 2 / self._scale.x )
+	end
+	
+	if (self._clamp_y1) then
+		self._pos.y = math.max( self._pos.y, self._clamp_y1 + self:getHeight() / 2 / self._scale.y )
+	end
+	
+	if (self._clamp_y2) then
+		self._pos.y = math.min( self._pos.y, self._clamp_y2 - self:getHeight() / 2 / self._scale.y )
+	end
 	
 end
 
@@ -60,10 +86,21 @@ function Camera:getTargetPos()
 	
 end
 
-function Camera:track( ent )
+function Camera:setClampArea( x1, y1, x2, y2 )
+
+	self._clamp_x1 = x1
+	self._clamp_y1 = y1
+	self._clamp_x2 = x2
+	self._clamp_y2 = y2
+
+end
+
+function Camera:track( ent, rel_x, rel_y )
 	
 	self._mode = "track"
 	self._trackent = ent
+	self._track_rel_x = rel_x or 0
+	self._track_rel_y = rel_y or 0
 	
 end
 
@@ -184,9 +221,11 @@ function Camera:getScale()
 
 end
 
-function Camera:getPos()
+function Camera:setEasing( func, amp, period )
 	
-	return math.round(self._pos.x), math.round(self._pos.y)
+	self._easingfunc = func or self._easingfunc
+	self._easingamplitude = amp or self._easingamplitude
+	self._easingperiod = period or self._easingperiod
 	
 end
 

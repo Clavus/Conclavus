@@ -139,7 +139,7 @@ function TiledLevelData:processTiledData( data )
 						newtile.x = shiftx + column * self.level_tilewidth -- x coord in world
 						newtile.y = shifty + row * self.level_tileheight + ay -- y coord in world
 						
-						batch:addq( newtile.draw_quad, newtile.x, newtile.y )
+						batch:add( newtile.draw_quad, newtile.x, newtile.y )
 						--table.insert(newlayer.tiles, newtile)
 					end
 				end

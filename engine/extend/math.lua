@@ -55,18 +55,15 @@ function math.approach( cur, target, inc )
 	
 end
 
+-- normalizes angle to be between 180 and -179 degrees
 function math.normalizeAngle( a )
 
-	while (a < 0) do
+	while (a <= -math.pi) do
 		a = a + math.pi*2
 	end
 	
-	while (a >= math.pi*2) do
+	while (a > math.pi) do
 		a = a - math.pi*2
-	end
-	
-	if ( a > math.pi ) then
-		return -math.pi + (a - math.pi)
 	end
 
 	return a
@@ -92,3 +89,4 @@ function math.approachAngle( cur, target, inc )
 	return math.approach( cur, cur + diff, inc )
 	
 end
+

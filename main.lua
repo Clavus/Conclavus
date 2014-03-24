@@ -4,8 +4,8 @@ engine = {}
 require("engine/engine_includes")
 require("game/game_includes")
 
-local _curTime
-local gameTitle = "LD engine"
+local _curTime, _prntcnt = 0, 0
+local _gameTitle = "LD engine"
 
 assertDebug = function() end
 
@@ -16,6 +16,7 @@ function love.load()
 	assertDebug = assert
 	
 	_curTime = 0
+	
 	input = InputController()
 	game.load()
 	
@@ -35,7 +36,7 @@ function love.draw()
 	love.graphics.setBackgroundColor( 30, 30, 40 )
 	love.graphics.clear()
 	game.draw()
-	love.graphics.setCaption(gameTitle.."  ("..love.timer.getFPS().." fps)")
+	love.window.setTitle(_gameTitle.."  ("..love.timer.getFPS().." fps)")
 	
 end
 
@@ -77,3 +78,8 @@ function engine.currentTime()
 	
 end
 
+local oldprint = print
+function print( str )
+	oldprint("[".._prntcnt.."] "..str)
+	_prntcnt = _prntcnt + 1
+end

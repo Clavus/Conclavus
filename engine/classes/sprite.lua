@@ -5,7 +5,7 @@ function Sprite:initialize( sData )
 	
 	self._image = sData.image
 	self._offset = sData.offset or Vector(0,0)
-	self._size = sData.size or Vector(32,32)
+	self._size = sData.size or Vector(self._image:getWidth(), self._image:getHeight())
 	self._origin_pos = sData.origin_pos or Vector(0,0)
 	self._num_frames = sData.num_frames or 1
 	self._fps = sData.fps or 0
@@ -23,11 +23,12 @@ function Sprite:initialize( sData )
 	local fw, fh = self._size.x, self._size.y
 	local img = self._image
 	local offset = self._offset
+	local num_columns = sData.num_columns or 1
 	
 	for i = 1, self._num_frames do
 		table.insert(quads, love.graphics.newQuad(offset.x + col*fw, offset.y + row*fh, fw, fh, img:getWidth(), img:getHeight()))
 		col = col + 1
-		if (col >= sData.num_columns) then
+		if (col >= num_columns) then
 			col = 0
 			row = row + 1
 		end
@@ -79,7 +80,7 @@ function Sprite:draw(x, y, r, sx, sy)
 	sy = sy or 1	
 	local frame = self._frames[math.floor(self._cur_frame)]
 	local origin = self._origin_pos
-	love.graphics.drawq(self._image, frame, x, y, r, sx, sy, origin.x, origin.y)
+	love.graphics.draw(self._image, frame, x, y, r, sx, sy, origin.x, origin.y)
 
 end
 
@@ -88,6 +89,12 @@ function Sprite:reset()
 	self._cur_frame = 1
 	self._speed = 1
 	self._ended = false
+	
+end
+
+function Sprite:setCurrentFrame( frame )
+	
+	self._cur_frame = frame
 	
 end
 

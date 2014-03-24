@@ -38,3 +38,9 @@ function PhysicsActor:getAngle()
 	return self._body:getAngle()
 	
 end
+
+function PhysicsActor:onRemove()
+
+	self._body:destroy()
+
+end

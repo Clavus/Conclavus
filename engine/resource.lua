@@ -34,6 +34,6 @@ end
 function resource.getImageDimensions( image_file )
 	
 	local img = resource.getImage( image_file )
-	return Vector(img:getWidth(), img:getHeight())
+	return img:getWidth(), img:getHeight()
 	
 end

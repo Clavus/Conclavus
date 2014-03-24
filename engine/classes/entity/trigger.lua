@@ -28,12 +28,12 @@ function Trigger:buildFromPolygon(pol)
 	
 end
 
-function Trigger:resolveCollisionWith( other, contact )
+function Trigger:beginContactWith( other, contact, myFixture, otherFixture, selfIsFirst )
 	
 	contact:setEnabled( false )
 	
 	if (not self._disabled) then
-		if (game.handleTrigger( other, contact, self._type, unpack(self._params))) then
+		if (game.handleTrigger( self, other, contact, self._type, unpack(self._params))) then
 			self._disabled = true
 		end
 	end

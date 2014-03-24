@@ -6,7 +6,7 @@ Input controller
 
 bool InputController:keyIsPressed(key)
 bool InputController:keyIsReleased(key)
-bool InputController:mouseIsPressed(button)
+bool InputController:mouseIsPressed(button) -- l, r, m, wd, wu, x1, x2
 bool InputController:mouseIsReleased(button)
 bool InputController:keyIsDown(key)
 bool InputController:mouseIsDown(button)
@@ -66,7 +66,7 @@ function InputController:handle_keyreleased(key, unicode)
 	--print("key "..key.." released "..tostring(unicode))
 	self._keysreleased[key] = false
 	
-	if (self._keyreleasecalls[key]) then
+	if (self._keyreleasecalls[key] and self._keysdown[key]) then
 		for k, v in pairs(self._keyreleasecalls[key]) do
 			v(key, engine.currentTime() - self._keysdown[key].time)
 		end
@@ -95,7 +95,7 @@ function InputController:handle_mousereleased(x, y, button)
 	--print("mouse "..tostring(button).." released "..engine.currentTime())
 	self._mousereleased[button] = true
 	
-	if (self._mousereleasecalls[button]) then
+	if (self._mousereleasecalls[button] and self._mousedown[button]) then
 		for k, v in pairs(self._mousereleasecalls[button]) do
 			v.func(x, y, engine.currentTime() - self._mousedown[button].time)
 		end
