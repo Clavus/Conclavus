@@ -1,5 +1,5 @@
 
-require("engine/lib/middleclass/middleclass")
+class = require("engine/lib/middleclass/middleclass")
 
 require("engine/constants")
 require("engine/resource")

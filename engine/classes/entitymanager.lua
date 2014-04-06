@@ -29,11 +29,11 @@ function EntityManager:createEntity( class, ...)
 	--print("Creating entity of "..tostring(class))
 	
 	local ent
-	if (_G[class] and subclassOf(Entity, _G[class])) then
+	if (_G[class] and _G[class]:isSubclassOf(Entity)) then
 		ent = _G[class](...)
 	end
 	
-	if (ent ~= nil and instanceOf(_G[class], ent)) then
+	if (ent ~= nil and ent:isInstanceOf(_G[class])) then
 		table.insert(self._entities, ent)
 		--print("Created entity, new list:\n"..table.toString(self._entities,"self._entities",true))
 		self._update_drawlist = true
@@ -130,7 +130,7 @@ function EntityManager:getEntitiesByClass( cl )
 
 	local res = {}
 	for k, v in ipairs( self._entities ) do
-		if (instanceOf(cl, v)) then
+		if (v:isInstanceOf(cl)) then
 			table.insert(res, v)
 		end
 	end

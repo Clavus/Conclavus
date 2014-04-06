@@ -102,6 +102,6 @@ end
 
 function Entity:__eq( other )
 	
-	return instanceOf(self.class, other) and self:getEntIndex() == other:getEntIndex()
+	return self:isInstanceOf(other) and self:getEntIndex() == other:getEntIndex()
 	
 end
