@@ -1,4 +1,3 @@
--- Large parts of this code are from Garry's Mod Lua codebase, I'm sure Garry won't mind.
 
 -- Originally from: http://lua-users.org/wiki/PitLibTablestuff
 function table.copy(t, lookup_table)

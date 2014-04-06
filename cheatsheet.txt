@@ -1,0 +1,34 @@
+
+// Load resources //
+resource.getImage( image_file, wrap )
+resource.getSound( sound_file, stype )
+resource.getImageDimensions( image_file )
+
+// Level management //
+Level:createEntity( class, ... )
+Level:removeEntity( ent )
+Level:getEntitiesByClass( class )
+Level:getEntitiesByMixin( mixin )
+Level:getCamera()
+Level:getPhysicsWorld()
+
+// GUI //
+GUI:addSimpleElement( depth, pos, image_file, id )
+GUI:addDynamicElement( depth, pos, func, id )
+
+// Tables //
+table.forEach( tab, func )
+table.keyFromValue( tbl, val ) 								// gets key of FIRST matched value
+table.removeByValue( tbl, val ) 								// removes a SINGLE entry (first matched) from table
+table.toString( t, name, nice_formatting, maxseq ) 	// summarizes (sub)tables longer than maxseq
+
+// Sprites //
+Sprite( { 	image,  	// image
+				offset,
+				size,			// default = image size
+				origin_pos,
+				origin_relative, // overrides origin_pos (sets origin_pos to origin_relative * size)
+				num_frames
+				fps
+				should_loop
+			} )

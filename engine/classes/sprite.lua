@@ -7,6 +7,10 @@ function Sprite:initialize( sData )
 	self._offset = sData.offset or Vector(0,0)
 	self._size = sData.size or Vector(self._image:getWidth(), self._image:getHeight())
 	self._origin_pos = sData.origin_pos or Vector(0,0)
+	if (sData.origin_relative) then
+		self._origin_pos = sData.origin_relative * self._size
+	end
+	
 	self._num_frames = sData.num_frames or 1
 	self._fps = sData.fps or 0
 	self._loops = sData.should_loop or false
