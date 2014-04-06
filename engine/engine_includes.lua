@@ -1,5 +1,6 @@
 
 class = require("engine/lib/middleclass/middleclass")
+timer = require("engine/lib/hump/timer")
 
 require("engine/constants")
 require("engine/resource")
@@ -10,7 +11,6 @@ require("engine/extend/table")
 require("engine/util/angle")
 require("engine/util/util")
 require("engine/util/easing")
-require("engine/util/timer")
 
 mixin = {}
 require("engine/classes/mixins/collisionresolver")

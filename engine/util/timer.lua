@@ -1,3 +1,6 @@
+
+-- DEPRECATED, replaced by hump timer library
+
 -- Based on the GMod timer library, so creds to Garry for that
 
 timer = {}

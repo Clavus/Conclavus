@@ -1,6 +1,7 @@
 
 game = {}
 engine = {}
+
 require("engine/engine_includes")
 require("game/game_includes")
 
@@ -8,7 +9,7 @@ local _curTime, _prntcnt = 0, 0
 local _gameTitle = "LD engine"
 
 assertDebug = function() end
-
+nilfunction = function() end -- null function so you can do "(a or nilfunction)(...)"  instead of "if (a != nil) then a(...) end".
 
 function love.load()
 	
@@ -25,7 +26,7 @@ end
 function love.update( dt )
 	
 	_curTime = _curTime + dt
-	timer.check()
+	timer.update(dt)
 	game.update( dt )
 	input:clear()
 	

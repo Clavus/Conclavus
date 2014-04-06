@@ -1,4 +1,8 @@
 
+// External libraries //
+MiddleClass 	- https://github.com/kikito/middleclass/wiki
+Hump (timer)	- http://vrld.github.io/hump/
+
 // Load resources //
 resource.getImage( image_file, wrap )
 resource.getSound( sound_file, stype )
@@ -22,6 +26,30 @@ table.keyFromValue( tbl, val ) 								// gets key of FIRST matched value
 table.removeByValue( tbl, val ) 								// removes a SINGLE entry (first matched) from table
 table.toString( t, name, nice_formatting, maxseq ) 	// summarizes (sub)tables longer than maxseq
 
+// Vector math //
+vec Vector:copy()
+num Vector:distance( vec )
+num Vector:distance2( vec )
+num Vector:length()
+num Vector:angle()
+vec Vector:snap( gridsize )			-- modifies original
+vec Vector:approach( vec, step )	-- modifies original
+vec Vector:perpendicular()
+num Vector:dot( vec )
+num Vector:cross( vec )
+vec Vector:projectOn( vec )
+vec Vector:mirrorOn( vec )
+vec Vector:normalize()				-- modifies original
+vec Vector:getNormalized() / getNormal()
+vec Vector:trim( maxLength )		-- modifies original
+vec Vector:getTrimmed( maxLength )
+vec Vector:rotate( r ) 				-- modifies original
+vec Vector:getRotated( r )
+vec Vector:multiplyBy( a )			-- modifies original
+vec Vector:divideBy( a )				-- modifies original
+vec Vector:add( vec )					-- modifies original
+vec Vector:subtract( vec )			-- modifies original
+
 // Sprites //
 Sprite( { 	image,  	// image
 				offset,
@@ -32,3 +60,22 @@ Sprite( { 	image,  	// image
 				fps
 				should_loop
 			} )
+
+// Input controller //
+
+bool InputController:keyIsPressed(key)
+bool InputController:keyIsReleased(key)
+bool InputController:mouseIsPressed(button) -- l, r, m, wd, wu, x1, x2
+bool InputController:mouseIsReleased(button)
+bool InputController:keyIsDown(key)
+bool InputController:mouseIsDown(button)
+
+void InputController:addKeyPressCallback(id, key, func) -- callback = func(key)
+void InputController:addKeyReleaseCallback(id, key, func) -- callback = func(key, timediff)
+void InputController:addMousePressCallback(id, button, func) -- callback = func(button)
+void InputController:addMouseReleaseCallback(id, button, func) -- callback = func(button, timediff)
+
+void InputController:removeKeyPressCallback(id)
+void InputController:removeKeyReleaseCallback(id)
+void InputController:removeMousePressCallback(id)
+void InputController:removeMouseReleaseCallback(id)

@@ -107,4 +107,3 @@ function Sprite:getCurrentFrame()
 	return math.floor(self._cur_frame)
 	
 end
-
