@@ -34,25 +34,9 @@ function Level:update( dt )
 	
 end
 
-function Level:isRectInActiveArea(campos, x, y, w, h)
-	
-	return true
-	
-	--[[local camx = campos.x
-	local camy = campos.y
-	local camw = self._camera:getWidth()
-	local camh = self._camera:getHeight()
-	
-	if (x > camx - camw - w and x < camx + camw*2 and
-		y > camy - camh - h and y < camy + camh*2) then
-		return true
-	end]]--
-	
-end
-
 function Level:draw()
 
-	self._camera:preDraw()
+	self._camera:attach()
 	self._entManager:preDraw()
 
 	local cx, cy = self._camera:getPos()
@@ -87,7 +71,7 @@ function Level:draw()
 		elseif (layer.type == LAYER_TYPE_BACKGROUND) then -- draw repeating background layer
 			
 			-- disable camera transform for this
-			self._camera:postDraw()
+			self._camera:detach()
 			
 			-- reconstruct quad if camera scale changes
 			if (layer.background_quad == nil or layer.background_cam_diagonal ~= self._camera:getDiagonal()) then
@@ -99,7 +83,6 @@ function Level:draw()
 			local quad = layer.background_quad
 			local x, y, w, h = quad:getViewport()
 			local scalar = layer.background_cam_scalar
-			--self._camera:preDraw(cx + layer.scale.x, cy + layer.scale.y, 1-((csx-1)/csx*(1-scalar)), (1-(csx-1)/csy*(1-scalar)))
 			local tx, ty = cw/2*csx, ch/2*csy
 	
 			love.graphics.push()
@@ -110,11 +93,11 @@ function Level:draw()
 			quad:setViewport((cx + layer.x) * csx * layer.parallax, (cy + layer.y) * csy * layer.parallax, w, h)
 			love.graphics.drawq(image, quad, cw*csx, ch*csy, 0, 1, 1, cbw/2, cbh/2)
 			
+			self._entManager:draw(layer.name) -- draw entities that are to be drawn on this layer
+			
 			love.graphics.pop()
 			
-			self._camera:preDraw()
-			
-			self._entManager:draw(layer.name) -- draw entities that are to be drawn on this layer
+			self._camera:attach()
 			
 		elseif (layer.type == LAYER_TYPE_CUSTOM) then
 			
@@ -129,7 +112,7 @@ function Level:draw()
 	
 	love.graphics.setColor(255,255,255,255)
 	self._entManager:postDraw()
-	self._camera:postDraw()
+	self._camera:detach()
 	
 	
 end
@@ -158,7 +141,69 @@ function Level:getEntitiesByMixin( mixin )
 	return self._entManager:getEntitiesByMixin( mixin )
 end
 
-function Level:setCollisionCallbacks( beginContact, endContact, preSolve, postSolve )
+function Level:useDefaultCollisionCallbacks()
 	if not self._physics_enabled then return end
+
+	local beginContact = function(a, b, contact)
+		
+		local ao, bo = a:getUserData(), b:getUserData()
+		if (not ao or not bo) then return end
+		
+		if (ao and includes(Mixin.CollisionResolver, ao.class)) then
+			ao:beginContactWith(bo, contact, a, b, true)
+		end
+
+		if (bo and includes(Mixin.CollisionResolver, bo.class)) then
+			bo:beginContactWith(ao, contact, b, a, false)
+		end
+		
+	end
+
+	local endContact = function(a, b, contact)
+
+		local ao, bo = a:getUserData(), b:getUserData()
+		if (not ao or not bo) then return end
+		
+		if (ao and includes(Mixin.CollisionResolver, ao.class)) then
+			ao:endContactWith(bo, contact, a, b, true)
+		end
+
+		if (bo and includes(Mixin.CollisionResolver, bo.class)) then
+			bo:endContactWith(ao, contact, b, a, false)
+		end
+		
+	end
+
+	local preSolve = function(a, b, contact)
+
+		local ao, bo = a:getUserData(), b:getUserData()
+		if (not ao or not bo) then return end
+		
+		if (ao and includes(Mixin.CollisionResolver, ao.class)) then
+			ao:preSolveWith(bo, contact, a, b, true)
+		end
+
+		if (bo and includes(Mixin.CollisionResolver, bo.class)) then
+			bo:preSolveWith(ao, contact, b, a, false)
+		end
+		
+	end
+
+	local postSolve = function(a, b, contact)
+
+		local ao, bo = a:getUserData(), b:getUserData()
+		if (not ao or not bo) then return end
+		
+		if (ao and includes(Mixin.CollisionResolver, ao.class)) then
+			ao:postSolveWith(bo, contact, a, b, true)
+		end
+
+		if (bo and includes(Mixin.CollisionResolver, bo.class)) then
+			bo:postSolveWith(ao, contact, b, a, false)
+		end
+		
+	end
+	
 	self._physworld:setCallbacks( beginContact, endContact, preSolve, postSolve )
+	
 end

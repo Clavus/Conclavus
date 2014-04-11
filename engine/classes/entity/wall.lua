@@ -1,19 +1,13 @@
 
 Wall = class("Wall", Entity)
-Wall:include(mixin.PhysicsActor)
+Wall:include(Mixin.PhysicsActor)
 
 function Wall:initialize( world )
 	
 	Entity.initialize(self)
 	
-	self:initializeBody( world )
+	self:initializeBody( world, "static" )
 
-end
-
-function Wall:initializeBody( world )
-	
-	self._body = love.physics.newBody(world, 0, 0, "static")
-	
 end
 
 function Wall:buildFromSquare(w, h)

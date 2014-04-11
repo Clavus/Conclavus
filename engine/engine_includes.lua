@@ -12,7 +12,7 @@ require("engine/util/angle")
 require("engine/util/util")
 require("engine/util/easing")
 
-mixin = {}
+Mixin = {}
 require("engine/classes/mixins/collisionresolver")
 require("engine/classes/mixins/physicsactor")
 
@@ -30,9 +30,6 @@ require("engine/classes/gui")
 require("engine/classes/finitestatemachine")
 
 require("engine/classes/entity/entity")
-require("engine/classes/entity/camera")
-require("engine/classes/entity/player")
 require("engine/classes/entity/wall")
 require("engine/classes/entity/trigger")
-
-
+require("engine/classes/entity/camera")

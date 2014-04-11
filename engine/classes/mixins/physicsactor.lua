@@ -1,9 +1,14 @@
 
-mixin.PhysicsActor = {}
-local PhysicsActor = mixin.PhysicsActor
+Mixin.PhysicsActor = {}
+local PhysicsActor = Mixin.PhysicsActor
 
-function PhysicsActor:initializeBody()
-
+function PhysicsActor:initializeBody( world, btype )
+	
+	btype = btype or "dynamic"
+	
+	self._body = love.physics.newBody(world, 0, 0, btype)
+	self._body:setUserData( self )
+	
 end
 
 function PhysicsActor:getBody()
@@ -18,7 +23,8 @@ function PhysicsActor:setPos( x, y )
 	assertDebug(type(y) == "number", "Number expected, got "..type(y))
 	
 	self._body:setPosition(x, y)
-
+	return self
+	
 end
 
 function PhysicsActor:getPos()
@@ -29,7 +35,8 @@ end
 
 function PhysicsActor:setAngle( r )
 	
-	return self._body:setAngle( r )
+	self._body:setAngle( r )
+	return self
 	
 end
 

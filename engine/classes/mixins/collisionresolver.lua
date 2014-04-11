@@ -1,6 +1,6 @@
 
-mixin.CollisionResolver = {}
-local CollisionResolver = mixin.CollisionResolver
+Mixin.CollisionResolver = {}
+local CollisionResolver = Mixin.CollisionResolver
 
 function CollisionResolver:beginContactWith( other, contact, myFixture, otherFixture, selfIsFirst )
 

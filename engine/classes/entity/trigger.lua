@@ -1,6 +1,6 @@
 
 Trigger = class("Trigger", Wall)
-Trigger:include(mixin.CollisionResolver)
+Trigger:include(Mixin.CollisionResolver)
 
 function Trigger:initialize( world, properties )
 	
@@ -28,14 +28,22 @@ function Trigger:buildFromPolygon(pol)
 	
 end
 
+function Trigger:setEnabled( b )
+	
+	self._disabled = (b == false)
+	
+end
+
 function Trigger:beginContactWith( other, contact, myFixture, otherFixture, selfIsFirst )
 	
 	contact:setEnabled( false )
 	
 	if (not self._disabled) then
+	
 		if (game.handleTrigger( self, other, contact, self._type, unpack(self._params))) then
 			self._disabled = true
 		end
+		
 	end
 
 end

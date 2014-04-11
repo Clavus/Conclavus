@@ -32,34 +32,34 @@ num Vector:distance( vec )
 num Vector:distance2( vec )
 num Vector:length()
 num Vector:angle()
-vec Vector:snap( gridsize )			-- modifies original
+vec Vector:snap( gridsize )		-- modifies original
 vec Vector:approach( vec, step )	-- modifies original
 vec Vector:perpendicular()
 num Vector:dot( vec )
 num Vector:cross( vec )
 vec Vector:projectOn( vec )
 vec Vector:mirrorOn( vec )
-vec Vector:normalize()				-- modifies original
+vec Vector:normalize()			-- modifies original
 vec Vector:getNormalized() / getNormal()
 vec Vector:trim( maxLength )		-- modifies original
 vec Vector:getTrimmed( maxLength )
-vec Vector:rotate( r ) 				-- modifies original
+vec Vector:rotate( r ) 			-- modifies original
 vec Vector:getRotated( r )
-vec Vector:multiplyBy( a )			-- modifies original
-vec Vector:divideBy( a )				-- modifies original
-vec Vector:add( vec )					-- modifies original
-vec Vector:subtract( vec )			-- modifies original
+vec Vector:multiplyBy( a )		-- modifies original
+vec Vector:divideBy( a )		-- modifies original
+vec Vector:add( vec )			-- modifies original
+vec Vector:subtract( vec )		-- modifies original
 
 // Sprites //
 Sprite( { 	image,  	// image
-				offset,
-				size,			// default = image size
-				origin_pos,
-				origin_relative, // overrides origin_pos (sets origin_pos to origin_relative * size)
-				num_frames
-				fps
-				should_loop
-			} )
+		offset,
+		size,		// default = image size
+		origin_pos,
+		origin_relative, // overrides origin_pos (sets origin_pos to origin_relative * size)
+		num_frames,
+		fps,
+		should_loop
+	} )
 
 // Input controller //
 
@@ -79,3 +79,8 @@ void InputController:removeKeyPressCallback(id)
 void InputController:removeKeyReleaseCallback(id)
 void InputController:removeMousePressCallback(id)
 void InputController:removeMouseReleaseCallback(id)
+
+// Util functions //
+util.getPathFromFilename( file_path, (optional) seperator )
+util.equalsAll(value, ...)
+util.equalsAny(value, ...)

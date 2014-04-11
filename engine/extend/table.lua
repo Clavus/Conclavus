@@ -80,7 +80,7 @@ end
    Name: table.random( table )
    Desc: Return a random value
 -----------------------------------------------------------]]
-function table.random (t)
+function table.random(t)
   
 	local rk = math.random( 1, table.count( t ) )
 	local i = 1

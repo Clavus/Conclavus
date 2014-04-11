@@ -1,18 +1,21 @@
 
 Entity = class("Entity")
 
+-- Generate unique entity IDs
 local entCounter = 0
+local function getEntUID()
+	entCounter = entCounter + 1
+	return entCounter
+end
 
 function Entity:initialize()
 	
 	self._pos = Vector(0,0)
 	self._angle = 0
-	self._index = _entIndex
-	self._relative_depth = 0
-	self._updaterate_mul = 1
+	self._entIndex = getEntUID()
 	
-	entCounter = entCounter + 1
-	self._entIndex = entCounter
+	self._depth = 0
+	self._drawbox = { x1 = -32, y1 = -32, x2 = 32, y2 = 32 }
 	
 end
 
@@ -23,7 +26,8 @@ function Entity:setPos( x, y )
 	
 	self._pos.x = x
 	self._pos.y = y
-
+	return self
+	
 end
 
 function Entity:getPos()
@@ -32,10 +36,19 @@ function Entity:getPos()
 
 end
 
+function Entity:move( x, y )
+	
+	self._pos.x = self._pos.x + x
+	self._pos.y = self._pos.y + y
+	return self
+	
+end
+
 function Entity:setAngle( r )
 	
 	assertDebug(type(r) == "number", "Number expected, got "..type(r))
 	self._angle = r
+	return self
 	
 end
 
@@ -45,10 +58,11 @@ function Entity:getAngle()
 	
 end
 
-function Entity:getCameraTrackingPos()
-	
-	return self:getPos()
-	
+function Entity:rotate( r )
+
+	self._angle = self._angle + r
+	return self
+
 end
 
 function Entity:update( dt )
@@ -70,27 +84,24 @@ function Entity:getDrawLayer()
 	
 end
 
+-- returns the entity's drawing bounds in world coordinates
 function Entity:getDrawBoundingBox()
 	
-	return self._pos.x - 32, self._pos.y - 32, 64, 64
+	-- always assumed this is axis-aligned
+	return self._pos.x + self._drawbox.x1, self._pos.y + self._drawbox.y1, self._pos.x + self._drawbox.x2, self._pos.y + self._drawbox.y2
 	
 end
 
-function Entity:getDepth()
+function Entity:setDrawDepth( d )
 	
-	return -self._pos.y + self._relative_depth
-	
-end
-
-function Entity:setUpdateRateMultiplier( mul )
-	
-	self._updaterate_mul = mul
+	self._depth = d
+	return self
 	
 end
 
-function Entity:getUpdateRateMultiplier()
+function Entity:getDrawDepth()
 	
-	return self._updaterate_mul
+	return self._depth
 	
 end
 
@@ -103,5 +114,11 @@ end
 function Entity:__eq( other )
 	
 	return self:isInstanceOf(other) and self:getEntIndex() == other:getEntIndex()
+	
+end
+
+function Entity:__tostring()
+
+	return tostring(self.class).." - Entity["..self._entIndex.."]"
 	
 end

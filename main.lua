@@ -81,6 +81,16 @@ end
 
 local oldprint = print
 function print( str )
+
 	oldprint("[".._prntcnt.."] "..str)
 	_prntcnt = _prntcnt + 1
+	
+end
+
+function dprint( str )
+	
+	-- only print if p key is held down. Useful for stopping printing output
+	if not input:keyIsDown("p") then return end
+	print( str )
+	
 end

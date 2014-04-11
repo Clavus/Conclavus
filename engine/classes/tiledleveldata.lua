@@ -1,8 +1,6 @@
 
 TiledLevelData = class('TiledLevelData', LevelData)
 
-local OPTIMIZE_TILESET = true
-
 function TiledLevelData:initialize( file_path )
 	
 	LevelData.initialize(self)

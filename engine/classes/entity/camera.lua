@@ -1,161 +1,113 @@
 
 Camera = class("Camera", Entity)
 
+local cos, sin = math.cos, math.sin
+local getWindowWidth, getWindowHeight = love.graphics.getWidth, love.graphics.getHeight
+
 function Camera:initialize()
 	
-	Entity.initialize(self)
+	Entity.initialize( self )
 	
-	self._mode = "static"
-	
-	self._angle = 0
 	self._scale = Vector(1,1)
-	self._pos = Vector(0,0)
-	
-	self._refpos = Vector(0,0)
-	self._targetpos = Vector(0,0)
-	self._easingfunc = easing.inOutQuint
-	self._easingstart = -100
-	self._easingduration = 2
-	self._easingamplitude = 10
-	self._easingperiod = 1
-	
-	self._clamp_x1 = nil
-	self._clamp_y1 = nil
-	self._clamp_x2 = nil
-	self._clamp_y2 = nil
-	
-	self._targetscale = Vector(1,1)
-	self._scalespeed = 1
-	
+	self._diagonal2 = 0
 	self._diagonal = 0
-	self:updateDiagonal()
+	
+	self:_updateDiagonal()
 	
 end
 
-function Camera:update(dt)
+function Camera:setScale( x, y )
 	
-	if (self._mode == "static") then
-	
-		local t = engine.currentTime() - self._easingstart
-		if (t <= self._easingduration) then
-			self._pos.x = self._easingfunc(t, self._refpos.x, self._targetpos.x - self._refpos.x, self._easingduration, self._easingamplitude, self._easingperiod)
-			self._pos.y = self._easingfunc(t, self._refpos.y, self._targetpos.y - self._refpos.y, self._easingduration, self._easingamplitude, self._easingperiod)
-		else
-			self._pos = self._targetpos
-		end
-		
-	elseif (self._mode == "track") then
-		
-		local tx, ty = self:getTargetPos()
-		tx = tx + self._track_rel_x
-		ty = ty + self._track_rel_y
-		self._pos.x = math.approach(self._pos.x, tx, math.abs(tx - self._pos.x)*20*dt)
-		self._pos.y = math.approach(self._pos.y, ty, math.abs(ty - self._pos.y)*20*dt)
-		
-	end
-	
-	self._scale.x = math.approach(self._scale.x, self._targetscale.x, self._scalespeed*dt)
-	self._scale.y = math.approach(self._scale.y, self._targetscale.y, self._scalespeed*dt)
-	
-	-- clamp
-	if (self._clamp_x1) then
-		self._pos.x = math.max( self._pos.x, self._clamp_x1 + self:getWidth() / 2 / self._scale.x )
-	end
-	
-	if (self._clamp_x2) then
-		self._pos.x = math.min( self._pos.x, self._clamp_x2 - self:getWidth() / 2 / self._scale.x )
-	end
-	
-	if (self._clamp_y1) then
-		self._pos.y = math.max( self._pos.y, self._clamp_y1 + self:getHeight() / 2 / self._scale.y )
-	end
-	
-	if (self._clamp_y2) then
-		self._pos.y = math.min( self._pos.y, self._clamp_y2 - self:getHeight() / 2 / self._scale.y )
-	end
+	y = y or x
+	self._scale.x = x
+	self._scale.y = y
+	self:_updateDiagonal()
+	return self
 	
 end
 
-function Camera:getTargetPos()
-	
-	if (self._mode == "static") then
-		return self._targetpos.x, self._targetpos.y
-	else
-		return self._trackent:getCameraTrackingPos()
-	end
-	
-end
+function Camera:getScale()
 
-function Camera:setClampArea( x1, y1, x2, y2 )
-
-	self._clamp_x1 = x1
-	self._clamp_y1 = y1
-	self._clamp_x2 = x2
-	self._clamp_y2 = y2
+	return self._scale.x, self._scale.y
 
 end
 
-function Camera:track( ent, rel_x, rel_y )
+function Camera:attach()
 	
-	self._mode = "track"
-	self._trackent = ent
-	self._track_rel_x = rel_x or 0
-	self._track_rel_y = rel_y or 0
-	
-end
-
-function Camera:moveTo( x, y, duration )
-	
-	self._mode = "static"
-	
-	self._targetpos.x = x
-	self._targetpos.y = y
-	self._refpos = self._pos:copy()
-	self._easingstart = engine.currentTime()
-	self._easingduration = duration
-	
-end
-
-function Camera:getTargetScale()
-	
-	return self._targetscale.x, self._targetscale.y
-	
-end
-
-function Camera:scaleTo( sx, sy )
-	
-	self._targetscale.x = sx
-	self._targetscale.y = sy or sx
-	
-end
-
-function Camera:preDraw()
-	
-	local tx, ty = self:getWidth()/2*self._scale.x, self:getHeight()/2*self._scale.y
+	local px, py = self:getPos()
+	local ang = self:getAngle()
+	local sx, sy = self:getScale()
+	local cx,cy = getWindowWidth()/(2*sx), getWindowHeight()/(2*sy)
 	
 	love.graphics.push()
-	love.graphics.translate( tx, ty )
-	love.graphics.scale( self._scale.x, self._scale.y )
-	love.graphics.rotate( self._angle )
-	love.graphics.translate( math.round(-self._pos.x), math.round(-self._pos.y) )
+	love.graphics.scale( sx, sy )
+	love.graphics.translate( cx, cy )
+	love.graphics.rotate( ang )
+	love.graphics.translate( -px, -py )
 	
 end
 
-function Camera:postDraw()
-	
+function Camera:detach()
+
 	love.graphics.pop()
+	
+end
+
+function Camera:draw( func )
+
+	self:attach()
+	func()
+	self:detach()
+	
+end
+
+function Camera:cameraCoords( x, y )
+
+	local px, py = self:getPos()
+	local ang = self:getAngle()
+	local sx, sy = self:getScale()
+	local w, h = getWindowWidth(), getWindowHeight()
+	local cx, cy = w / (2*sx), h / (2*sy)
+	
+	local c, s = cos(ang), sin(ang)
+	x, y = x - px, y - py
+	x, y = c*x - s*y, s*x + c*y
+	
+	return x*sx + w/2, y*sy + h/2
+	
+end
+
+function Camera:worldCoords( x, y )
+
+	local px, py = self:getPos()
+	local ang = self:getAngle()
+	local sx, sy = self:getScale()
+	local w, h = getWindowWidth(), getWindowHeight()
+	local cx, cy = w / (2*sx), h / (2*sy)
+	
+	local c, s = cos(-ang), sin(-ang)
+	x, y = (x - w/2) / sx, (y - h/2) / sy
+	x, y = c*x - s*y, s*x + c*y
+	
+	return x+px, y+py
+	
+end
+
+function Camera:getMouseWorldPos()
+
+	return self:worldCoords(love.mouse.getPosition())
 	
 end
 
 function Camera:getWidth()
 	
-	return love.graphics.getWidth() / self._scale.x
+	return getWindowWidth() / self._scale.x
 	
 end
 
 function Camera:getHeight()
 	
-	return love.graphics.getHeight() / self._scale.y
+	return getWindowHeight() / self._scale.y
 	
 end
 
@@ -165,10 +117,17 @@ function Camera:getDiagonal()
 	
 end
 
-function Camera:updateDiagonal()
+function Camera:getDiagonal2()
+	
+	return self._diagonal2
+	
+end
+
+function Camera:_updateDiagonal()
 	
 	local w, h = self:getWidth(), self:getHeight()
-	self._diagonal = math.sqrt(w*w+h*h)
+	self._diagonal2 = w*w+h*h
+	self._diagonal = math.sqrt(self._diagonal2)
 	
 end
 
@@ -194,38 +153,23 @@ function Camera:getBackgroundQuadHeight()
 	
 end
 
-function Camera:isRectInView( x, y, w, h )
+function Camera:isEntityVisible( ent )
 	
-	w = w or 0
-	h = h or 0
+	assert(ent:isInstanceOf( Entity ), "Entity expected, got "..type(ent))
 	
-	return (x >= self._pos.x - w and x <= self._pos.x + self:getWidth() and
-			y >= self._pos.y - h and y <= self._pos.y + self:getHeight())
+	-- we compare the entity's (axis-aligned) bounding box against the camera's bounding circle
+	local x1, y1, x2, y2 = ent:getDrawBoundingBox()
+	local cx, cy = self:getPos()
 	
-end
-
-function Camera:setScale( x, y )
+	--print("x1, y1, x2, y2 = "..x1..", "..y1..", "..x2..", "..y2)
+	--print("cx, cy = "..cx..", "..cy)
 	
-	y = y or x
-	self._scale.x = x
-	self._scale.y = y
-	self._targetscale.x = x
-	self._targetscale.y = y
-	self:updateDiagonal()
+	local dx = cx - math.clamp( cx, x1, x2 )
+	local dy = cy - math.clamp( cy, y1, y2 )
 	
-end
-
-function Camera:getScale()
-
-	return self._scale.x, self._scale.y
-
-end
-
-function Camera:setEasing( func, amp, period )
+	--print("dx, dy = "..dx..", "..dy)
 	
-	self._easingfunc = func or self._easingfunc
-	self._easingamplitude = amp or self._easingamplitude
-	self._easingperiod = period or self._easingperiod
+	return (dx * dx + dy * dy) < self._diagonal2
 	
 end
 
