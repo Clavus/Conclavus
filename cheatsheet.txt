@@ -22,9 +22,9 @@ GUI:addDynamicElement( depth, pos, func, id )
 
 // Tables //
 table.forEach( tab, func )
-table.keyFromValue( tbl, val ) 								// gets key of FIRST matched value
-table.removeByValue( tbl, val ) 								// removes a SINGLE entry (first matched) from table
-table.toString( t, name, nice_formatting, maxseq ) 	// summarizes (sub)tables longer than maxseq
+table.keyFromValue( tbl, val ) 				-- gets key of FIRST matched value
+table.removeByValue( tbl, val ) 			-- removes a SINGLE entry (first matched) from table
+table.toString( t, name, nice_formatting, maxseq ) 	-- summarizes (sub)tables longer than maxseq
 
 // Vector math //
 vec Vector:copy()
@@ -84,3 +84,34 @@ void InputController:removeMouseReleaseCallback(id)
 util.getPathFromFilename( file_path, (optional) seperator )
 util.equalsAll(value, ...)
 util.equalsAny(value, ...)
+
+// Signals and slots //
+signal.new() 								-- returns new signal register table
+signal.register( signal, function )					-- register function to execute when signal is emitted
+signal.emit( signal, ... (function parameters) )			-- triggers signal with the given parameters
+signal.emit_pattern( signal_pattern, ... (function parameters) ) 	-- triggers all matched signals (http://www.lua.org/manual/5.1/manual.html#5.4.1)
+signal.remove( signal, ... (functions to remove) ) 			-- removes function(s) from stated signal
+signal.remove_pattern( signal_pattern, ... (functions to remove) )
+signal.clear( signal ) 							-- clears the whole signal
+signal.clear_pattern( signal )
+
+// Timers //
+timer 	timer.new()						-- create new timer instance
+handle 	timer.add(delay, function)				-- trigger <function>() after <delay>
+handle	timer.addPeriodic(delay, function, (optional) count)	-- trigger <function>() every <delay>, for <count> times (infinite if <count> = 0)
+handle	timer.do_for(delay, function, (optional) after)		-- executes <function>(dt) every update step for the next <delay> seconds. After that it calls <after>()
+void	timer.cancel(handle)					-- removes the function that is linked to the listed <handle>
+void	timer.clear()						-- clears whole timer
+void	timer.update(dt)					-- update the timer
+handle	timer.tween(duration, subject, target, (optional) method, (optional) after, ...)
+								-- duration: duration of the tween
+								-- subject: reference to a table
+								-- target: target key-values to tween in the subject table
+								-- method: default 'linear'. See Tweening Methods: http://vrld.github.io/hump/#hump.timerTweening_methods
+								-- after: function to execute when duration has passed
+TWEENING EXAMPLE:
+	circle = {rad = 10, pos = {x = 400, y = 300}}
+    	-- multiple tweens can work on the same subject
+   	-- and nested values can be tweened, too
+   	Timer.tween(5, circle, {rad = 50}, 'in-out-quad')
+    	Timer.tween(2, circle, {pos = {y = 550}}, 'out-bounce')

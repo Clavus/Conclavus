@@ -1,6 +1,7 @@
 
 class = require("engine/lib/middleclass/middleclass")
 timer = require("engine/lib/hump/timer")
+signal = require("engine/lib/hump/signal")
 
 require("engine/constants")
 require("engine/resource")
