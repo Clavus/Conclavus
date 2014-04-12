@@ -115,3 +115,14 @@ TWEENING EXAMPLE:
    	-- and nested values can be tweened, too
    	Timer.tween(5, circle, {rad = 50}, 'in-out-quad')
     	Timer.tween(2, circle, {pos = {y = 550}}, 'out-bounce')
+
+// Gamestate //
+gamestate.set( gamestate, ... )		-- pops entire stack and sets this gamestate
+gamestate.push( gamestate, ... )	-- pushes gamestate on top of stack
+gamestate.pop()
+gamestate.switch( gamestate, ... )	-- swaps gamestate on top of stack with this one
+gamestate.current()			-- returns table of current gamestate
+gamestate.drawStack()			-- calls draw() function on every gamestate in the stack (ascending order)
+gamestate.printStack()			-- debug print stack
+
+

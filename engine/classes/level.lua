@@ -10,6 +10,8 @@ function Level:initialize( leveldata, use_physics )
 	if (use_physics) then
 		love.physics.setMeter(leveldata.physics.pixels_per_meter)
 		self._physworld = love.physics.newWorld(0, 0, true)
+		
+		self:initDefaultCollisionCallbacks()
 	end
 	
 	local objects = nil
@@ -141,7 +143,8 @@ function Level:getEntitiesByMixin( mixin )
 	return self._entManager:getEntitiesByMixin( mixin )
 end
 
-function Level:useDefaultCollisionCallbacks()
+function Level:initDefaultCollisionCallbacks()
+
 	if not self._physics_enabled then return end
 
 	local beginContact = function(a, b, contact)

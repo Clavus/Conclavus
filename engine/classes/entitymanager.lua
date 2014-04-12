@@ -63,10 +63,10 @@ end
 
 function EntityManager:preDraw()
 	
+	local level = self._level
+	
 	-- created sorted drawing lists per layer for entities
 	if (self._update_drawlist) then
-		
-		local level = self._level
 		
 		self._drawlist = { _first = {}, _final = {} }
 		local layername
@@ -110,9 +110,9 @@ end
 -- draw all entities in the given layer
 function EntityManager:draw( layer )
 	
-	if (self._drawlist[layer]) then
+	local cam = self._level:getCamera()
 	
-		local cam = level:getCamera()
+	if (self._drawlist[layer]) then
 		for i, ent in ipairs( self._drawlist[layer] ) do
 			if (cam:isEntityVisible( ent )) then
 				ent:draw()
@@ -126,7 +126,7 @@ end
 -- draw all entities that want to be above everything else
 function EntityManager:postDraw()
 	
-	local cam = level:getCamera()
+	local cam = self._level:getCamera()
 	
 	for i, ent in ipairs( self._drawlist._final ) do
 	
