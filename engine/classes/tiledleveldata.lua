@@ -19,7 +19,7 @@ end
 
 function TiledLevelData:processTiledData( data )
 
-	--print(table.toString(data, "TileLevelData", true, 40))
+	--print(table.toString(data, "TileLevelData", true, nil, 40))
 	
 	self.level_width = data.width or self.level_width
 	self.level_height = data.height or self.level_height

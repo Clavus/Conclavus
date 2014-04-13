@@ -1,8 +1,7 @@
 
 -- Originally from: http://lua-users.org/wiki/PitLibTablestuff
+-- fully copies table and nested tables
 function table.copy(t, lookup_table)
-
-	if (t == nil) then return nil end
 	
 	local copy = {}
 	setmetatable(copy, getmetatable(t))
@@ -12,7 +11,7 @@ function table.copy(t, lookup_table)
 		else
 			lookup_table = lookup_table or {}
 			lookup_table[t] = copy
-			if lookup_table[v] then
+			if lookup_table[v] then -- avoid duplicate / recursive references
 				copy[i] = lookup_table[v]
 			else
 				copy[i] = table.copy(v,lookup_table)
@@ -20,6 +19,15 @@ function table.copy(t, lookup_table)
 		end
 	end
 	return copy
+	
+end
+
+-- copies base table, but not nested tables
+function table.clone(t)
+
+	local clone = {}
+	for k, v in pairs(t) do clone[k] = v end
+	return clone
 	
 end
 
@@ -37,6 +45,7 @@ function table.keyFromValue( tbl, val )
 	for key, value in pairs( tbl ) do
 		if ( value == val ) then return key end
 	end
+	return nil
 	
 end
 
@@ -50,37 +59,57 @@ function table.removeByValue( tbl, val )
 	
 end
 
---[[---------------------------------------------------------
-   Name: table.forEach( table, function )
-   Desc: Executes the function on every key -> value pair
-		 in this table
------------------------------------------------------------]]
-function table.forEach( tab, func )
+function table.getKeys(t)
 
-	for k, v in pairs( tab ) do
-		func( k, v )
+	local keys = {}
+	for k, v in pairs(t) do
+		table.insert(keys, k)
 	end
-
+	return keys
+	
 end
 
---[[---------------------------------------------------------
-   Name: table.count( table )
-   Desc: Returns the number of keys in a table
-		 works in cases where #table fails.
------------------------------------------------------------]]
-function table.count(t)
+function table.shuffle(t)
+
+	local keys = table.getKeys(t)
+	for _, key in ipairs(keys) do
+		local okey = keys[math.random(#keys)]
+		t[okey], t[key] = t[key], t[okey]
+	end
+	return t
+	
+end
+
+function table.forEach( t, func, ... )
+	
+	if (type(func) == "string") then
+		for k, v in pairs( t ) do
+			v[func](v, ... ) -- do v:func( ... ) for each
+		end
+	else
+		for k, v in pairs( t ) do
+			func( k, v, ... ) -- do func( key, value, ... ) for each
+		end
+	end
+	return t
+	
+end
+
+function table.count( t, count_func ) -- if count_func(key, value) is supplied, only count where it returns true
 
 	local i = 0
-	for k in pairs(t) do i = i + 1 end
+	if count_func then
+		for k, v in pairs(t) do 
+			if count_func(k, v) then i = i + 1 end
+		end
+	else
+		for k, v in pairs(t) do i = i + 1 end
+	end
 	return i
 	
 end
 
---[[---------------------------------------------------------
-   Name: table.random( table )
-   Desc: Return a random value
------------------------------------------------------------]]
-function table.random(t)
+function table.random( t )
   
 	local rk = math.random( 1, table.count( t ) )
 	local i = 1
@@ -91,18 +120,34 @@ function table.random(t)
 
 end
 
---[[----------------------------------------------------------------------
-   Name: table.isSequential( table )
-   Desc: Returns true if the tables 
-	 keys are sequential
--------------------------------------------------------------------------]]
+function table.filter( t, func, retainkeys ) -- filter t where func(key, value) returns true
+
+	local rtn = {}
+	for k, v in pairs(t) do
+		if func(k, v) then rtn[retainkeys and k or (#rtn + 1)] = v end
+	end
+	return rtn
+  
+end
+
+function table.merge(t1, t2, retainkeys) -- merges t2 into t1
+
+	for k, v in pairs(t2) do
+		t1[retainkeys and k or (#t1 + 1)] = v
+	end
+	return t1
+	
+end
+
 function table.isSequential(t)
+
 	local i = 1
 	for key, value in pairs (t) do
 		if not tonumber(i) or key ~= i then return false end
 		i = i + 1
 	end
 	return true
+	
 end
 
 --[[---------------------------------------------------------
@@ -111,11 +156,12 @@ end
 		table = the table you want to convert (table)
 		name  = the name of the table (string)
 		nice  = whether to add line breaks and indents (bool)
-		maxseq = if defined as a number, summarizes 
-		         sequential tables bigger than this number
-				 instead of printing them out completely
+		maxdepth = (optional) max depth to print table
+		maxseq = (optional) summarizes sequential tables bigger 
+				 than this number instead of printing them out 
+				 completely
 -----------------------------------------------------------]]
-function table.toString( t, n, nice, maxseq )
+function table.toString( t, n, nice, maxdepth, maxseq )
 
 	local nl,tab  = "",  ""
 	if nice then nl,tab = "\n", "\t" end
@@ -125,6 +171,7 @@ function table.toString( t, n, nice, maxseq )
 		local done = done or {}
 		local indent = indent or 0
 		local idt = ""
+		if maxdepth and maxdepth <= indent then return tostring(t) end
 		if nice then idt = string.rep("\t", indent) end
 
 		local sequential = table.isSequential(t)
@@ -151,8 +198,15 @@ function table.toString( t, n, nice, maxseq )
 					str = str..key..tab.."{ [sequential table of size "..#value.."] },"..nl
 				else
 					done[value] = true
-					str = str..key..tab..'{'..nl..makeTable(value, nice, indent + 1, done)
-					str = str..idt..tab..tab..tab..tab.."},"..nl
+					local newtab = makeTable(value, nice, indent + 1, done)
+					local _, cnewlines = string.gsub(newtab, " %-%-", "")
+					
+					if cnewlines > 0 then
+						str = str..key..tab..'{'..nl..newtab
+						str = str..idt..tab..tab..tab..tab.."},"..nl
+					else
+						str = str..key..tab..'{ '..newtab.." },"..nl
+					end
 				end
 
 			else

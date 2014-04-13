@@ -11,47 +11,54 @@ math.distance = math.dist -- alias
 
 function math.clamp( num, low, high )
 
-	if (num < low ) then return low end
-	if (num > high ) then return high end
-	return num
+	return num < low and low or (num > high and high or num)
 	
 end
 
-function math.randRange( low, high )
+function math.randomRange( low, high )
 
 	return low + (math.random() * (high-low))
 	
 end
 
-function math.choose( ... )
-	
-	local arg = {...}
-	return arg[math.random(1,#arg)]
-	
-end
+function math.sign( x )
 
-function math.round( i )
-
-	i = i or 0
-	return math.floor( i + 0.5 )
+	return x < 0 and -1 or 1
 	
 end
 
-function math.approach( cur, target, inc )
+function math.round( i, decimals )
+
+	local mul = 10^(decimals or 0)
+    return math.floor(i * mul + 0.5) / mul
+	
+end
+
+function math.approach( cur, target, inc ) -- sets <inc> step from <cur> to <target>
 
 	inc = math.abs( inc )
 
 	if (cur < target) then
-		
 		return math.clamp( cur + inc, cur, target )
-
 	elseif (cur > target) then
-
 		return math.clamp( cur - inc, target, cur )
-
 	end
 
 	return target
+	
+end
+
+function math.lerp(a, b, frac) -- <frac> is in the range of 0 to 1
+
+	assert(frac <= 1 and frac >= 0, "Lerp fraction has to be between 0 and 1")
+	return a + (b - a) * frac
+
+end
+
+function math.smooth(a, b, frac) -- same as math.lerp but with cosine interpolation
+
+	local m = (1 - math_cos(lume.clamp(frac, 0, 1) * math_pi)) / 2
+	return a + (b - a) * m
 	
 end
 

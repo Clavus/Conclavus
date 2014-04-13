@@ -8,12 +8,14 @@ function SpaceShip:initialize()
 	self._img = Sprite({
 		image = resource.getImage( FOLDER.ASSETS.."spaceship.png" ),
 		origin_relative = Vector(0.5, 0.5)
-	}) 
+	})
 	
 end
 
 function SpaceShip:update( dt )
-
+	
+	self._pos.x = self._pos.x + 0.2*math.sin(engine.currentTime())
+	
 end
 
 function SpaceShip:draw()

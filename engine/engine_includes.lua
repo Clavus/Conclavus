@@ -3,6 +3,7 @@ require("engine/constants")
 
 require("engine/extend/math")
 require("engine/extend/table")
+require("engine/extend/string")
 
 class = 	require("engine/lib/middleclass/middleclass")
 timer = 	require("engine/lib/hump/timer")
