@@ -36,6 +36,12 @@ function Color:toHex()
 	
 end
 
+function Color:getTable()
+	
+	return { self.r, self.g, self.b, self.a }
+	
+end
+
 function Color:unpackRGB()
 	
 	return self.r, self.g, self.b
