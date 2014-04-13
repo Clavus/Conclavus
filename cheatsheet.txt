@@ -160,3 +160,6 @@ textref = tlib.new( '{white}White, {red}Red, {font}{blue}Blue{white} {pic}.', {
 ---- Draw
 tlib.draw(textref)
 
+// Debug //
+debug.printLoadedPackages()	-- prints list of everything in packages.loaded
+
