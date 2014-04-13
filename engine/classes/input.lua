@@ -1,5 +1,5 @@
 
-InputController = class("InputController")
+local InputController = class("InputController")
 
 --[[
 Input controller
@@ -224,3 +224,5 @@ function InputController:removeMouseReleaseCallback(id)
 	end
 	
 end
+
+return InputController

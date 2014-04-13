@@ -1,5 +1,5 @@
 
-LevelData = class('LevelData')
+local LevelData = class('LevelData')
 
 function LevelData:initialize()
 	
@@ -109,3 +109,5 @@ function LevelData:getObjects()
 	return self.objects
 	
 end
+
+return LevelData

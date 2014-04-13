@@ -1,5 +1,5 @@
 
-Vector = class('Vector')
+local Vector = class('Vector')
 
 function Vector:initialize( value, value2 )
 	
@@ -274,3 +274,5 @@ function Vector:__tostring()
 	return "Vector( "..tostring(self.x).." , "..tostring(self.y).." )"
 	
 end
+
+return Vector

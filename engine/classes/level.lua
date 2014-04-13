@@ -1,5 +1,5 @@
 
-Level = class('Level')
+local Level = class('Level')
 
 function Level:initialize( leveldata, use_physics )
 
@@ -210,3 +210,5 @@ function Level:initDefaultCollisionCallbacks()
 	self._physworld:setCallbacks( beginContact, endContact, preSolve, postSolve )
 	
 end
+
+return Level

@@ -1,5 +1,5 @@
 
-resource = {}
+local resource = {}
 
 local loaded_images = {}
 local loaded_sounds = {}
@@ -37,3 +37,5 @@ function resource.getImageDimensions( image_file )
 	return img:getWidth(), img:getHeight()
 	
 end
+
+return resource

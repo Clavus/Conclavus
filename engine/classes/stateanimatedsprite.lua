@@ -1,5 +1,5 @@
 
-StateAnimatedSprite = class("StateAnimatedSprite")
+local StateAnimatedSprite = class("StateAnimatedSprite")
 
 --[[
 void StateAnimatedSprite:setState( state )
@@ -90,3 +90,5 @@ function StateAnimatedSprite:draw(x, y, r, sx, sy)
 	end
 	
 end
+
+return StateAnimatedSprite

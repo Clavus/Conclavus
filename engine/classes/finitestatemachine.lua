@@ -1,5 +1,5 @@
 
-FiniteStateMachine = class("FiniteStateMachine")
+local FiniteStateMachine = class("FiniteStateMachine")
 
 --[[
 Example machine description:
@@ -40,3 +40,5 @@ function FiniteStateMachine:getState()
 	return self._state	
 	
 end
+
+return FiniteStateMachine

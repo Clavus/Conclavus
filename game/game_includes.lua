@@ -1,4 +1,4 @@
 
 require("game/game")
 
-require("game/classes/spaceship")
+SpaceShip = require("game/classes/spaceship")

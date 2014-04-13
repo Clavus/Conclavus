@@ -1,5 +1,5 @@
 
-SpriteData = class("SpriteData")
+local SpriteData = class("SpriteData")
 
 function SpriteData:initialize( image_file, offset, imgsize, origin, numcolums, numframes, frames_per_sec, should_loop )
 
@@ -14,3 +14,5 @@ function SpriteData:initialize( image_file, offset, imgsize, origin, numcolums, 
 	self.should_loop = should_loop or false
 	
 end
+
+return SpriteData

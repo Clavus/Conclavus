@@ -378,7 +378,7 @@ local function outInBounce(t, b, c, d)
 	end
 end
 
-easing = {
+return {
 	linear = linear,
 	inQuad = inQuad,
 	outQuad = outQuad,

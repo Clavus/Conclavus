@@ -1,5 +1,5 @@
 
-GUI = class("GUI")
+local GUI = class("GUI")
 
 function GUI:initialize()
 
@@ -56,3 +56,5 @@ function GUI:removeElement( id )
 	self._elements = new_el
 	
 end
+
+return GUI

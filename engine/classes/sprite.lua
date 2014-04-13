@@ -1,5 +1,5 @@
 
-Sprite = class("Sprite")
+local Sprite = class("Sprite")
 
 function Sprite:initialize( sData )
 	
@@ -107,3 +107,5 @@ function Sprite:getCurrentFrame()
 	return math.floor(self._cur_frame)
 	
 end
+
+return Sprite

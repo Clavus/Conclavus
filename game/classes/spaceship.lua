@@ -1,5 +1,5 @@
 
-SpaceShip = class("SpaceShip", Entity)
+local SpaceShip = class("SpaceShip", Entity)
 
 function SpaceShip:initialize()
 
@@ -22,3 +22,5 @@ function SpaceShip:draw()
 	self._img:draw( x, y, 0 )
 	
 end
+
+return SpaceShip

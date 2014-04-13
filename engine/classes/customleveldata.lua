@@ -1,5 +1,5 @@
 
-CustomLevelData = class('CustomLevelData', LevelData)
+local CustomLevelData = class('CustomLevelData', LevelData)
 
 function CustomLevelData:initialize(layers, objects, tilesets)
 	
@@ -12,3 +12,5 @@ function CustomLevelData:initialize(layers, objects, tilesets)
 	print(table.toString(layers, "layers", true))
 	
 end
+
+return CustomLevelData

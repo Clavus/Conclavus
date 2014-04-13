@@ -1,6 +1,5 @@
 
-Mixin.PhysicsActor = {}
-local PhysicsActor = Mixin.PhysicsActor
+local PhysicsActor = {}
 
 function PhysicsActor:initializeBody( world, btype )
 	
@@ -51,3 +50,5 @@ function PhysicsActor:onRemove()
 	self._body:destroy()
 
 end
+
+return PhysicsActor

@@ -1,5 +1,5 @@
 
-Entity = class("Entity")
+local Entity = class("Entity")
 
 -- Generate unique entity IDs
 local entCounter = 0
@@ -122,3 +122,5 @@ function Entity:__tostring()
 	return tostring(self.class).." - Entity["..self._entIndex.."]"
 	
 end
+
+return Entity

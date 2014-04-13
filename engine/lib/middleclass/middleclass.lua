@@ -168,8 +168,6 @@ function Object:isInstanceOf(aClass)
          )
 end
 
-
-
 function middleclass.class(name, super, ...)
   super = super or Object
   return super:subclass(name, ...)

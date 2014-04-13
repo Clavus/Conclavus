@@ -1,5 +1,5 @@
 
-Trigger = class("Trigger", Wall)
+local Trigger = class("Trigger", Wall)
 Trigger:include(Mixin.CollisionResolver)
 
 function Trigger:initialize( world, properties )
@@ -47,3 +47,5 @@ function Trigger:beginContactWith( other, contact, myFixture, otherFixture, self
 	end
 
 end
+
+return Trigger

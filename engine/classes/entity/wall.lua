@@ -1,5 +1,5 @@
 
-Wall = class("Wall", Entity)
+local Wall = class("Wall", Entity)
 Wall:include(Mixin.PhysicsActor)
 
 function Wall:initialize( world )
@@ -39,3 +39,4 @@ function Wall:draw()
 	
 end
 
+return Wall

@@ -1,5 +1,5 @@
 
-Camera = class("Camera", Entity)
+local Camera = class("Camera", Entity)
 
 local cos, sin = math.cos, math.sin
 local getWindowWidth, getWindowHeight = love.graphics.getWidth, love.graphics.getHeight
@@ -173,3 +173,4 @@ function Camera:isEntityVisible( ent )
 	
 end
 
+return Camera

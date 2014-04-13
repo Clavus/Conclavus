@@ -1,5 +1,5 @@
 
-angle = {}
+local angle = {}
 
 function angle.forward( r )
 
@@ -18,3 +18,5 @@ function angle.normalize( r )
 	return math.normalizeAngle( r )
 	
 end
+
+return angle

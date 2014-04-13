@@ -1,5 +1,5 @@
 
-TiledLevelData = class('TiledLevelData', LevelData)
+local TiledLevelData = class('TiledLevelData', LevelData)
 
 function TiledLevelData:initialize( file_path )
 	
@@ -186,3 +186,5 @@ function TiledLevelData:processTiledData( data )
 	end
 	
 end
+
+return TiledLevelData

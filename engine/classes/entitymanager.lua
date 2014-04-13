@@ -1,5 +1,5 @@
 
-EntityManager = class("EntityManager")
+local EntityManager = class("EntityManager")
 
 function EntityManager:initialize()
 	
@@ -161,4 +161,6 @@ function EntityManager:getEntitiesByMixin( mixin )
 	return res
 	
 end
+
+return EntityManager
 
