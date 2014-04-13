@@ -3,6 +3,7 @@ class = require("engine/lib/middleclass/middleclass")
 timer = require("engine/lib/hump/timer")
 signal = require("engine/lib/hump/signal")
 gamestate = require("engine/lib/hump/gamestate")
+mlib = require("engine/lib/mlib/mlib")
 
 require("engine/constants")
 require("engine/resource")

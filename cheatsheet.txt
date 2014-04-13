@@ -125,4 +125,5 @@ gamestate.current()			-- returns table of current gamestate
 gamestate.drawStack()			-- calls draw() function on every gamestate in the stack (ascending order)
 gamestate.printStack()			-- debug print stack
 
-
+// Advanced math / trigonometry / geometry //
+mlib readme: https://github.com/davisdude/mlib/blob/master/README.md
