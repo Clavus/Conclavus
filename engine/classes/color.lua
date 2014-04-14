@@ -10,6 +10,59 @@ function Color:initialize( r, g, b, a )
 	
 end
 
+ local RGBtoHSV = function(r, g, b, a)
+	
+	r, g, b = r / 255, g / 255, b / 255
+	local max, min = math.max(r, g, b), math.min(r, g, b)
+	local h, s, v
+	v = max
+
+	local d = max - min
+	if max == 0 then s = 0 else s = d / max end
+
+	if max == min then
+		h = 0 -- achromatic
+	else
+		if max == r then
+			h = (g - b) / d
+			if g < b then h = h + 6 end
+		elseif max == g then 
+			h = (b - r) / d + 2
+		elseif max == b then 
+			h = (r - g) / d + 4
+		end
+		h = h / 6
+	end
+
+	return h * 255, s * 255, v * 255, a
+	
+ end
+ 
+local HSVtoRGB = function(h, s, v, a)
+	
+	local h, s, v = h / 255, s / 255, v / 255
+	local r, g, b
+
+	local i = math.floor(h * 6)
+	local f = h * 6 - i
+	local p = v * (1 - s)
+	local q = v * (1 - f * s)
+	local t = v * (1 - (1 - f) * s)
+
+	i = i % 6
+
+	if i == 0 then r, g, b = v, t, p
+	elseif i == 1 then r, g, b = q, v, p
+	elseif i == 2 then r, g, b = p, v, t
+	elseif i == 3 then r, g, b = p, q, v
+	elseif i == 4 then r, g, b = t, p, v
+	elseif i == 5 then r, g, b = v, p, q
+	end
+
+	return r * 255, g * 255, b * 255, a
+	
+ end
+
 function Color:toHex()
 	
 	local hexadecimal = "" --'0X'
@@ -42,16 +95,33 @@ function Color:getTable()
 	
 end
 
-function Color:unpackRGB()
-	
-	return self.r, self.g, self.b
-	
-end
-
-function Color:unpackRGBA()
+function Color:unpack()
 	
 	return self.r, self.g, self.b, self.a
 	
+end
+
+function Color:negative()
+	
+	self.r = 255 - self.r
+	self.g = 255 - self.g
+	self.b = 255 - self.b
+	return self
+	
+end
+
+function Color:invert()
+	
+	local h, s, v = Color:getHSV()
+	self.r, self.g, self.b = Color.HSVtoRGB( 255 - h, s, v )
+	return self
+	
+end
+
+function Color:getHSV()
+
+	return RGBtoHSV( self.r, self.g, self.b, self.a )
+
 end
 
 function Color:__concat( a )
@@ -67,9 +137,17 @@ function Color:__tostring()
 end
 
 Color.static.fromHex = function( hex )
+
 	hex = hex:gsub("#","")
 	assert(string.len(hex) == 6, "Invalid hexadecimal color value!")
     return Color(tonumber("0x"..hex:sub(1,2)), tonumber("0x"..hex:sub(3,4)), tonumber("0x"..hex:sub(5,6)))
+	
+end
+
+Color.static.fromHSV = function(h, s, v, a)
+	
+	return Color(HSVtoRGB(h, s, v, a))
+	
 end
 
 -- HTML colors: http://www.w3schools.com/html/html_colornames.asp --

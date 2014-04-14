@@ -6,7 +6,7 @@ function package.load( packagetable )
 	for k, packages in pairs(packagetable) do
 		for name, path in pairs( packages ) do
 			
-			print("["..k.."] Loaded "..name.." = "..path)
+			print("Loaded "..name.." = "..path)
 			_G[name] = require(path)
 			loaded_packages[name] = path
 			

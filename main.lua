@@ -1,20 +1,33 @@
 
-game = {}
-engine = {}
-
-require("engine/engine_includes")
-require("game/game_includes")
-
 local _curTime, _prntcnt = 0, 0
 local _gameTitle = "LD engine"
 
 assertDebug = function() end
 nilfunction = function() end -- null function so you can do "(a or nilfunction)(...)"  instead of "if (a != nil) then a(...) end".
 
-function love.load()
+local oldprint = print
+function print( str )
+
+	oldprint("[".._prntcnt.."] "..str)
+	_prntcnt = _prntcnt + 1
 	
-	-- Disable this on release, removes unnecessary asserts
-	assertDebug = assert
+end
+
+function dprint( str )
+	
+	-- only print if p key is held down. Useful for stopping printing output
+	if not input:keyIsDown("p") then return end
+	print( str )
+	
+end
+
+game = {}
+engine = {}
+
+require("engine/engine_includes")
+require("game/game_includes")
+
+function love.load()
 	
 	_curTime = 0
 	
@@ -79,18 +92,3 @@ function engine.currentTime()
 	
 end
 
-local oldprint = print
-function print( str )
-
-	oldprint("[".._prntcnt.."] "..str)
-	_prntcnt = _prntcnt + 1
-	
-end
-
-function dprint( str )
-	
-	-- only print if p key is held down. Useful for stopping printing output
-	if not input:keyIsDown("p") then return end
-	print( str )
-	
-end

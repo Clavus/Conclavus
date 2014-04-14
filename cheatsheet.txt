@@ -120,6 +120,16 @@ util.equalsAll(value, ...)
 util.equalsAny(value, ...)
 util.lua( str ) 		-- runs the given string
 
+// Color class //
+Color:toHex()		-- Example: Color.Red:toHex() returns "FF0000"
+Color:getTable()	-- returns { r, g, b, a }
+Color:unpack()		-- returns r, g, b, a
+Color:negative()	-- modifies self
+Color:invert()		-- modifies self
+Color:getHSV()		-- returns h, s, v, a in [0, 255] range
+Color.fromHex( hex )	-- returns new Color
+Color.fromHSV(h, s, v, a) -- returns new Color
+
 // Signals and slots //
 signal.new() 						-- returns new signal register table
 signal.register( signal, function )			-- register function to execute when signal is emitted
