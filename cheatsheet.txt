@@ -20,22 +20,6 @@ Level:getPhysicsWorld()
 GUI:addSimpleElement( depth, pos, image_file, id )
 GUI:addDynamicElement( depth, pos, func, id )
 
-// Tables //
-tab table.copy(t, lookup_table)		-- fully copies table including nested tables
-tab table.clone(t)			-- copies base table, but not nested tables (references original tables)
-bool table.hasValue( t, val )
-mix table.keyFromValue( tbl, val )	-- returns key of first occurence value
-mix table.removeByValue( tbl, val )	-- removes single occurence of value from table, returns original key
-tab table.getKeys(t)			-- get all keys in the table
-tab table.shuffle(t)			-- shuffles key - value combinations
-tab table.forEach( t, func, ... ) 	-- if func is a function, then do func( key, value, ... ) on every table entry
-					-- or if func is a string, do entry_value:func( ... ) on every table entry
-num table.count( t, count_func ) 	-- if count_func(key, value) is supplied, only count where it returns true
-mix table.random( t )			-- get random value
-tab table.filter( t, func, retainkeys ) -- filter t where func(key, value) returns true
-tab table.merge(t1, t2, retainkeys) 	-- merges t2 into t1, when retaining keys, t2 overwrites t1 keys
-str table.toString( t, name, nice_formatting, [maxdepth], [maxseq] ) -- summarizes (sub)tables longer than maxseq, or deeper nested than maxdepth
-
 // Vector math //
 vec Vector:copy()
 num Vector:distance( vec )
@@ -60,11 +44,48 @@ vec Vector:divideBy( a )		-- modifies self
 vec Vector:add( vec )			-- modifies self
 vec Vector:subtract( vec )		-- modifies self
 
-// String functions //
-string.split(str, [sep])		-- splits on space if seperator not provided
-string.trim(str, [chars]) 		-- trims whitespace if chars not set
-string.simpleFormat(str, ...)		-- string.simpleFormat("{b} hi {a}", {a = "mark", b = "Oh"}) -- Returns "Oh hi mark"
+// Extended table functions //
+tab table.copy(t, lookup_table)		-- fully copies table including nested tables
+tab table.clone(t)			-- copies base table, but not nested tables (references original tables)
+bool table.hasValue( t, val )
+mix table.keyFromValue( tbl, val )	-- returns key of first occurence value
+mix table.removeByValue( tbl, val )	-- removes single occurence of value from table, returns original key
+tab table.getKeys(t)			-- get all keys in the table
+tab table.shuffle(t)			-- shuffles key - value combinations
+tab table.forEach( t, func, ... ) 	-- if func is a function, then do func( key, value, ... ) on every table entry
+					-- or if func is a string, do entry_value:func( ... ) on every table entry
+num table.count( t, count_func ) 	-- if count_func(key, value) is supplied, only count where it returns true
+mix table.random( t )			-- get random value
+tab table.filter( t, func, retainkeys ) -- filter t where func(key, value) returns true
+tab table.merge(t1, t2, retainkeys) 	-- merges t2 into t1, when retaining keys, t2 overwrites t1 keys
+str table.toString( t, name, nice_formatting, [maxdepth], [maxseq] ) -- summarizes (sub)tables longer than maxseq, or deeper nested than maxdepth
+
+// Extended string functions //
+tab	string.split(str, [sep])	-- splits on space if seperator not provided
+str	string.trim(str, [chars]) 	-- trims whitespace if chars not set
+str	string.simpleFormat(str, ...)	-- string.simpleFormat("{b} hi {a}", {a = "mark", b = "Oh"}) -- Returns "Oh hi mark"
 					-- string.simpleFormat("Hello {1}!", "world") -- Returns "Hello world!"
+
+// Extended math functions //
+
+num	math.distance( x1, y1, x2, y2 )
+num	math.clamp( num, low, high )
+num	math.randomRange( low, high )		-- returns float between low and high
+num	math.sign( x )				-- returns 1 or -1 depending on if x is negative
+num	math.round( i, [decimals] )		-- rounds to the specified number of decimals (default 0)
+num	math.approach( cur, target, inc ) 	-- sets <inc> step from <cur> to <target>
+num	math.lerp(a, b, frac) 			-- <frac> is in the range of 0 to 1
+num	math.smooth(a, b, frac) 		-- same as math.lerp but with cosine interpolation
+num	math.normalizeAngle( a )		-- normalizes angle to be between pi and -pi radians
+num	math.angleDifference( a, b )
+num	math.approachAngle( cur, target, inc )
+
+// Extended package functions //
+package.load(table)		-- loads swappable lua modules. Table in format { { module_name = "path_to_module" }, ... }
+package.hotswap(module_ref)	-- hotswaps given module reference while game is running. Awesome feature.
+
+// Extended debug functions //
+debug.printLoadedPackages()	-- prints list of everything in packages.loaded
 
 // Sprites //
 Sprite( { (img) image, (vec) offset, (vec) size (default = image size), (vec) origin_pos, 
@@ -98,7 +119,6 @@ util.array(...)			-- util.array(pairs({a = 1, b = 2})) -- Returns {"a", "b"}
 util.equalsAll(value, ...)
 util.equalsAny(value, ...)
 util.lua( str ) 		-- runs the given string
-util.hotswap(modname)		-- hotswaps given module while game is running. Awesome feature.
 
 // Signals and slots //
 signal.new() 						-- returns new signal register table
@@ -159,7 +179,4 @@ textref = tlib.new( '{white}White, {red}Red, {font}{blue}Blue{white} {pic}.', {
 
 ---- Draw
 tlib.draw(textref)
-
-// Debug //
-debug.printLoadedPackages()	-- prints list of everything in packages.loaded
 

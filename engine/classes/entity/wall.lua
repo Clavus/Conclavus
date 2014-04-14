@@ -1,6 +1,6 @@
 
 local Wall = class("Wall", Entity)
-Wall:include(Mixin.PhysicsActor)
+Wall:include(PhysicsActor)
 
 function Wall:initialize( world )
 	

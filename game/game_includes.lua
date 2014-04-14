@@ -1,4 +1,7 @@
 
 require("game/game")
 
-SpaceShip = require("game/classes/spaceship")
+local toload = {
+	{ SpaceShip = "game/classes/spaceship" },
+}
+package.load( toload )

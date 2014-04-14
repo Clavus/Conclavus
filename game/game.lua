@@ -12,7 +12,7 @@ function game.update( dt )
 	
 	if (input:keyIsPressed("escape")) then love.event.quit() return end
 	if (input:keyIsPressed("r")) then 
-		local res = util.hotswap("game/classes/spaceship")
+		local res = package.hotswap("SpaceShip")
 		print("Hotswapped "..tostring(res))
 	end
 	

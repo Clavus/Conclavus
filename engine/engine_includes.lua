@@ -1,42 +1,50 @@
 
 require("engine/constants")
 
+require("engine/extend/package")
 require("engine/extend/math")
 require("engine/extend/table")
 require("engine/extend/string")
 require("engine/extend/debug")
 
-class = 	require("engine/lib/middleclass/middleclass")
-timer = 	require("engine/lib/hump/timer")
-signal = 	require("engine/lib/hump/signal")
-gamestate = require("engine/lib/hump/gamestate")
-mlib = 		require("engine/lib/mlib/mlib")
-tlib =		require("engine/lib/tlib/tlib")
-
-angle = 	require("engine/util/angle")
-util = 		require("engine/util/util")
-easing = 	require("engine/util/easing")
-resource = 	require("engine/util/resource")
-
-Mixin = {}
-Mixin.CollisionResolver = 	require("engine/classes/mixins/collisionresolver")
-Mixin.PhysicsActor = 		require("engine/classes/mixins/physicsactor")
-
-Vector = 					require("engine/classes/vector")
-Color = 					require("engine/classes/color")
-Sprite = 					require("engine/classes/sprite")
-SpriteData = 				require("engine/classes/spritedata")
-StateAnimatedSprite = 		require("engine/classes/stateanimatedsprite")
-InputController = 			require("engine/classes/input")
-LevelData = 				require("engine/classes/leveldata")
-TiledLevelData = 			require("engine/classes/tiledleveldata")
-CustomLevelData = 			require("engine/classes/customleveldata")
-Level = 					require("engine/classes/level")
-EntityManager = 			require("engine/classes/entitymanager")
-GUI = 						require("engine/classes/gui")
-FiniteStateMachine = 		require("engine/classes/finitestatemachine")
-
-Entity = 	require("engine/classes/entity/entity")
-Wall = 		require("engine/classes/entity/wall")
-Trigger = 	require("engine/classes/entity/trigger")
-Camera = 	require("engine/classes/entity/camera")
+local toload = {
+	-- Libraries from others
+	{ class = 			"engine/lib/middleclass/middleclass" },
+	{ timer = 			"engine/lib/hump/timer" },
+	{ signal = 			"engine/lib/hump/signal" },
+	{ gamestate = 	"engine/lib/hump/gamestate" },
+	{ mlib = 			"engine/lib/mlib/mlib" },
+	{ tlib =				"engine/lib/tlib/tlib" },
+	
+	-- Utility libraries
+	{ angle = 		"engine/util/angle" },
+	{ util = 			"engine/util/util" },
+	{ easing = 	"engine/util/easing" },
+	{ resource = "engine/util/resource" },
+	
+	-- Mixins
+	{ CollisionResolver = 	"engine/classes/mixins/collisionresolver" },
+	{ PhysicsActor = 			"engine/classes/mixins/physicsactor" },
+	
+	-- Classes
+	{ Vector = 					"engine/classes/vector" },
+	{ Color = 						"engine/classes/color" },
+	{ Sprite = 					"engine/classes/sprite" },
+	{ SpriteData = 				"engine/classes/spritedata" },
+	{ StateAnimatedSprite = "engine/classes/stateanimatedsprite" },
+	{ InputController = 		"engine/classes/input" },
+	{ LevelData = 				"engine/classes/leveldata" },
+	{ TiledLevelData = 		"engine/classes/tiledleveldata" },
+	{ CustomLevelData = 	"engine/classes/customleveldata" },
+	{ Level = 						"engine/classes/level" },
+	{ EntityManager = 			"engine/classes/entitymanager" },
+	{ GUI = 						"engine/classes/gui" },
+	{ FiniteStateMachine = 	"engine/classes/finitestatemachine" },
+	
+	-- Entity classes
+	{ Entity = 		"engine/classes/entity/entity" },
+	{ Wall = 		"engine/classes/entity/wall" },
+	{ Trigger = 	"engine/classes/entity/trigger" },
+	{ Camera = 	"engine/classes/entity/camera" },
+}
+package.load( toload )

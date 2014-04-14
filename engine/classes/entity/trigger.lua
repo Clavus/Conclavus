@@ -1,6 +1,6 @@
 
 local Trigger = class("Trigger", Wall)
-Trigger:include(Mixin.CollisionResolver)
+Trigger:include(CollisionResolver)
 
 function Trigger:initialize( world, properties )
 	

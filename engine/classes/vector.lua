@@ -1,6 +1,9 @@
 
 local Vector = class('Vector')
 
+-- cache functions
+local type, sqrt, cos, sin, atan2 = type, math.sqrt, math.cos, math.sin, math.atan2 
+
 function Vector:initialize( value, value2 )
 	
 	self.x = 0
@@ -30,7 +33,7 @@ end
 
 function Vector:distance( vec )
 	
-	return math.sqrt(self:distance2(vec)) -- same as: (self - vec):length()
+	return sqrt(self:distance2(vec)) -- same as: (self - vec):length()
 	
 end
 
@@ -46,7 +49,7 @@ end
 
 function Vector:length()
 
-	return math.sqrt(self.x*self.x+self.y*self.y)
+	return sqrt(self.x*self.x+self.y*self.y)
 	
 end
 
@@ -58,7 +61,7 @@ end
 
 function Vector:angle()
 
-	return math.atan2(self.y, self.x)
+	return atan2(self.y, self.x)
 	
 end
 
@@ -142,7 +145,7 @@ Vector.getNormal = Vector.getNormalized
 function Vector:trim( maxLength )
 	
 	local s = maxLength * maxLength / self:length2()
-	s = (s > 1 and 1) or math.sqrt(s)
+	s = (s > 1 and 1) or sqrt(s)
 	self.x = self.x * s
 	self.y = self.y * s
 	return self
@@ -161,8 +164,8 @@ function Vector:rotate( r )
 	local ang = self:angle()
 	
 	ang = angle.rotate( ang, r )
-	self.x = math.cos(ang) * length
-	self.y = math.sin(ang) * length
+	self.x = cos(ang) * length
+	self.y = sin(ang) * length
 	return self
 	
 end

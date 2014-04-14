@@ -1,13 +1,14 @@
 
-function math.dist( x1, y1, x2, y2 )
+-- cache functions
+local sqrt, pi, random, floor, abs = math.sqrt, math.pi, math.random, math.floor, math.abs
+
+function math.distance( x1, y1, x2, y2 )
 
 	local xd = x2-x1
 	local yd = y2-y1
-	return math.sqrt( xd*xd + yd*yd )
+	return sqrt( xd*xd + yd*yd )
 	
 end
-
-math.distance = math.dist -- alias
 
 function math.clamp( num, low, high )
 
@@ -17,7 +18,7 @@ end
 
 function math.randomRange( low, high )
 
-	return low + (math.random() * (high-low))
+	return low + (random() * (high-low))
 	
 end
 
@@ -30,13 +31,13 @@ end
 function math.round( i, decimals )
 
 	local mul = 10^(decimals or 0)
-    return math.floor(i * mul + 0.5) / mul
+    return floor(i * mul + 0.5) / mul
 	
 end
 
 function math.approach( cur, target, inc ) -- sets <inc> step from <cur> to <target>
 
-	inc = math.abs( inc )
+	inc = abs( inc )
 
 	if (cur < target) then
 		return math.clamp( cur + inc, cur, target )
@@ -62,15 +63,14 @@ function math.smooth(a, b, frac) -- same as math.lerp but with cosine interpolat
 	
 end
 
--- normalizes angle to be between 180 and -179 degrees
 function math.normalizeAngle( a )
 
-	while (a <= -math.pi) do
-		a = a + math.pi*2
+	while (a <= -pi) do
+		a = a + pi*2
 	end
 	
-	while (a > math.pi) do
-		a = a - math.pi*2
+	while (a > pi) do
+		a = a - pi*2
 	end
 
 	return a
@@ -82,11 +82,11 @@ function math.angleDifference( a, b )
 
 	local diff = math.normalizeAngle( a - b )
 	
-	if ( diff < math.pi ) then
+	if ( diff < pi ) then
 		return diff
 	end
 	
-	return diff - math.pi
+	return diff - pi
 
 end
 
