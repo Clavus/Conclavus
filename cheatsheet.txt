@@ -180,9 +180,9 @@ EXAMPLE:
 ---- Init
 textref = tlib.new( '{white}White, {red}Red, {font}{blue}Blue{white} {pic}.', {
       x = 0,  y = 32, 
-      red = { 255, 0, 0, 255 }, --declare all the other things with '{' '}' around them. Make sure they are spelled the same.
-      blue = Color.Blue:getTable(), -- use own Color class
-      white = Color.White:getTable(), 
+      red = { 255, 0, 0, 255 }, -- color definition
+      blue = Color.Blue, -- alternatively accepts Color class
+      white = { r = 255, g = 255, b = 255 }, -- or tables in this format 
       pic = love.graphics.newImage( 'pics/pic.png' ), 
       font = love.graphics.newFont( 'fonts/font.ttf' ), 
    } )
