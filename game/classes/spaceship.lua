@@ -1,9 +1,11 @@
 
 local SpaceShip = class("SpaceShip", Entity)
+SpaceShip:include( Rotatable )
 
 function SpaceShip:initialize()
 
-	Entity.initialize(self)
+	Entity.initialize( self )
+	Rotatable.initialize( self )
 	
 	self._img = Sprite({
 		image = resource.getImage( FOLDER.ASSETS.."spaceship.png" ),

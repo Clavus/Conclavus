@@ -28,6 +28,7 @@ local toload = {
 	-- Mixins
 	{ CollisionResolver = 	"engine/classes/mixins/collisionresolver" },
 	{ PhysicsActor = 			"engine/classes/mixins/physicsactor" },
+	{ Rotatable =				"engine/classes/mixins/rotatable" },
 	
 	-- Classes
 	{ Vector = 					"engine/classes/vector" },

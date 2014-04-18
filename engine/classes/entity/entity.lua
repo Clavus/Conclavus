@@ -11,11 +11,10 @@ end
 function Entity:initialize()
 	
 	self._pos = Vector(0,0)
-	self._angle = 0
 	self._entIndex = getEntUID()
-	
 	self._depth = 0
-	self._drawbox = { x1 = -32, y1 = -32, x2 = 32, y2 = 32 }
+	
+	self:setDrawBoundingBox()
 	
 end
 
@@ -44,27 +43,6 @@ function Entity:move( x, y )
 	
 end
 
-function Entity:setAngle( r )
-	
-	assertDebug(type(r) == "number", "Number expected, got "..type(r))
-	self._angle = r
-	return self
-	
-end
-
-function Entity:getAngle()
-	
-	return self._angle
-	
-end
-
-function Entity:rotate( r )
-
-	self._angle = self._angle + r
-	return self
-
-end
-
 function Entity:update( dt )
 
 end
@@ -81,6 +59,12 @@ end
 function Entity:getDrawLayer()
 
 	return DRAW_LAYER.TOP
+	
+end
+
+function Entity:setDrawBoundingBox( x1, y1, x2, y2 )
+	
+	self._drawbox = { x1 = x1 or -16, y1 = y1 or -16, x2 = x2 or 32, y2 = y2 or 32 }
 	
 end
 

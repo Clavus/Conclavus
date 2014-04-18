@@ -16,6 +16,22 @@ function play:init()
 	player = level:createEntity("SpaceShip")
 	player:setPos( 0, 0 )
 	
+	input:addMousePressCallback( "zoomin", MOUSE.WHEELUP, function()
+		local cam = level:getCamera()
+		local sx, sy = cam:getScale()
+		cam:setScale( sx + 0.1 )
+	end)
+	
+	input:addMousePressCallback( "zoomout", MOUSE.WHEELDOWN, function()
+		local cam = level:getCamera()
+		local sx, sy = cam:getScale()
+		cam:setScale( sx - 0.1 )
+	end)
+	
+	input:addMousePressCallback( "turn", MOUSE.RIGHT, function()
+		level:getCamera():rotate( math.pi / 10 )
+	end)
+	
 end
 
 function play:enter()

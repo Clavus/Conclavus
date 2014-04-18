@@ -1,5 +1,6 @@
 
 local Camera = class("Camera", Entity)
+Camera:include( Rotatable )
 
 local cos, sin = math.cos, math.sin
 local getWindowWidth, getWindowHeight = screen.getRenderWidth, screen.getRenderHeight
@@ -7,6 +8,7 @@ local getWindowWidth, getWindowHeight = screen.getRenderWidth, screen.getRenderH
 function Camera:initialize()
 	
 	Entity.initialize( self )
+	Rotatable.initialize( self )
 	
 	self._scale = Vector(1,1)
 	self._diagonal2 = 0
@@ -101,13 +103,13 @@ end
 
 function Camera:getWidth()
 	
-	return getWindowWidth() * self._scale.x
+	return getWindowWidth() / self._scale.x
 	
 end
 
 function Camera:getHeight()
 	
-	return getWindowHeight() * self._scale.y
+	return getWindowHeight() / self._scale.y
 	
 end
 
