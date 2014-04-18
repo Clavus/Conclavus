@@ -1,7 +1,12 @@
 
 // External libraries //
-MiddleClass 	- https://github.com/kikito/middleclass/wiki
-Hump (timer)	- http://vrld.github.io/hump/
+MiddleClass 		- https://github.com/kikito/middleclass/wiki
+Hump (timer, gamestate)	- http://vrld.github.io/hump/
+tlib			- http://love2d.org/forums/viewtopic.php?f=5&t=76960
+lume			- https://github.com/rxi/lume
+
+// Time //
+currentTime()	- returns seconds since game start
 
 // Load resources //
 resource.getImage( image_file, wrap )
@@ -81,8 +86,11 @@ num	math.angleDifference( a, b )
 num	math.approachAngle( cur, target, inc )
 
 // Extended package functions //
-package.load(table)		-- loads swappable lua modules. Table in format { { module_name = "path_to_module" }, ... }
-package.hotswap(module_ref)	-- hotswaps given module reference while game is running. Awesome feature.
+package.loadSwappable(table)		-- loads swappable lua modules. Table in format { { module_name = "path_to_module" }, ... }
+package.hotswap(module_ref)		-- hotswaps given module reference while game is running. Awesome feature.
+package.autoHotswapEnabled( b )		-- enabled auto-hotswapping when a file is changed
+package.autoHotswapUpdateRate( n )	-- update rate (in seconds) of auto-hotswap polling
+package.updatePackages()		-- scans for files to hotswap
 
 // Extended debug functions //
 debug.printLoadedPackages()	-- prints list of everything in packages.loaded

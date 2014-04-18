@@ -4,6 +4,7 @@ local _gameTitle = "LD engine"
 
 assertDebug = function() end
 nilfunction = function() end -- null function so you can do "(a or nilfunction)(...)"  instead of "if (a != nil) then a(...) end".
+currentTime = function() return _curTime end
 
 local oldprint = print
 function print( str )
@@ -22,8 +23,6 @@ function dprint( str )
 end
 
 game = {}
-engine = {}
-
 require("engine/engine_includes")
 require("game/game_includes")
 
@@ -39,9 +38,13 @@ end
 function love.update( dt )
 	
 	_curTime = _curTime + dt
+	
 	timer.update(dt)
 	game.update( dt )
 	input:clear()
+	
+	-- hotswap changed files
+	package.updatePackages()
 	
 end
 
@@ -84,11 +87,5 @@ end
 
 function love.quit()
 
-end
-
-function engine.currentTime()
-	
-	return _curTime
-	
 end
 

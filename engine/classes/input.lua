@@ -1,6 +1,9 @@
 
 local InputController = class("InputController")
 
+-- cache functions
+local pairs, currentTime = pairs, currentTime
+
 --[[
 Input controller
 
@@ -51,7 +54,7 @@ function InputController:handle_keypressed(key, unicode)
 	
 	--print("key "..key.." pressed "..tostring(unicode))
 	self._keyspressed[key] = true
-	self._keysdown[key] = { time = engine.currentTime() }
+	self._keysdown[key] = { time = currentTime() }
 	
 	if (self._keypresscalls[key]) then
 		for k, v in pairs(self._keypresscalls[key]) do
@@ -68,7 +71,7 @@ function InputController:handle_keyreleased(key, unicode)
 	
 	if (self._keyreleasecalls[key] and self._keysdown[key]) then
 		for k, v in pairs(self._keyreleasecalls[key]) do
-			v(key, engine.currentTime() - self._keysdown[key].time)
+			v(key, currentTime() - self._keysdown[key].time)
 		end
 	end
 	
@@ -78,9 +81,9 @@ end
 
 function InputController:handle_mousepressed(x, y, button)
 	
-	--print("mouse "..tostring(button).." pressed "..engine.currentTime())
+	--print("mouse "..tostring(button).." pressed "..currentTime())
 	self._mousepressed[button] = true
-	self._mousedown[button] = { x = x, y = y, time = engine.currentTime() }
+	self._mousedown[button] = { x = x, y = y, time = currentTime() }
 	
 	if (self._mousepresscalls[button]) then
 		for k, v in pairs(self._mousepresscalls[button]) do
@@ -92,12 +95,12 @@ end
 
 function InputController:handle_mousereleased(x, y, button)
 	
-	--print("mouse "..tostring(button).." released "..engine.currentTime())
+	--print("mouse "..tostring(button).." released "..currentTime())
 	self._mousereleased[button] = true
 	
 	if (self._mousereleasecalls[button] and self._mousedown[button]) then
 		for k, v in pairs(self._mousereleasecalls[button]) do
-			v.func(x, y, engine.currentTime() - self._mousedown[button].time)
+			v.func(x, y, currentTime() - self._mousedown[button].time)
 		end
 	end
 	

@@ -14,7 +14,7 @@ end
 
 function SpaceShip:update( dt )
 	
-	self._pos.x = self._pos.x + 0.2*math.sin(engine.currentTime())
+	self._pos.x = self._pos.x + 0.4*math.sin(currentTime())
 	
 end
 

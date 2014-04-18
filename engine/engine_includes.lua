@@ -7,6 +7,7 @@ require("engine/extend/table")
 require("engine/extend/string")
 require("engine/extend/debug")
 
+-- Loading order of elements is important!
 local toload = {
 	-- Libraries from others
 	{ class = 			"engine/lib/middleclass/middleclass" },
@@ -47,4 +48,4 @@ local toload = {
 	{ Trigger = 	"engine/classes/entity/trigger" },
 	{ Camera = 	"engine/classes/entity/camera" },
 }
-package.load( toload )
+package.loadSwappable( toload )
