@@ -28,8 +28,7 @@ require("game/game_includes")
 
 function love.load()
 	
-	_curTime = 0
-	
+	screen.init()
 	lovebird.init()
 	print("---- Initializing ".._gameTitle.." ----")
 	
@@ -42,10 +41,7 @@ function love.update( dt )
 	
 	_curTime = _curTime + dt
 	
-	debug.benchmarkStart("lovebird")
 	lovebird.update()
-	debug.benchmarkStop("lovebird", "lovebird time diff: {time}", function( t ) return t > 0 end)
-	
 	timer.update(dt)
 	game.update( dt )
 	input:clear()
@@ -57,9 +53,14 @@ end
 
 function love.draw()
 	
+	screen.preDraw()
+	
 	love.graphics.setBackgroundColor( 30, 30, 40 )
 	love.graphics.clear()
 	game.draw()
+	
+	screen.postDraw()
+	
 	love.window.setTitle(_gameTitle.."  ("..love.timer.getFPS().." fps)")
 	
 end
@@ -88,7 +89,29 @@ function love.keyreleased(key, unicode)
 	
 end
 
-function love.focus(f)
+function love.gamepadpressed( joystick, button )
+
+end
+
+function love.gamepadreleased( joystick, button )
+
+end
+
+function love.gamepadaxis( joystick, axis, value )
+
+end
+
+function love.resize( w, h )
+	
+	screen.resize( w, h )
+	
+end
+
+function love.focus( f )
+
+end
+
+function love.mousefocus( f )
 
 end
 

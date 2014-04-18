@@ -89,7 +89,7 @@ function TiledLevelData:processTiledData( data )
 			local shifty = layer.y or 0
 			
 			newlayer.name = layer.name or "noname"
-			newlayer.type = LAYER_TYPE_BATCH
+			newlayer.type = LAYER_TYPE.BATCH
 			newlayer.opacity = layer.opacity or 1
 			newlayer.properties = layer.properties or {}
 			newlayer.x = shiftx

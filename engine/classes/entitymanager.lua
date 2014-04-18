@@ -74,9 +74,9 @@ function EntityManager:preDraw()
 		for k, ent in pairs( self._entities ) do
 			
 			layername = ent:getDrawLayer()
-			if (layername == DRAW_LAYER_BOTTOM) then
+			if (layername == DRAW_LAYER.BOTTOM) then
 				table.insert(self._drawlist._first, ent)
-			elseif (layername == DRAW_LAYER_TOP) then
+			elseif (layername == DRAW_LAYER.TOP) then
 				table.insert(self._drawlist._final, ent)
 			else
 				if not self._drawlist[layername] then

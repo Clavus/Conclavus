@@ -19,6 +19,7 @@ local toload = {
 	{ tlib =				"engine/lib/tlib/tlib" },
 	
 	-- Utility libraries
+	{ screen =	"engine/util/screen" },
 	{ angle = 		"engine/util/angle" },
 	{ util = 			"engine/util/util" },
 	{ easing = 	"engine/util/easing" },

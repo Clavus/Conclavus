@@ -17,7 +17,7 @@ function LevelData:initialize()
 		--[[
 		{
 			name = "layername",
-			type = <layer type>, -- LAYER_TYPE_IMAGES, LAYER_TYPE_BATCH, LAYER_TYPE_BACKGROUND, LAYER_TYPE_CUSTOM
+			type = <layer type>, -- LAYER_TYPE.IMAGES, LAYER_TYPE.BATCH, LAYER_TYPE.BACKGROUND, LAYER_TYPE.CUSTOM
 			opacity = 1,
 			x = 0,
 			y = 0,
@@ -26,16 +26,16 @@ function LevelData:initialize()
 			parallax = 1,
 			properties = {},
 			
-			-- LAYER_TYPE_CUSTOM only:
+			-- LAYER_TYPE.CUSTOM only:
 			drawFunc = function(layer, camera) end -- draw function
 			
-			-- LAYER_TYPE_BACKGROUND only:
+			-- LAYER_TYPE.BACKGROUND only:
 			background_image = image = Image(),
 			background_view_w = img:getWidth(), -- quad size on image
 			background_view_h = img:getHeight(),
 			background_cam_scalar = 0 -- how much it scales with the camera scale, 0 means independent, 1 means same scale
 			
-			-- LAYER_TYPE_IMAGES only:
+			-- LAYER_TYPE.IMAGES only:
 			images = {
 				{
 					x = 0,
@@ -49,7 +49,7 @@ function LevelData:initialize()
 				...
 			}
 			
-			-- LAYER_TYPE_BATCH only:
+			-- LAYER_TYPE.BATCH only:
 			batches = { SpriteBatch(), ... }
 			tiles = {
 				{ 

@@ -22,6 +22,33 @@ Level:getEntitiesByMixin( mixin )
 Level:getCamera()
 Level:getPhysicsWorld()
 
+// Camera //
+void	Camera:setScale( x, y )
+x,y	Camera:getScale()
+void	Camera:attach()			-- push graphics transformations
+void	Camera:detach()			-- pop graphics transformations
+void	Camera:draw( func )		-- draw given functions within transformations
+x,y	Camera:cameraCoords( x, y )	-- returns camera coordinates from given world coordinates
+x,y	Camera:worldCoords( x, y )	-- returns world coordinates from given camera coordinates
+x,y	Camera:getMouseWorldPos()	-- returns world coordinates of the mouse
+num	Camera:getWidth()
+num	Camera:getHeight()
+num	Camera:getDiagonal()
+num	Camera:getDiagonal2()
+num	Camera:getBackgroundQuadWidth()
+num	Camera:getBackgroundQuadHeight()
+bool	Camera:isEntityVisible( ent )	-- returns if entity's draw bounding box is visible for the camera
+
+// Screen //
+Rendering in LDengine is resolution independent. Everything renders in a 1280x720 window
+
+screen.updateDisplays()		-- updates list of displays and their resolutions, useful before populating video settings
+screen.set( w, h, flags )	-- like love.graphics.setMode, but updates screen settings along with it
+screen.getRenderWidth()		-- gets render width (default 1280)
+screen.getRenderHeight()	-- gets render height (default 720)
+screen.getMousePosition()
+
+
 // GUI //
 GUI:addSimpleElement( depth, pos, image_file, id )
 GUI:addDynamicElement( depth, pos, func, id )
@@ -103,7 +130,7 @@ void		debug.benchmarkStop( name, message, cond_func )	-- stops benchmark <name>,
 
 // Sprites //
 Sprite( { (img) image, (vec) offset, (vec) size (default = image size), (vec) origin_pos, 
-	  (vec) origin_relative (overrides origin_pos and sets it to origin_relative * size, so (0.5, 0.5) means center of image),
+	  (vec) origin_relative, (overrides origin_pos and sets it to origin_relative * size, so (0.5, 0.5) means center of image)
 	  (num) num_frames, (num) fps, (bool) should_loop } )
 
 // Input controller //

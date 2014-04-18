@@ -80,7 +80,7 @@ end
 -- gets the layer name where this entity is drawn on
 function Entity:getDrawLayer()
 
-	return DRAW_LAYER_TOP
+	return DRAW_LAYER.TOP
 	
 end
 
@@ -119,7 +119,7 @@ end
 
 function Entity:__tostring()
 
-	return tostring(self.class).." - Entity["..self._entIndex.."]"
+	return tostring(self.class).." - Entity["..tostring(self._entIndex).."]"
 	
 end
 

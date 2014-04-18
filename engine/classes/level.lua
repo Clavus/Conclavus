@@ -51,7 +51,7 @@ function Level:draw()
 		
 		love.graphics.setColor(255,255,255,255*layer.opacity)
 		
-		if (layer.type == LAYER_TYPE_IMAGES) then -- draw image layer (usually background objects)
+		if (layer.type == LAYER_TYPE.IMAGES) then -- draw image layer (usually background objects)
 			
 			for i, img in pairs(layer.images) do
 				if (img.quad) then
@@ -63,14 +63,14 @@ function Level:draw()
 			end
 			self._entManager:draw(layer.name) -- draw entities that are to be drawn on this layer
 			
-		elseif (layer.type == LAYER_TYPE_BATCH) then -- draw spritebatch layer (usually for tiles)
+		elseif (layer.type == LAYER_TYPE.BATCH) then -- draw spritebatch layer (usually for tiles)
 			
 			for i, batch in pairs(layer.batches) do
 				love.graphics.draw(batch)
 			end
 			self._entManager:draw(layer.name) -- draw entities that are to be drawn on this layer
 			
-		elseif (layer.type == LAYER_TYPE_BACKGROUND) then -- draw repeating background layer
+		elseif (layer.type == LAYER_TYPE.BACKGROUND) then -- draw repeating background layer
 			
 			-- disable camera transform for this
 			self._camera:detach()
@@ -101,7 +101,7 @@ function Level:draw()
 			
 			self._camera:attach()
 			
-		elseif (layer.type == LAYER_TYPE_CUSTOM) then
+		elseif (layer.type == LAYER_TYPE.CUSTOM) then
 			
 			love.graphics.push()
 			love.graphics.translate(cx*(1-layer.parallax), cy*(1-layer.parallax))

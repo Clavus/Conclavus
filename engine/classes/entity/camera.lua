@@ -2,7 +2,7 @@
 local Camera = class("Camera", Entity)
 
 local cos, sin = math.cos, math.sin
-local getWindowWidth, getWindowHeight = love.graphics.getWidth, love.graphics.getHeight
+local getWindowWidth, getWindowHeight = screen.getRenderWidth, screen.getRenderHeight
 
 function Camera:initialize()
 	
@@ -95,7 +95,7 @@ end
 
 function Camera:getMouseWorldPos()
 
-	return self:worldCoords(love.mouse.getPosition())
+	return self:worldCoords(screen.getMousePosition())
 	
 end
 

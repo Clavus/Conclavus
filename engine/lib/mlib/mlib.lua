@@ -67,13 +67,13 @@ function mlib.line.intercept( x, y, ... )
 end
 
 function mlib.line.draw( slope, y_intercept )
-	love.graphics.line( 0, y_intercept, love.graphics.getWidth(), slope * love.graphics.getWidth() + y_intercept )
+	love.graphics.line( 0, y_intercept, screen.getRenderWidth(), slope * screen.getRenderWidth() + y_intercept )
 end
 
 function mlib.line.drawStandard( slope, y_intercept )
 	local slope = slope * -1
-	local y_intercept = y_intercept + love.graphics.Height()
-	love.graphics.line( 0, y_intercept, love.graphics.Width(), slope * love.graphics.Width() + y_intercept )
+	local y_intercept = y_intercept + screen.getRenderHeight()
+	love.graphics.line( 0, y_intercept, screen.getRenderWidth(), slope * screen.getRenderWidth() + y_intercept )
 end
 
 function mlib.line.intersect( ... )
