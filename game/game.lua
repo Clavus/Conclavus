@@ -11,10 +11,6 @@ end
 function game.update( dt )
 	
 	if (input:keyIsPressed("escape")) then love.event.quit() return end
-	if (input:keyIsPressed("r")) then 
-		local res = package.hotswap("SpaceShip")
-		print("Hotswapped "..tostring(res))
-	end
 	
 	gamestate.update( dt )
 	

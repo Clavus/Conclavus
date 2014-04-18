@@ -4,6 +4,7 @@ MiddleClass 		- https://github.com/kikito/middleclass/wiki
 Hump (timer, gamestate)	- http://vrld.github.io/hump/
 tlib			- http://love2d.org/forums/viewtopic.php?f=5&t=76960
 lume			- https://github.com/rxi/lume
+lovebird		- https://github.com/rxi/lovebird
 
 // Time //
 currentTime()	- returns seconds since game start
@@ -93,7 +94,12 @@ package.autoHotswapUpdateRate( n )	-- update rate (in seconds) of auto-hotswap p
 package.updatePackages()		-- scans for files to hotswap
 
 // Extended debug functions //
-debug.printLoadedPackages()	-- prints list of everything in packages.loaded
+void		debug.printLoadedPackages()	-- prints list of everything in packages.loaded
+num, ... 	debug.time( func, ... )		-- executes function, returns time followed by function returns
+void		debug.benchmarkStart( name )	-- starts benchmarking
+void		debug.benchmarkStop( name, message, cond_func )	-- stops benchmark <name>, prints <message> (use tokens {name} 
+								-- and {time} to show name and time. <cond_func>(time) is a conditional
+								-- function that returns if it should print the message at all
 
 // Sprites //
 Sprite( { (img) image, (vec) offset, (vec) size (default = image size), (vec) origin_pos, 

@@ -10,6 +10,7 @@ require("engine/extend/debug")
 -- Loading order of elements is important!
 local toload = {
 	-- Libraries from others
+	{ lovebird =		"engine/lib/lovebird/lovebird" },
 	{ class = 			"engine/lib/middleclass/middleclass" },
 	{ timer = 			"engine/lib/hump/timer" },
 	{ signal = 			"engine/lib/hump/signal" },

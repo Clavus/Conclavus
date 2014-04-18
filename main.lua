@@ -30,6 +30,9 @@ function love.load()
 	
 	_curTime = 0
 	
+	lovebird.init()
+	print("---- Initializing ".._gameTitle.." ----")
+	
 	input = InputController()
 	game.load()
 	
@@ -38,6 +41,10 @@ end
 function love.update( dt )
 	
 	_curTime = _curTime + dt
+	
+	debug.benchmarkStart("lovebird")
+	lovebird.update()
+	debug.benchmarkStop("lovebird", "lovebird time diff: {time}", function( t ) return t > 0 end)
 	
 	timer.update(dt)
 	game.update( dt )
