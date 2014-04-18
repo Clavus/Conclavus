@@ -6,6 +6,7 @@ screen.transform = {}
 screen.displays = {}
 
 local lg, lw = love.graphics, love.window
+local force_aspect_ratio = true
 
 function screen.init()
 	
@@ -15,14 +16,26 @@ function screen.init()
 	screen.width = w
 	screen.height = h
 	
+	screen.transform.translateX = 0
+	screen.transform.translateY = 0
 	screen.transform.scaleX = 1
 	screen.transform.scaleY = 1
 	screen.transform.renderWidth = w
 	screen.transform.renderHeight = h
+	screen.transform.screenWidth = w
+	screen.transform.screenHeight = h
+	screen.transform.aspectRatio = w / h
 	
 	screen.updateDisplays()
 	
 	screen.resize( w, h )
+	
+end
+
+function screen.setForceAspectRatio( b )
+	
+	force_aspect_ratio = b
+	screen.resize( lw.getMode() )
 	
 end
 
@@ -71,12 +84,22 @@ end
 function screen.preDraw()
 	
 	lg.push()
+	love.graphics.setBackgroundColor( Color.Black:unpack() )
+	love.graphics.clear()
+	lg.translate(screen.transform.translateX, screen.transform.translateY)
 	lg.scale(screen.transform.scaleX, screen.transform.scaleY)
+	
+	if (force_aspect_ratio) then
+	
+		lg.setScissor(screen.transform.translateX, screen.transform.translateY, screen.transform.screenWidth, screen.transform.screenHeight)
+		
+	end
 	
 end
 
 function screen.postDraw()
 	
+	love.graphics.setScissor()
 	lg.pop()
 	
 end
@@ -96,16 +119,40 @@ end
 function screen.getMousePosition()
 
 	local mx, my = love.mouse.getPosition()
-	return mx / screen.transform.scaleX, my / screen.transform.scaleY
+	return (mx - screen.transform.translateX) / screen.transform.scaleX, (my - screen.transform.translateY) / screen.transform.scaleY
 	
 end
 
 function screen.resize( w, h )
 
 	--print("resize "..w..", "..h)
-	screen.transform.scaleX = w / screen.transform.renderWidth
-	screen.transform.scaleY = h / screen.transform.renderHeight
-	--print("scale "..screen.transform.scaleX..", "..screen.transform.scaleY)
+	screen.transform.screenWidth = w
+	screen.transform.screenHeight = h
+	
+	screen.transform.scaleX = screen.transform.screenWidth / screen.transform.renderWidth
+	screen.transform.scaleY = screen.transform.screenHeight / screen.transform.renderHeight
+	
+	if (force_aspect_ratio) then
+	
+		local ratio = w / h
+		if (ratio < screen.transform.aspectRatio) then
+		
+			screen.transform.scaleY = screen.transform.scaleX
+			screen.transform.screenHeight = (screen.transform.renderHeight * screen.transform.scaleY)
+			
+		elseif (ratio > screen.transform.aspectRatio) then
+		
+			screen.transform.scaleX = screen.transform.scaleY
+			screen.transform.screenWidth = (screen.transform.renderWidth * screen.transform.scaleX)
+			
+		end
+		
+	end
+	
+	screen.transform.translateX = (w - screen.transform.screenWidth) / 2
+	screen.transform.translateY = (h - screen.transform.screenHeight) / 2
+
+	--print(table.toString( screen.transform, "screen.transform", true ))
 	
 end
 

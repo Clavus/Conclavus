@@ -17,7 +17,9 @@ function game.update( dt )
 end
 
 function game.draw()
-	
+		
+	love.graphics.setBackgroundColor( 30, 30, 40 )
+	love.graphics.clear()
 	gamestate.drawStack()
 	
 end

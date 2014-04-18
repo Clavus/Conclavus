@@ -40,10 +40,11 @@ num	Camera:getBackgroundQuadHeight()
 bool	Camera:isEntityVisible( ent )	-- returns if entity's draw bounding box is visible for the camera
 
 // Screen //
-Rendering in LDengine is resolution independent. Everything renders in a 1280x720 window
+Rendering in LDengine is resolution independent.
 
 screen.updateDisplays()		-- updates list of displays and their resolutions, useful before populating video settings
 screen.set( w, h, flags )	-- like love.graphics.setMode, but updates screen settings along with it
+screen.setForceAspectRatio( b ) -- maintain original aspect ratio while rendering by letterboxing
 screen.getRenderWidth()		-- gets render width (default 1280)
 screen.getRenderHeight()	-- gets render height (default 720)
 screen.getMousePosition()

@@ -101,13 +101,13 @@ end
 
 function Camera:getWidth()
 	
-	return getWindowWidth() / self._scale.x
+	return getWindowWidth() * self._scale.x
 	
 end
 
 function Camera:getHeight()
 	
-	return getWindowHeight() / self._scale.y
+	return getWindowHeight() * self._scale.y
 	
 end
 
