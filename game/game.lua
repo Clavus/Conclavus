@@ -12,6 +12,15 @@ function game.update( dt )
 	
 	if (input:keyIsPressed("escape")) then love.event.quit() return end
 	
+	if (input:keyIsPressed("t")) then
+		local parentframe = loveframes.Create("frame")
+ 
+		-- method 1 using loveframes.Create
+		local button1 = loveframes.Create("button", parentframe)
+		button1:SetPos(5, 35)
+		
+	end
+	
 	gamestate.update( dt )
 	
 end

@@ -29,7 +29,7 @@ function GS.switch(to, ...)
 	to.init = nil
 	stack[#stack] = to
 	
-	print("Gamestate switched to "..to.name)
+	--print("Gamestate switched to "..to.name)
 	
 	return (to.enter or __NULL__)(to, pre, ...)
 end
@@ -41,7 +41,7 @@ function GS.push(to, ...)
 	to.init = nil
 	stack[#stack+1] = to
 	
-	print("Gamestate pushed to "..to.name)
+	--print("Gamestate pushed to "..to.name)
 	
 	return (to.enter or __NULL__)(to, pre, ...)
 end
@@ -51,7 +51,7 @@ function GS.pop()
 	local pre = stack[#stack]
 	stack[#stack] = nil
 	
-	print("Gamestate popped back to "..stack[#stack].name)
+	--print("Gamestate popped back to "..stack[#stack].name)
 	
 	return (pre.leave or __NULL__)(pre)
 end

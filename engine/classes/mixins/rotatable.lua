@@ -9,7 +9,7 @@ end
 
 function Rotatable:setAngle( r )
 	
-	assertDebug(type(r) == "number", "Number expected, got "..type(r))
+	assert(type(r) == "number", "Number expected, got "..type(r))
 	self._angle = r
 	return self
 	

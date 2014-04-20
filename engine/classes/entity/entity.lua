@@ -20,8 +20,8 @@ end
 
 function Entity:setPos( x, y )
 	
-	assertDebug(type(x) == "number", "Number expected, got "..type(x))
-	assertDebug(type(y) == "number", "Number expected, got "..type(y))
+	assert(type(x) == "number", "Number expected, got "..type(x))
+	assert(type(y) == "number", "Number expected, got "..type(y))
 	
 	self._pos.x = x
 	self._pos.y = y

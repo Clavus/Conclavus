@@ -18,8 +18,8 @@ end
 
 function PhysicsActor:setPos( x, y )
 	
-	assertDebug(type(x) == "number", "Number expected, got "..type(x))
-	assertDebug(type(y) == "number", "Number expected, got "..type(y))
+	assert(type(x) == "number", "Number expected, got "..type(x))
+	assert(type(y) == "number", "Number expected, got "..type(y))
 	
 	self._body:setPosition(x, y)
 	return self

@@ -17,6 +17,7 @@ local toload = {
 	{ gamestate = 	"engine/lib/hump/gamestate" },
 	{ mlib = 			"engine/lib/mlib/mlib" },
 	{ tlib =				"engine/lib/tlib/tlib" },
+	{ loveframes =	"engine/lib/loveframes/loveframes" },
 	
 	-- Utility libraries
 	{ screen =	"engine/util/screen" },
