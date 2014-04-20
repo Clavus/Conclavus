@@ -28,7 +28,7 @@ require("game/game_includes")
 
 function love.load()
 	
-	screen.init()
+	screen.init( love.window.getMode() )
 	lovebird.init()
 	print("---- Initializing ".._gameTitle.." ----")
 	

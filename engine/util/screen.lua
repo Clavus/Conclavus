@@ -7,10 +7,9 @@ screen.displays = {}
 
 local lg, lw = love.graphics, love.window
 local force_aspect_ratio = true
+local SCREEN_SCALE = SCREEN_SCALE
 
-function screen.init()
-	
-	local w, h, flags = lw.getMode()
+function screen.init( w, h, flags )
 	
 	screen.settings = flags
 	screen.width = w
@@ -20,11 +19,19 @@ function screen.init()
 	screen.transform.translateY = 0
 	screen.transform.scaleX = 1
 	screen.transform.scaleY = 1
+	
+	screen.transform.defaultRenderWidth = w
+	screen.transform.defaultRenderHeight = h
 	screen.transform.renderWidth = w
 	screen.transform.renderHeight = h
+	
+	screen.transform.defaultAspectRatio = w / h
+	screen.transform.aspectRatio = w / h
+	
+	screen.scaleType = SCREEN_SCALE.FIT_BEST_CLIPEDGES
+	
 	screen.transform.screenWidth = w
 	screen.transform.screenHeight = h
-	screen.transform.aspectRatio = w / h
 	
 	screen.updateDisplays()
 	
@@ -32,11 +39,30 @@ function screen.init()
 	
 end
 
-function screen.setForceAspectRatio( b )
-	
-	force_aspect_ratio = b
+function screen.setDefaultRenderDimensions( w, h )
+
+	screen.transform.defaultRenderWidth = w
+	screen.transform.defaultRenderHeight = h
+	screen.transform.defaultAspectRatio = w / h
 	screen.resize( lw.getMode() )
 	
+end
+
+function screen.setScaleType( stype )
+
+	local exists = false
+	for k, v in pairs( SCREEN_SCALE ) do
+		if (stype == v) then
+			print("Setting scale type to SCREEN_SCALE."..k)
+			exists = true
+		end
+	end
+	
+	assert(exists, "This screen scale type does not exists!")
+	
+	screen.scaleType = stype
+	screen.resize( lw.getMode() )
+
 end
 
 function screen.updateDisplays()
@@ -116,6 +142,12 @@ function screen.getRenderHeight()
 	
 end
 
+function screen.getAspectRatio()
+	
+	return screen.transform.aspectRatio
+	
+end
+
 function screen.getMousePosition()
 
 	local mx, my = love.mouse.getPosition()
@@ -124,30 +156,84 @@ function screen.getMousePosition()
 end
 
 function screen.resize( w, h )
-
+	
+	local sst = screen.scaleType
+	local ratio = w / h
+	
 	--print("resize "..w..", "..h)
 	screen.transform.screenWidth = w
 	screen.transform.screenHeight = h
 	
+	if (sst == SCREEN_SCALE.CENTRE) then
+		screen.transform.screenWidth = math.min( w, screen.transform.renderWidth )
+		screen.transform.screenHeight = math.min( h, screen.transform.renderHeight)
+	end
+	
+	-- reset render dimensions to their defaults
+	screen.transform.renderWidth = screen.transform.defaultRenderWidth
+	screen.transform.renderHeight = screen.transform.defaultRenderHeight
+	screen.transform.aspectRatio = screen.transform.defaultAspectRatio
+	
 	screen.transform.scaleX = screen.transform.screenWidth / screen.transform.renderWidth
 	screen.transform.scaleY = screen.transform.screenHeight / screen.transform.renderHeight
 	
-	if (force_aspect_ratio) then
+	local function cropHeight() 
+		screen.transform.scaleY = screen.transform.scaleX
+		screen.transform.screenHeight = (screen.transform.renderHeight * screen.transform.scaleY)
+	end
 	
-		local ratio = w / h
+	local function cropWidth()
+		screen.transform.scaleX = screen.transform.scaleY
+		screen.transform.screenWidth = (screen.transform.renderWidth * screen.transform.scaleX)
+	end
+	
+	local function fitHeight()
+		screen.transform.renderWidth = screen.transform.renderHeight * ratio
+		screen.transform.scaleX = screen.transform.scaleY
+		screen.transform.screenWidth = w
+	end
+	
+	local function fitWidth()
+		screen.transform.renderHeight = screen.transform.renderWidth / ratio
+		screen.transform.scaleY = screen.transform.scaleX
+		screen.transform.screenHeight = h
+	end
+	
+	if (sst == SCREEN_SCALE.FIT_BEST_LETTERBOX or sst == SCREEN_SCALE.CENTRE) then
+	
 		if (ratio < screen.transform.aspectRatio) then
-		
-			screen.transform.scaleY = screen.transform.scaleX
-			screen.transform.screenHeight = (screen.transform.renderHeight * screen.transform.scaleY)
-			
+			cropHeight()
 		elseif (ratio > screen.transform.aspectRatio) then
-		
-			screen.transform.scaleX = screen.transform.scaleY
-			screen.transform.screenWidth = (screen.transform.renderWidth * screen.transform.scaleX)
-			
+			cropWidth()
 		end
 		
+	elseif (sst == SCREEN_SCALE.FIT_BEST_CLIPEDGES) then
+	
+		if (ratio < screen.transform.aspectRatio) then
+			fitHeight()
+		elseif (ratio > screen.transform.aspectRatio) then
+			fitWidth()
+		end
+		
+	elseif (sst == SCREEN_SCALE.FIT_WIDTH) then
+	
+		if (ratio < screen.transform.aspectRatio) then
+			cropHeight()
+		elseif (ratio > screen.transform.aspectRatio) then
+			fitWidth()
+		end
+	
+	elseif (sst == SCREEN_SCALE.FIT_HEIGHT) then
+	
+		if (ratio < screen.transform.aspectRatio) then
+			fitHeight()
+		elseif (ratio > screen.transform.aspectRatio) then
+			cropWidth()
+		end
+	
 	end
+	
+	screen.transform.aspectRatio = screen.transform.screenWidth / screen.transform.screenHeight
 	
 	screen.transform.translateX = (w - screen.transform.screenWidth) / 2
 	screen.transform.translateY = (h - screen.transform.screenHeight) / 2

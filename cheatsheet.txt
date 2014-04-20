@@ -1,7 +1,7 @@
 
 // External libraries //
 MiddleClass 		- https://github.com/kikito/middleclass/wiki
-Hump (timer, gamestate)	- http://vrld.github.io/hump/
+Hump			- http://vrld.github.io/hump/
 tlib			- http://love2d.org/forums/viewtopic.php?f=5&t=76960
 lume			- https://github.com/rxi/lume
 lovebird		- https://github.com/rxi/lovebird
@@ -40,15 +40,24 @@ num	Camera:getBackgroundQuadHeight()
 bool	Camera:isEntityVisible( ent )	-- returns if entity's draw bounding box is visible for the camera
 
 // Screen //
-Rendering in LDengine is resolution independent.
+Rendering in LDengine is resolution independent. Original render width / height and aspect ratio are
+derived from the conf.lua window settings.
 
+screen.init( w, h, flags )	-- initializes display settings. Sets default render width and height for the game
+screen.setDefaultRenderDimensions( w, h ) -- overrides default render width / height
 screen.updateDisplays()		-- updates list of displays and their resolutions, useful before populating video settings
 screen.set( w, h, flags )	-- like love.graphics.setMode, but updates screen settings along with it
-screen.setForceAspectRatio( b ) -- maintain original aspect ratio while rendering by letterboxing
-screen.getRenderWidth()		-- gets render width (default 1280)
-screen.getRenderHeight()	-- gets render height (default 720)
+screen.getRenderWidth()		-- gets current render width
+screen.getRenderHeight()	-- gets current render height
+screen.getAspectRatio()		-- gets current aspect ratio of the screen
 screen.getMousePosition()
-
+screen.setScaleType( stype )	-- can be set to one of the following:
+				-- SCREEN_SCALE.CENTRE 			-- centre drawing screen, never larger than render width / height
+				-- SCREEN_SCALE.STRETCH			-- stretch screen over entire window
+				-- SCREEN_SCALE.FIT_BEST_LETTERBOX	-- fit screen in window while maintaining default render aspect ratio, without clipping
+				-- SCREEN_SCALE.FIT_BEST_CLIPEDGES	-- fit screen in window, overriding render dimensions to avoid black borders 
+				-- SCREEN_SCALE.FIT_HEIGHT		-- fit screen vertically, crop horizontally
+				-- SCREEN_SCALE.FIT_WIDTH		-- fit screen horizontally, crop vertically
 
 // GUI //
 GUI:addSimpleElement( depth, pos, image_file, id )
