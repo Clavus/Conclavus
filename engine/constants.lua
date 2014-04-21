@@ -2,6 +2,7 @@
 -- folder locations
 FOLDER = {}
 FOLDER.ASSETS = "game/assets/"
+FOLDER.PARTICLESYSTEMS = "game/assets/particlesystems/"
 
 -- input constants
 MOUSE = {}

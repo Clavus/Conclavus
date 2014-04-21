@@ -5,6 +5,8 @@ Hump			- http://vrld.github.io/hump/
 tlib			- http://love2d.org/forums/viewtopic.php?f=5&t=76960
 lume			- https://github.com/rxi/lume
 lovebird		- https://github.com/rxi/lovebird
+loveframes		- http://nikolairesokav.com/projects/loveframes
+SPERM (yes, really)	- http://www.love2d.org/forums/viewtopic.php?f=5&t=76986
 
 // Time //
 currentTime()	- returns seconds since game start
