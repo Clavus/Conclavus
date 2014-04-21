@@ -77,14 +77,16 @@ end
 
 function love.mousepressed(x, y, button)
 	
-	input:handle_mousepressed(x,y,button)
+	x, y = screen.getMousePosition() -- correct coordinates
+	input:handle_mousepressed(x, y, button)
 	loveframes.mousepressed(x, y, button)
 	
 end
 
 function love.mousereleased(x, y, button)
 	
-	input:handle_mousereleased(x,y,button)
+	x, y = screen.getMousePosition()
+	input:handle_mousereleased(x, y, button)
 	loveframes.mousereleased(x, y, button)
 	
 end

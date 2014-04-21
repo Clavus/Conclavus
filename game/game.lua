@@ -2,6 +2,8 @@
 local playState = require("game/gamestate_play")
 local menuState = require("game/gamestate_menu")
 
+local frame
+
 function game.load()
 
 	gamestate.set( playState )
@@ -19,6 +21,12 @@ function game.update( dt )
 		local button1 = loveframes.Create("button", parentframe)
 		button1:SetPos(5, 35)
 		
+		frame = parentframe
+		
+	end
+	
+	if (input:keyIsPressed("y") and frame) then
+		frame:Center()
 	end
 	
 	gamestate.update( dt )
