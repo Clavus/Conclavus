@@ -42,7 +42,7 @@ num	Camera:getBackgroundQuadHeight()
 bool	Camera:isEntityVisible( ent )	-- returns if entity's draw bounding box is visible for the camera
 
 // Screen //
-Rendering in LDengine is resolution independent. Original render width / height and aspect ratio are
+Rendering is resolution independent. Original render width / height and aspect ratio are
 derived from the conf.lua window settings.
 
 screen.init( w, h, flags )	-- initializes display settings. Sets default render width and height for the game
@@ -93,8 +93,9 @@ vec Vector:subtract( vec )		-- modifies self
 tab table.copy(t, lookup_table)		-- fully copies table including nested tables
 tab table.clone(t)			-- copies base table, but not nested tables (references original tables)
 bool table.hasValue( t, val )
-mix table.keyFromValue( tbl, val )	-- returns key of first occurence value
-mix table.removeByValue( tbl, val )	-- removes single occurence of value from table, returns original key
+mix table.keyFromValue( tbl, val )	-- returns key of first occurence of <val> in this table
+tab table.keysFromValue( tbl, val )	-- returns all keys that hold <val>
+tab table.removeByValue( tbl, val )	-- removes all occurences of <val> from the table (assumes table is sequential)
 tab table.getKeys(t)			-- get all keys in the table
 tab table.shuffle(t)			-- shuffles key - value combinations
 tab table.forEach( t, func, ... ) 	-- if func is a function, then do func( key, value, ... ) on every table entry

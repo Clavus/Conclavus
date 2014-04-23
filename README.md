@@ -1,4 +1,4 @@
-LD engine
-============
+Conclavus - LÖVE framework
+===================
 
-Framework for my Ludum Dare games using LÖVE.
+Check cheatsheet.txt for overview of functions.

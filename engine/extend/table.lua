@@ -36,6 +36,7 @@ function table.hasValue( t, val )
 	for k,v in pairs(t) do
 		if (v == val ) then return true end
 	end
+	
 	return false
 	
 end
@@ -49,17 +50,30 @@ function table.keyFromValue( tbl, val )
 	
 end
 
-function table.removeByValue( tbl, val )
+function table.keysFromValue( tbl, val )
 
-	local key = table.keyFromValue( tbl, val )
-	if ( key == nil ) then return false end
-	
-	table.remove( tbl, key )
-	return key
+	local res = {}
+	for key, value in pairs( tbl ) do
+		if ( value == val ) then table.insert( res, key ) end
+	end
+	return res
 	
 end
 
-function table.getKeys(t)
+function table.removeByValue( tbl, val )
+
+	for i = #tbl, 1, -1 do
+	
+		if (tbl[i] == val) then
+			table.remove(tbl, i)
+		end
+		
+	end
+	return tbl
+	
+end
+
+function table.getKeys( t )
 
 	local keys = {}
 	for k, v in pairs(t) do
