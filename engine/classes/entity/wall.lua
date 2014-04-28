@@ -5,8 +5,7 @@ Wall:include(PhysicsActor)
 function Wall:initialize( world )
 	
 	Entity.initialize(self)
-	
-	self:initializeBody( world, "static" )
+	PhysicsActor.initialize(self, world, "static" )
 
 end
 

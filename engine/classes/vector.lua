@@ -25,6 +25,12 @@ end
 
 local msgExpectedVec = "Wrong argument type, expected Vector"
 
+function Vector:unpack()
+
+	return self.x, self.y
+
+end
+
 function Vector:copy()
 	
 	return Vector(self.x,self.y)
@@ -81,6 +87,17 @@ function Vector:approach( vec, step )
 	self.y = math.approach(self.y, vec.y, step)
 	
 	return self
+	
+end
+
+function Vector:round( d )
+	
+	assert(isVector( vec ), msgExpectedVec)
+	
+	self.x = math.round( self.x, d )
+	self.y = math.round( self.y, d )
+	
+	return self	
 	
 end
 

@@ -1,27 +1,36 @@
 
 local GUI = class("GUI")
+GUI:include( Positional )
+GUI:include( Rotatable )
+GUI:include( Scalable )
+
+local lg = love.graphics
 
 function GUI:initialize()
-
+	
+	Positional.initialize( self )
+	Rotatable.initialize( self )
+	Scalable.initialize( self )
+	
 	self._elements = {}
 
-	self._angle = 0
-	self._scale = Vector(1,1)
-	self._pos = Vector(0,0)
-	
 end
 
-function GUI:addSimpleElement( depth, pos, image_file, id )
+function GUI:addSimpleElement( id, depth, x, y, imagef )
 	
-	local img = resource.getImage( image_file )
-	table.insert(self._elements, { depth = depth, pos = pos, draw_func = function(pos) love.graphics.draw(img, pos.x, pos.y) end, id = id })
+	local img = imagef
+	if (type(imagef) == "string") then
+		img = resource.getImage( imagef )
+	end
+		
+	table.insert(self._elements, { depth = depth, pos = { x = x, y = y }, draw_func = function(x, y) lg.draw(img, x, y) end, id = id })
 	table.sort(self._elements, function(a, b) return a.depth > b.depth end) -- sort by depth
 	
 end
 
-function GUI:addDynamicElement( depth, pos, func, id )
+function GUI:addDynamicElement( id, depth, x, y, func )
 	
-	table.insert(self._elements, { depth = depth, pos = pos, draw_func = func, id = id })
+	table.insert(self._elements, { depth = depth, pos = { x = x, y = y }, draw_func = func, id = id })
 	table.sort(self._elements, function(a, b) return a.depth > b.depth end) -- sort by depth
 	
 end
@@ -32,28 +41,26 @@ end
 
 function GUI:draw()
 	
-	love.graphics.push()
-	love.graphics.scale( self._scale.x, self._scale.y )
-	love.graphics.rotate( self._angle )
-	love.graphics.translate( -self._pos.x, -self._pos.y )
+	local px, py = self:getPos()
+	
+	lg.push()
+	lg.scale( self:getScale() )
+	lg.rotate( self:getAngle() )
+	lg.translate( -px, -py )
 	
 	for k, v in ipairs(self._elements) do
-		v.draw_func(v.pos)
+		v.draw_func(v.pos.x, v.pos.y)
 	end
 	
-	love.graphics.pop()
+	lg.pop()
 	
 end
 
 function GUI:removeElement( id )
 	
-	local new_el = {}
-	for k, v in ipairs( self._elements ) do
-		if (v.id ~= id) then
-			table.insert(new_el, v)
-		end
-	end
-	self._elements = new_el
+	table.removeByFilter( self._elements, function( k, v )
+		return v.id == id
+	end)
 	
 end
 

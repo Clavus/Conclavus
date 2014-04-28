@@ -6,7 +6,7 @@ function SpriteData:initialize( image_file, offset, imgsize, origin, numcolums, 
 	self._file = image_file
 	self.image = resource.getImage(image_file)
 	self.offset = offset or Vector(0,0)
-	self.size = imgsize or Vector(32,32)
+	self.size = imgsize or Vector(self.image:getWidth(), self.image:getHeight())
 	self.origin_pos = origin or Vector(0,0)
 	self.num_columns = numcolums or 1
 	self.num_frames = numframes or 1

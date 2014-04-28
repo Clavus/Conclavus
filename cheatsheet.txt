@@ -18,7 +18,6 @@ resource.getImageDimensions( image_file )
 
 // Level management //
 Level:createEntity( class, ... )
-Level:removeEntity( ent )
 Level:getEntitiesByClass( class )
 Level:getEntitiesByMixin( mixin )
 Level:getCamera()
@@ -54,25 +53,27 @@ screen.getRenderHeight()	-- gets current render height
 screen.getAspectRatio()		-- gets current aspect ratio of the screen
 screen.getMousePosition()
 screen.setScaleType( stype )	-- can be set to one of the following:
-				-- SCREEN_SCALE.CENTRE 			-- centre drawing screen, never larger than render width / height
+				-- SCREEN_SCALE.CENTER 			-- centre drawing screen, never larger than render width / height
 				-- SCREEN_SCALE.STRETCH			-- stretch screen over entire window
-				-- SCREEN_SCALE.FIT_BEST_LETTERBOX	-- fit screen in window while maintaining default render aspect ratio, without clipping
-				-- SCREEN_SCALE.FIT_BEST_CLIPEDGES	-- fit screen in window, overriding render dimensions to avoid black borders 
+				-- SCREEN_SCALE.FIT_LETTERBOX		-- fit screen in window while maintaining default render aspect ratio, without clipping
+				-- SCREEN_SCALE.FIT_CLIPEDGES		-- fit screen in window, overriding render dimensions to avoid black borders 
 				-- SCREEN_SCALE.FIT_HEIGHT		-- fit screen vertically, crop horizontally
 				-- SCREEN_SCALE.FIT_WIDTH		-- fit screen horizontally, crop vertically
 
 // GUI //
-GUI:addSimpleElement( depth, pos, image_file, id )
-GUI:addDynamicElement( depth, pos, func, id )
+GUI:addSimpleElement( id, depth, x, y, image / image_file )
+GUI:addDynamicElement( id, depth, x, y, func )
 
 // Vector math //
 vec Vector:copy()
+x,y Vector:unpack()
 num Vector:distance( vec )
 num Vector:distance2( vec )
 num Vector:length()
 num Vector:angle()
 vec Vector:snap( gridsize )		-- modifies self
 vec Vector:approach( vec, step )	-- modifies self
+vec Vector:round( [decimals] ) 		-- modifies self
 vec Vector:perpendicular()
 num Vector:dot( vec )
 num Vector:cross( vec )
@@ -96,13 +97,14 @@ bool table.hasValue( t, val )
 mix table.keyFromValue( tbl, val )	-- returns key of first occurence of <val> in this table
 tab table.keysFromValue( tbl, val )	-- returns all keys that hold <val>
 tab table.removeByValue( tbl, val )	-- removes all occurences of <val> from the table (assumes table is sequential)
+tab table.removeByFilter( tbl, func )	-- removes all occurences where <func> returns true (assumes table is sequential)
 tab table.getKeys(t)			-- get all keys in the table
 tab table.shuffle(t)			-- shuffles key - value combinations
 tab table.forEach( t, func, ... ) 	-- if func is a function, then do func( key, value, ... ) on every table entry
 					-- or if func is a string, do entry_value:func( ... ) on every table entry
 num table.count( t, count_func ) 	-- if count_func(key, value) is supplied, only count where it returns true
 mix table.random( t )			-- get random value
-tab table.filter( t, func, retainkeys ) -- filter t where func(key, value) returns true
+tab table.filter( t, func, retainkeys ) -- filter t where func(key, value) returns true, returns new filtered table
 tab table.merge(t1, t2, retainkeys) 	-- merges t2 into t1, when retaining keys, t2 overwrites t1 keys
 str table.toString( t, name, nice_formatting, [maxdepth], [maxseq] ) -- summarizes (sub)tables longer than maxseq, or deeper nested than maxdepth
 
@@ -115,6 +117,8 @@ str	string.simpleFormat(str, ...)	-- string.simpleFormat("{b} hi {a}", {a = "mar
 // Extended math functions //
 
 num	math.distance( x1, y1, x2, y2 )
+num	math.deg2rad( degrees )
+num	math.rad2deg( rad )
 num	math.clamp( num, low, high )
 num	math.randomRange( low, high )		-- returns float between low and high
 num	math.sign( x )				-- returns 1 or -1 depending on if x is negative
@@ -173,6 +177,7 @@ util.array(...)			-- util.array(pairs({a = 1, b = 2})) -- Returns {"a", "b"}
 util.equalsAll(value, ...)
 util.equalsAny(value, ...)
 util.lua( str ) 		-- runs the given string
+util.readParticleSystem( path ) -- read SPERM particle configurations and returns a new ParticleSystem from it
 
 // Color class //
 Color:toHex()		-- Example: Color.Red:toHex() returns "FF0000"

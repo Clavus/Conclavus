@@ -1,6 +1,7 @@
 
 local Camera = class("Camera", Entity)
 Camera:include( Rotatable )
+Camera:include( Scalable )
 
 local cos, sin = math.cos, math.sin
 local getWindowWidth, getWindowHeight = screen.getRenderWidth, screen.getRenderHeight
@@ -9,6 +10,7 @@ function Camera:initialize()
 	
 	Entity.initialize( self )
 	Rotatable.initialize( self )
+	Scalable.initialize( self )
 	
 	self._scale = Vector(1,1)
 	self._diagonal2 = 0
@@ -20,18 +22,10 @@ end
 
 function Camera:setScale( x, y )
 	
-	y = y or x
-	self._scale.x = x
-	self._scale.y = y
+	Scalable.setScale( self, x, y )
 	self:_updateDiagonal()
 	return self
 	
-end
-
-function Camera:getScale()
-
-	return self._scale.x, self._scale.y
-
 end
 
 function Camera:attach()

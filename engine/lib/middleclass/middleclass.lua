@@ -139,6 +139,7 @@ end
 
 function Object.static:include( ... )
   assert(type(self) == 'table', "Make sure you that you are using 'Class:include' instead of 'Class.include'")
+  assert(#{...} > 0, "Mixin does not exist")
   for _,mixin in ipairs({...}) do _includeMixin(self, mixin) end
   return self
 end

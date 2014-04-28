@@ -1,7 +1,7 @@
 
 local start = os.clock()
 local _curTime, _prntcnt = 0, 0
-local _gameTitle = "LD engine"
+local _gameTitle = "Conclavus"
 
 nilfunction = function() end -- null function so you can do "(a or nilfunction)(...)"  instead of "if (a != nil) then a(...) end".
 currentTime = function() return _curTime end
@@ -27,6 +27,8 @@ require("engine/engine_includes")
 require("game/game_includes")
 
 function love.load()
+	
+	_curTime = 0
 	
 	local libdiff = os.clock() - start
 	start = os.clock()

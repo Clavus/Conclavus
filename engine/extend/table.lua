@@ -63,11 +63,20 @@ end
 function table.removeByValue( tbl, val )
 
 	for i = #tbl, 1, -1 do
-	
 		if (tbl[i] == val) then
 			table.remove(tbl, i)
 		end
-		
+	end
+	return tbl
+	
+end
+
+function table.removeByFilter( tbl, filter_func )
+
+	for i = #tbl, 1, -1 do
+		if (filter_func( i, tbl[i] )) then
+			table.remove(tbl, i)
+		end
 	end
 	return tbl
 	

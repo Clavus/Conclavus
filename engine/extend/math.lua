@@ -10,6 +10,18 @@ function math.distance( x1, y1, x2, y2 )
 	
 end
 
+function math.deg2rad( deg )
+	
+	return deg / 180 * pi
+	
+end
+
+function math.rad2deg( rad )
+	
+	return rad / pi * 180
+	
+end
+
 function math.clamp( num, low, high )
 
 	return num < low and low or (num > high and high or num)

@@ -28,7 +28,7 @@ function screen.init( w, h, flags )
 	screen.transform.defaultAspectRatio = w / h
 	screen.transform.aspectRatio = w / h
 	
-	screen.scaleType = SCREEN_SCALE.FIT_BEST_CLIPEDGES
+	screen.scaleType = SCREEN_SCALE.FIT_CLIPEDGES
 	
 	screen.transform.screenWidth = w
 	screen.transform.screenHeight = h
@@ -164,7 +164,7 @@ function screen.resize( w, h )
 	screen.transform.screenWidth = w
 	screen.transform.screenHeight = h
 	
-	if (sst == SCREEN_SCALE.CENTRE) then
+	if (sst == SCREEN_SCALE.CENTER) then
 		screen.transform.screenWidth = math.min( w, screen.transform.renderWidth )
 		screen.transform.screenHeight = math.min( h, screen.transform.renderHeight)
 	end
@@ -199,7 +199,7 @@ function screen.resize( w, h )
 		screen.transform.screenHeight = h
 	end
 	
-	if (sst == SCREEN_SCALE.FIT_BEST_LETTERBOX or sst == SCREEN_SCALE.CENTRE) then
+	if (sst == SCREEN_SCALE.FIT_LETTERBOX or sst == SCREEN_SCALE.CENTER) then
 	
 		if (ratio < screen.transform.aspectRatio) then
 			cropHeight()
@@ -207,7 +207,7 @@ function screen.resize( w, h )
 			cropWidth()
 		end
 		
-	elseif (sst == SCREEN_SCALE.FIT_BEST_CLIPEDGES) then
+	elseif (sst == SCREEN_SCALE.FIT_CLIPEDGES) then
 	
 		if (ratio < screen.transform.aspectRatio) then
 			fitHeight()

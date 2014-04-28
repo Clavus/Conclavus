@@ -554,7 +554,7 @@ function lovebird.update()
 	while 1 do
 		local client = lovebird.server:accept()
 		if not client then break end
-		client:settimeout(0.05)
+		client:settimeout(0)
 		local addr = client:getsockname()
 		if lovebird.checkwhitelist(addr) then 
 			xpcall(function() lovebird.onconnect(client) end, function() end)

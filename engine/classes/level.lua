@@ -131,10 +131,6 @@ function Level:createEntity( class, ... )
 	return self._entManager:createEntity( class, ...)
 end
 
-function Level:removeEntity( ent )
-	self._entManager:removeEntity( ent )
-end
-
 function Level:getEntitiesByClass( class )
 	return self._entManager:getEntitiesByClass( class )
 end
@@ -143,20 +139,27 @@ function Level:getEntitiesByMixin( mixin )
 	return self._entManager:getEntitiesByMixin( mixin )
 end
 
+function Level:getAllEntities()
+	return self._entManager:getAllEntities()
+end
+
 function Level:initDefaultCollisionCallbacks()
 
 	if not self._physics_enabled then return end
 
+	local CollisionResolver = CollisionResolver
+	
 	local beginContact = function(a, b, contact)
 		
-		local ao, bo = a:getUserData(), b:getUserData()
-		if (not ao or not bo) then return end
+		local ao = a:getUserData() or a:getBody():getUserData()
+		local bo = b:getUserData() or b:getBody():getUserData()
+		if (not ao or not bo or not ao.class or not bo.class) then return end
 		
-		if (ao and includes(Mixin.CollisionResolver, ao.class)) then
+		if (ao.class:includes(CollisionResolver)) then
 			ao:beginContactWith(bo, contact, a, b, true)
 		end
 
-		if (bo and includes(Mixin.CollisionResolver, bo.class)) then
+		if (bo.class:includes(CollisionResolver)) then
 			bo:beginContactWith(ao, contact, b, a, false)
 		end
 		
@@ -164,14 +167,15 @@ function Level:initDefaultCollisionCallbacks()
 
 	local endContact = function(a, b, contact)
 
-		local ao, bo = a:getUserData(), b:getUserData()
-		if (not ao or not bo) then return end
+		local ao = a:getUserData() or a:getBody():getUserData()
+		local bo = b:getUserData() or b:getBody():getUserData()
+		if (not ao or not bo or not ao.class or not bo.class) then return end
 		
-		if (ao and includes(Mixin.CollisionResolver, ao.class)) then
+		if (ao.class:includes(CollisionResolver)) then
 			ao:endContactWith(bo, contact, a, b, true)
 		end
 
-		if (bo and includes(Mixin.CollisionResolver, bo.class)) then
+		if (bo.class:includes(CollisionResolver)) then
 			bo:endContactWith(ao, contact, b, a, false)
 		end
 		
@@ -179,14 +183,15 @@ function Level:initDefaultCollisionCallbacks()
 
 	local preSolve = function(a, b, contact)
 
-		local ao, bo = a:getUserData(), b:getUserData()
-		if (not ao or not bo) then return end
+		local ao = a:getUserData() or a:getBody():getUserData()
+		local bo = b:getUserData() or b:getBody():getUserData()
+		if (not ao or not bo or not ao.class or not bo.class) then return end
 		
-		if (ao and includes(Mixin.CollisionResolver, ao.class)) then
+		if (ao.class:includes(CollisionResolver)) then
 			ao:preSolveWith(bo, contact, a, b, true)
 		end
 
-		if (bo and includes(Mixin.CollisionResolver, bo.class)) then
+		if (bo.class:includes(CollisionResolver)) then
 			bo:preSolveWith(ao, contact, b, a, false)
 		end
 		
@@ -194,14 +199,15 @@ function Level:initDefaultCollisionCallbacks()
 
 	local postSolve = function(a, b, contact)
 
-		local ao, bo = a:getUserData(), b:getUserData()
-		if (not ao or not bo) then return end
+		local ao = a:getUserData() or a:getBody():getUserData()
+		local bo = b:getUserData() or b:getBody():getUserData()
+		if (not ao or not bo or not ao.class or not bo.class) then return end
 		
-		if (ao and includes(Mixin.CollisionResolver, ao.class)) then
+		if (ao.class:includes(CollisionResolver)) then
 			ao:postSolveWith(bo, contact, a, b, true)
 		end
 
-		if (bo and includes(Mixin.CollisionResolver, bo.class)) then
+		if (bo.class:includes(CollisionResolver)) then
 			bo:postSolveWith(ao, contact, b, a, false)
 		end
 		

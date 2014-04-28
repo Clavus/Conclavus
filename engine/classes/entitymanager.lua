@@ -4,7 +4,6 @@ local EntityManager = class("EntityManager")
 function EntityManager:initialize()
 	
 	self._entities = {}
-	--print(table.toString(self._entities, "entities", true))
 	self._drawlist = {}
 	self._update_drawlist = true
 	
@@ -44,19 +43,22 @@ function EntityManager:createEntity( class, ...)
 	
 end
 
-function EntityManager:removeEntity( ent )
-	
-	table.removeByValue(self._entities, ent)
-	ent:onRemove()
-	
-	self._update_drawlist = true
-	
-end
-
 function EntityManager:update( dt )
 	
-	for k, v in ipairs( self._entities ) do
-		v:update( dt )
+	local ent
+	-- traverse table in reverse order so we can safely remove entities while traversing
+	for i = #self._entities, 1, -1 do
+		
+		ent = self._entities[i]
+		ent:update( dt )
+		
+		if (ent._removeflag) then
+			table.remove(self._entities, i)
+			ent:onRemove()
+			
+			self._update_drawlist = true
+		end		
+		
 	end
 	
 end
@@ -154,11 +156,17 @@ function EntityManager:getEntitiesByMixin( mixin )
 	
 	local res = {}
 	for k, v in ipairs( self._entities ) do
-		if (includes(mixin, v.class)) then
+		if (v.class:includes(mixin)) then
 			table.insert(res, v)
 		end
 	end
 	return res
+	
+end
+
+function EntityManager:getAllEntities()
+	
+	return table.clone( self._entities )
 	
 end
 

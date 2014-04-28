@@ -66,6 +66,17 @@ function StateAnimatedSprite:getSpeed()
 	
 end
 
+function StateAnimatedSprite:getWidth()
+	
+	return self._sprites[self._state]:getWidth()
+	
+end
+
+function StateAnimatedSprite:getHeight()
+	
+	return self._sprites[self._state]:getHeight()
+	
+end
 
 function StateAnimatedSprite:resetAnimation()
 	

@@ -82,7 +82,7 @@ function Sprite:draw(x, y, r, sx, sy)
 	r = r or 0
 	sx = sx or 1
 	sy = sy or 1	
-	local frame = self._frames[math.floor(self._cur_frame)]
+	local frame = self._frames[math.floor(self._cur_frame)] or self._frames[1]
 	local origin = self._origin_pos
 	love.graphics.draw(self._image, frame, x, y, r, sx, sy, origin.x, origin.y)
 
@@ -96,7 +96,19 @@ function Sprite:reset()
 	
 end
 
-function Sprite:setCurrentFrame( frame )
+function Sprite:getWidth()
+	
+	return self._size.x
+	
+end
+
+function Sprite:getHeight()
+
+	return self._size.y
+
+end
+
+function Sprite:setFrame( frame )
 	
 	self._cur_frame = frame
 	
@@ -106,6 +118,18 @@ function Sprite:getCurrentFrame()
 	
 	return math.floor(self._cur_frame)
 	
+end
+
+function Sprite:getFrameCount()
+
+	return self._num_frames
+
+end
+
+function Sprite:hasEnded()
+
+	return self._ended
+
 end
 
 return Sprite

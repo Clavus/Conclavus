@@ -29,7 +29,9 @@ local toload = {
 	-- Mixins
 	{ CollisionResolver = 	"engine/classes/mixins/collisionresolver" },
 	{ PhysicsActor = 			"engine/classes/mixins/physicsactor" },
+	{ Positional =				"engine/classes/mixins/positional" },
 	{ Rotatable =				"engine/classes/mixins/rotatable" },
+	{ Scalable =					"engine/classes/mixins/scalable" },
 	
 	-- Classes
 	{ Vector = 					"engine/classes/vector" },
@@ -51,6 +53,5 @@ local toload = {
 	{ Wall = 		"engine/classes/entity/wall" },
 	{ Trigger = 	"engine/classes/entity/trigger" },
 	{ Camera = 	"engine/classes/entity/camera" },
-	{ ParticleSystem = "engine/classes/entity/particlesystem" },
 }
 package.loadSwappable( toload )

@@ -1,7 +1,7 @@
 
 local PhysicsActor = {}
 
-function PhysicsActor:initializeBody( world, btype )
+function PhysicsActor:initialize( world, btype )
 	
 	btype = btype or "dynamic"
 	
@@ -21,33 +21,54 @@ function PhysicsActor:setPos( x, y )
 	assert(type(x) == "number", "Number expected, got "..type(x))
 	assert(type(y) == "number", "Number expected, got "..type(y))
 	
-	self._body:setPosition(x, y)
+	self:getBody():setPosition(x, y)
 	return self
 	
 end
 
 function PhysicsActor:getPos()
 
-	return self._body:getPosition()
+	return self:getBody():getPosition()
 	
 end
 
 function PhysicsActor:setAngle( r )
 	
-	self._body:setAngle( r )
+	self:getBody():setAngle( r )
 	return self
 	
 end
 
 function PhysicsActor:getAngle()
 	
-	return self._body:getAngle()
+	return self:getBody():getAngle()
 	
+end
+
+function PhysicsActor:rotate( r )
+	
+	self:getBody():setAngle( self._body:getAngle() + r )
+	return self
+	
+end
+
+function PhysicsActor:moveForward( d )
+
+	local px, py = self:getPos()
+	local dx, dy = angle.forward( self:getAngle() ):multiplyBy( d ):unpack()
+	self:setPos( px + dx, py + dy )
+
+end
+
+function PhysicsActor:getDirection()
+
+	return angle.forward( self:getAngle() )
+
 end
 
 function PhysicsActor:onRemove()
 
-	self._body:destroy()
+	self:getBody():destroy()
 
 end
 
