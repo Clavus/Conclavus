@@ -230,7 +230,7 @@ gamestate.drawStack()			-- calls draw() function on every gamestate in the stack
 gamestate.printStack()			-- debug print stack
 
 // Advanced math / trigonometry / geometry //
-mlib readme: https://github.com/davisdude/mlib/blob/master/README.md
+mlib readme: https://github.com/davisdude/mlib/blob/master/README.md (function names corrected to have the same casing as the rest of the engine)
 
 // Rich text //
 tlib: http://love2d.org/forums/viewtopic.php?f=5&t=76960

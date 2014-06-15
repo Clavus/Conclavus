@@ -2,255 +2,222 @@
 local mlib = {
 	line = {
 		segment = {}, 
-		func = {}, 
 	}, 
 	polygon = {}, 
 	circle = {}, 
-	stats = {}, 
+	statistics = {}, 
+	math = {}, 
 	shape = {
-		user = {}
+		user = {}, 
 	}, 
 }
-mlib.math = {}
 mlib.shape.__index = mlib.shape
 
--- Line
-function mlib.line.length( x1, y1, x2, y2 )
+-- Local utility functions
+local function checkUserdata( ... )
+	local userdata = {}
+	if type( ... ) ~= 'table' then userdata = { ... } else userdata = ... end
+	return userdata
+end
+
+local function sortWithReference( Table, Function )
+    if #Table == 0 then return nil, nil end
+    local Key, Value = 1, Table[1]
+    for i = 2, #Table do
+        if Function( Value, Table[i] ) then
+            Key, Value = i, Table[i]
+        end
+    end
+    return Value, Key
+end
+
+-- lines
+function mlib.line.getLength( x1, y1, x2, y2 )
 	return math.sqrt( ( x1 - x2 ) ^ 2 + ( y1 - y2 ) ^ 2 )
 end
 
-function mlib.line.midpoint( x1, y1, x2, y2 )
+function mlib.line.getMidpoint( x1, y1, x2, y2 )
 	return ( x1 + x2 ) / 2, ( y1 + y2 ) / 2
 end
 
-function mlib.line.slope( x1, y1, x2, y2 )
-	if x1 == x2 then return false end
+function mlib.line.getSlope( x1, y1, x2, y2 )
+	if x1 == x2 then return false end -- Technically it's infinity, but that's irrelevant. 
 	return ( y1 - y2 ) / ( x1 - x2 )
 end
 
-function mlib.line.perpendicularSlope( ... )
-	local tab = {}
-	local slope = false
+function mlib.line.getPerpendicularSlope( ... )
+	local userdata = checkUserdata( ... )
 	
-	if type( ... ) ~= 'table' then tab = { ... } else tab = ... end
-	
-	if #tab ~= 1 then 
-		slope = mlib.line.slope( unpack( tab ) ) 
+	if #userdata ~= 1 then 
+		Slope = mlib.line.getSlope( unpack( userdata ) ) 
 	else
-		slope = unpack( tab ) 
+		Slope = unpack( userdata ) 
 	end
 	
-	if slope == 0 then return false end
-	if not slope then return 0 end
-	return -1 / slope 
+	if Slope == 0 then return false end 
+	if not Slope then return 0 end
+	return -1 / Slope 
 end
 
-function mlib.line.perpendicularBisector( x1, y1, x2, y2 )
-	local slope = mlib.line.slope( x1, y1, x2, y2 )
-	return mlib.line.perpendicularSlope( slope ), mlib.line.midpoint( x1, y1, x2, y2 )
+function mlib.line.getPerpendicularBisector( x1, y1, x2, y2 )
+	local Slope = mlib.line.getSlope( x1, y1, x2, y2 )
+	return mlib.line.getMidpoint( x1, y1, x2, y2 ), mlib.line.getPerpendicularSlope( Slope )
 end
 
-function mlib.line.intercept( x, y, ... )
-	local tab = {}
-	local slope = false
+function mlib.line.getIntercept( x, y, ... )
+	local userdata = checkUserdata( ... )
+	local Slope = false
 	
-	if type( ... ) ~= 'table' then tab = { ... } else tab = ... end
-	
-	if #tab == 1 then 
-		slope = tab[1] 
+	if #userdata == 1 then 
+		Slope = userdata[1] 
 	else
-		slope = mlib.line.slope( x, y, unpack( tab ) ) 
+		Slope = mlib.line.getSlope( x, y, unpack( userdata ) ) 
 	end
 	
-	if not slope then return false end
-	return y - slope * x
+	if not Slope then return false end
+	return y - Slope * x
 end
 
-function mlib.line.draw( slope, y_intercept )
-	love.graphics.line( 0, y_intercept, screen.getRenderWidth(), slope * screen.getRenderWidth() + y_intercept )
-end
-
-function mlib.line.drawStandard( slope, y_intercept )
-	local slope = slope * -1
-	local y_intercept = y_intercept + screen.getRenderHeight()
-	love.graphics.line( 0, y_intercept, screen.getRenderWidth(), slope * screen.getRenderWidth() + y_intercept )
-end
-
-function mlib.line.intersect( ... )
-	local tab = {}
-	local x1, y1, x2, y2
-	local x3, y3, x4, y4
-	local m1, b1
-	local m2, b2
+function mlib.line.getIntersection( ... )
+	local userdata = checkUserdata( ... )
+	local x1, y1, x2, y2, x3, y3, x4, y4
+	local Slope1, Intercept1
+	local Slope2, Intercept2
 	local x, y
 	
-	if type( ... ) ~= 'table' then tab = { ... } else tab = ... end
-	
-	if #tab == 4 then 
-		m1, b1, m2, b2 = unpack( tab ) 
-		y1, y2, y3, y4 = m1 * 1 + b1, m1 * 2 + b1, m2 * 1 + b2, m2 * 2 + b2
-		x1, x2, x3, x4 = ( y1 - b1 ) / m1, ( y2 - b1 ) / m1, ( y3 - b1 ) / m1, ( y4 - b1 ) / m1
-	elseif #tab == 6 then 
-		m1, m2, m2, b2 = tab[1], tab[2], mlib.line.slope( tab[3], tab[4], tab[5], tab[6] ), mlib.line.intercept( tab[3], tab[4], tab[5], tab[6] ) 
-		y1, y2, y3, y4 = m1 * 1 + b1, m1 * 2 + b1, tab[4], tab[6]
-		x1, x2, x3, x4 = ( y1 - b1 ) / m1, ( y2 - b1 ) / m1, tab[3], tab[5]
-	elseif #tab == 8 then 
-		m1, b1, m2, b2 = mlib.line.slope( tab[1], tab[2], tab[3], tab[4] ), mlib.line.intercept( tab[1], tab[2], tab[3], tab[4] ), mlib.line.slope( tab[5], tab[6], tab[7], tab[8] ), mlib.line.intercept( tab[5], tab[6], tab[7], tab[8] ) 
-		x1, y1, x2, y2, x3, y3, x4, y4 = unpack( tab )
+	if #userdata == 4 then -- Given Slope1, Intercept1, Slope2, Intercept2. 
+		Slope1, Intercept1, Slope2, Intercept2 = unpack( userdata ) 
+		y1, y2, y3, y4 = Slope1 * 1 + Intercept1, Slope1 * 2 + Intercept1, Slope2 * 1 + Intercept2, Slope2 * 2 + Intercept2
+		x1, x2, x3, x4 = ( y1 - Intercept1 ) / Slope1, ( y2 - Intercept1 ) / Slope1, ( y3 - Intercept1 ) / Slope1, ( y4 - Intercept1 ) / Slope1
+	elseif #userdata == 6 then -- Given Given Slope1, Intercept1, and 2 points on the line. 
+		Slope1, Intercept1, Slope2, Intercept2 = userdata[1], userdata[2], mlib.line.getSlope( userdata[3], userdata[4], userdata[5], userdata[6] ), mlib.line.getIntercept( userdata[3], userdata[4], userdata[5], userdata[6] ) 
+		y1, y2, y3, y4 = Slope1 * 1 + Intercept1, Slope1 * 2 + Intercept1, userdata[4], userdata[6]
+		x1, x2, x3, x4 = ( y1 - Intercept1 ) / Slope1, ( y2 - Intercept1 ) / Slope1, userdata[3], userdata[5]
+	elseif #userdata == 8 then -- Given 2 points on line 1 and 2 points on line 2.
+		Slope1, Intercept1, Slope2, Intercept2 = mlib.line.getSlope( userdata[1], userdata[2], userdata[3], userdata[4] ), mlib.line.getIntercept( userdata[1], userdata[2], userdata[3], userdata[4] ), mlib.line.getSlope( userdata[5], userdata[6], userdata[7], userdata[8] ), mlib.line.getIntercept( userdata[5], userdata[6], userdata[7], userdata[8] ) 
+		x1, y1, x2, y2, x3, y3, x4, y4 = unpack( userdata )
 	end
 	
-	if not m1 then 
+	if not Slope1 then 
 		x = x1
-		y = m2 * x + b2
-	elseif not m2 then
+		y = Slope2 * x + Intercept2
+	elseif not Slope2 then
 		x = x3
-		y = m1 * x + b1
-	elseif m1 == m2 then 
+		y = Slope1 * x + Intercept1
+	elseif Slope1 == Slope2 then 
 		return false
 	else
-		x = ( -b1 + b2 ) / ( m1 - m2 )
-		y = m1 * x + b1
+		x = ( -Intercept1 + Intercept2 ) / ( Slope1 - Slope2 )
+		y = Slope1 * x + Intercept1
 	end
 	
 	return x, y
 end
 
-function mlib.line.closestPoint( px, py, ... )
-	local tab = {}
-	local x1, y1, x2, y2, m, b
+function mlib.line.getClosestPoint( px, py, ... )
+	local userdata = checkUserdata( ... )
+	local x1, y1, x2, y2, Slope, Intercept
 	local x, y
 	
-	if type ( ... ) ~= 'table' then tab = { ... } else tab = ... end
-	
-	if #tab == 4 then
-		x1, y1, x2, y2 = unpack( tab )
-		m, b = mlib.line.slope( x1, y1, x2, y2 ), mlib.line.intercept( x1, y1, x2, y2 )
-	elseif #tab == 2 then
-		m, b = unpack( tab )
+	if #userdata == 4 then
+		x1, y1, x2, y2 = unpack( userdata )
+		Slope, Intercept = mlib.line.getSlope( x1, y1, x2, y2 ), mlib.line.getIntercept( x1, y1, x2, y2 )
+	elseif #userdata == 2 then
+		Slope, Intercept = unpack( userdata )
 	end
 	
-	if not m then
-		x, y = x1, py
-	elseif m == 0 then
-		x, y = px, y1
+	if not Slope then
+		x, y = x1, PerpendicularY
+	elseif Slope == 0 then
+		x, y = PerpendicularX, y1
 	else
-		pm = mlib.line.perpendicularSlope( m )
-		pb = mlib.line.intercept( px, py, pm )
-		x, y = mlib.line.intersect( m, b, pm, pb )
+		PerpendicularSlope = mlib.line.getPerpendicularSlope( Slope )
+		PerpendicularIntercept = mlib.line.getIntercept( PerpendicularX, PerpendicularY, PerpendicularSlope )
+		x, y = mlib.line.getIntersection( Slope, Intercept, PerpendicularSlope, PerpendicularIntercept )
 	end
 	
 	return x, y
 end
 
-function mlib.line.segmentIntersects( x1, y1, x2, y2, ... )
-	local tab = {}
+function mlib.line.getsegmentIntersection( x1, y1, x2, y2, ... )
+	local userdata = checkUserdata( ... )
 	
-	if type( ... ) ~= 'table' then tab = { ... } else tab = ... end 
-	
-	local m1, m2
-	local m2, b2 = mlib.line.slope( x1, y1, x2, y2 ), mlib.line.intercept( x1, y1, x2, y2 )
+	local Slope1, Intercept1
+	local Slope2, Intercept2 = mlib.line.getSlope( x1, y1, x2, y2 ), mlib.line.getIntercept( x1, y1, x2, y2 )
 	local x, y
 	
-	if #tab == 2 then 
-		m1, b1 = tab[1], tab[2]
+	if #userdata == 2 then 
+		Slope1, Intercept1 = userdata[1], userdata[2]
 	else
-		m1, b1 = mlib.line.slope( unpack( tab ) ), mlib.line.intercept( unpack( tab ) )
+		Slope1, Intercept1 = mlib.line.getSlope( unpack( userdata ) ), mlib.line.getIntercept( unpack( userdata ) )
 	end
 	
-	if not m1 then
-		x, y = tab[1], m2 * tab[1] + b2
-	elseif not m2 then
-		x, y = x1, m1 * x1 + b1
+	if not Slope1 then
+		x, y = userdata[1], Slope2 * userdata[1] + Intercept2
+	elseif not Slope2 then
+		x, y = x1, Slope1 * x1 + Intercept1
 	else
-		x, y = mlib.line.intersect( m1, b1, m2, b2 )
+		x, y = mlib.line.getIntersection( Slope1, Intercept1, Slope2, Intercept2 )
 	end
 	
-	local l1, l2 = mlib.line.length( x1, y1, x, y ), mlib.line.length( x2, y2, x, y )
-	local d = mlib.line.length( x1, y1, x2, y2 )
+	local Length1, Length2 = mlib.line.getLength( x1, y1, x, y ), mlib.line.getLength( x2, y2, x, y )
+	local Distance = mlib.line.getLength( x1, y1, x2, y2 )
 	
-	if l1 <= d and l2 <= d then return x, y else return false end
+	if Length1 <= Distance and Length2 <= Distance then return x, y else return false end
 end
 
--- Line Function
-function mlib.line.func.get( x1, y1, x2, y2 ) 
-	if y1 <= 0 or y2 <= 0 then return false end
-	local x, y = x1 - x2, y1 / y2 
-	
-	if x == 0 then return false end
-	
-	local b = y ^ ( 1 / x ) 
-	local a = y1 / ( b ^ x1 ) 
-	
-	return a, b
-end
-
-function mlib.line.func.draw( a, b )
-	for i = 0, width do
-		love.graphics.line( i, a * ( b ) ^ i, i + 1, a * ( b ) ^ ( i + 1 ) )
-	end
-end
-
-function mlib.line.func.drawStandard( a, b )
-	for i = 0, width do
-		love.graphics.line( i, height - ( a * ( b ) ^ i ), i + 1, height - ( a * ( b ) ^ ( i + 1 ) ) )
-	end
-end
-
--- Line Segment
+-- line segment
 function mlib.line.segment.checkPoint( x1, y1, x2, y2, x3, y3 )
-	local m, b = mlib.line.slope( x1, y1, x2, y2 ), mlib.line.intercept( x1, y1, x2, y2 )
+	local Slope, Intercept = mlib.line.getSlope( x1, y1, x2, y2 ), mlib.line.getIntercept( x1, y1, x2, y2 )
 	
-	if not m then
+	if not Slope then
 		if x1 ~= x3 then return false end
-		local l = mlib.line.length( x1, y1, x2, y2 )
-		local d1 = mlib.line.length( x1, y1, x3, y3 )
-		local d2 = mlib.line.length( x2, y2, x3, y3 )
-		if d1 > l or d2 > l then return false end
+		local Length = mlib.line.getLength( x1, y1, x2, y2 )
+		local Distance1 = mlib.line.getLength( x1, y1, x3, y3 )
+		local Distance2 = mlib.line.getLength( x2, y2, x3, y3 )
+		if Distance1 > Length or Distance2 > Length then return false end
 		return true
-	elseif y3 == m * x3 + b then
-		local l = mlib.line.length( x1, y1, x2, y2 )
-		local d1 = mlib.line.length( x1, y1, x3, y3 )
-		local d2 = mlib.line.length( x2, y2, x3, y3 )
-		if d1 > l or d2 > l then return false end
+	elseif y3 == Slope * x3 + Intercept then
+		local Length = mlib.line.getLength( x1, y1, x2, y2 )
+		local Distance1 = mlib.line.getLength( x1, y1, x3, y3 )
+		local Distance2 = mlib.line.getLength( x2, y2, x3, y3 )
+		if Distance1 > Length or Distance2 > Length then return false end
 		return true
 	else
 		return false
 	end
 end
 
-function mlib.line.segment.intersect( x1, y1, x2, y2, x3, y3, x4, y4 )
-	local m1, b1 = mlib.line.slope( x1, y1, x2, y2 ), mlib.line.intercept( x1, y1, x2, y2 )
-	local m2, b2 = mlib.line.slope( x3, y3, x4, y4 ), mlib.line.intercept( x3, y3, x4, y4 )
+function mlib.line.segment.getIntersection( x1, y1, x2, y2, x3, y3, x4, y4 )
+	local Slope1, Intercept1 = mlib.line.getSlope( x1, y1, x2, y2 ), mlib.line.getIntercept( x1, y1, x2, y2 )
+	local Slope2, Intercept2 = mlib.line.getSlope( x3, y3, x4, y4 ), mlib.line.getIntercept( x3, y3, x4, y4 )
 	
-	if m1 == m2 and m1 then 
-		if b1 == b2 then 
+	if Slope1 == Slope2 and Slope1 then 
+		if Intercept1 == Intercept2 then 
 			local x = { x1, x2, x3, x4 }
 			local y = { y1, y2, y3, y4 }
-			local oy = { y1, y2, y3, y4 }
+			local OriginalY = { y1, y2, y3, y4 }
 			
-			local l1, l2 = mlib.line.length( x[1], y[1], x[2], y[2] ), mlib.line.length( x[3], y[3], x[4], y[4] )
-			local largex, smallx = math.max( unpack( x ) ), math.min( unpack( x ) )
-			local largey, smally = math.max( unpack( y ) ), math.min( unpack( y ) )
-			local lx, sx, ly, sy = nil, nil, nil, nil
+			local Length1, Length2 = mlib.line.getLength( x[1], y[1], x[2], y[2] ), mlib.line.getLength( x[3], y[3], x[4], y[4] )
 			
-			for a = 1, #x do if x[a] == largex then lx = a end end
-			for a = 1, #x do if x[a] == smallx then sx = a end end
-			for a = 1, #y do if y[a] == largey then ly = a end end
-			for a = 1, #y do if y[a] == smally then sy = a end end
+			local LargestX, LargestXReference = sortWithReference( x, function ( Value1, Value2 ) return Value1 > Value2 end ) 
+			local LargestY, LargestYReference = sortWithReference( y, function ( Value1, Value2 ) return Value1 > Value2 end ) 
+			local SmallestX, SmallestXReference = sortWithReference( x, function ( Value1, Value2 ) return Value1 < Value2 end ) 
+			local SmallestY, SmallestYReference = sortWithReference( y, function ( Value1, Value2 ) return Value1 < Value2 end ) 
 			
-			table.remove( x, lx )
-			table.remove( x, sx )
-			table.remove( y, ly )
-			table.remove( y, sy )
+			table.remove( x, LargestXReference )
+			table.remove( x, SmallestXReference )
+			table.remove( y, LargestYReference )
+			table.remove( y, SmallestYReference )
 			
-			local d = mlib.line.length( x[1], y[1], x[2], y[2] )
-			if d > l1 or d > l2 then return false end
+			local Distance = mlib.line.getLength( x[1], y[1], x[2], y[2] )
+			if Distance > Length1 or Distance > Length2 then return false end
 			
-			local l1 = mlib.line.length( x[1], oy[1], x[1], oy[2] )
-			local l2 = mlib.line.length( x[1], oy[3], x[1], oy[4] )
-			local l3 = mlib.line.length( x[1], y[1], x[2], y[2] )
+			local Length1 = mlib.line.getLength( x[1], OriginalY[1], x[1], OriginalY[2] )
+			local Length2 = mlib.line.getLength( x[1], OriginalY[3], x[1], OriginalY[4] )
+			local Length3 = mlib.line.getLength( x[1], y[1], x[2], y[2] )
 			
-			if l3 >= l1 or l3 >= l2 then return false end
+			if Length3 >= Length1 or Length3 >= Length2 then return false end
 			return x[1], y[1], x[2], y[2]
 		else
 			return false
@@ -259,352 +226,398 @@ function mlib.line.segment.intersect( x1, y1, x2, y2, x3, y3, x4, y4 )
 	
 	local x, y
 	
-	if not m1 and not m2 then
+	if not Slope1 and not Slope2 then
 		if x1 ~= x3 then return false end
 		
 		local x = { x1, x2, x3, x4 }
 		local y = { y1, y2, y3, y4 }
-		local oy = { y1, y2, y3, y4 }
+
+		local OriginalY = { y1, y2, y3, y4 }
 		
-		local l1, l2 = mlib.line.length( x[1], y[1], x[2], y[2] ), mlib.line.length( x[3], y[3], x[4], y[4] )
-		local largex, smallx = math.max( unpack( x ) ), math.min( unpack( x ) )
-		local largey, smally = math.max( unpack( y ) ), math.min( unpack( y ) )
-		local lx, sx, ly, sy
+		local Length1, Length2 = mlib.line.getLength( x[1], y[1], x[2], y[2] ), mlib.line.getLength( x[3], y[3], x[4], y[4] )
 		
-		for a = 1, #x do if x[a] == largex then lx = a end end
-		for a = 1, #x do if x[a] == smallx then sx = a end end
-		for a = 1, #y do if y[a] == largey then ly = a end end
-		for a = 1, #y do if y[a] == smally then sy = a end end
+		local LargestX, LargestXReference = sortWithReference( x, function ( Value1, Value2 ) return Value1 > Value2 end ) 
+		local LargestY, LargestYReference = sortWithReference( y, function ( Value1, Value2 ) return Value1 > Value2 end ) 
+		local SmallestX, SmallestXReference = sortWithReference( x, function ( Value1, Value2 ) return Value1 < Value2 end ) 
+		local SmallestY, SmallestYReference = sortWithReference( y, function ( Value1, Value2 ) return Value1 < Value2 end ) 
 		
-		table.remove( x, lx )
-		table.remove( x, sx )
-		table.remove( y, ly )
-		table.remove( y, sy )
+		table.remove( x, LargestXReference )
+		table.remove( x, SmallestXReference )
+		table.remove( y, LargestYReference )
+		table.remove( y, SmallestYReference )
 		
-		local d = mlib.line.length( x[1], y[1], x[2], y[2] )
-		if d > l1 or d > l2 then return false end
+		local Distance = mlib.line.getLength( x[1], y[1], x[2], y[2] )
+		if Distance > Length1 or Distance > Length2 then return false end
 		
-		local l1 = mlib.line.length( x[1], oy[1], x[1], oy[2] )
-		local l2 = mlib.line.length( x[1], oy[3], x[1], oy[4] )
-		local l3 = mlib.line.length( x[1], y[1], x[2], y[2] )
+		local Length1 = mlib.line.getLength( x[1], OriginalY[1], x[1], OriginalY[2] )
+		local Length2 = mlib.line.getLength( x[1], OriginalY[3], x[1], OriginalY[4] )
+		local Length3 = mlib.line.getLength( x[1], y[1], x[2], y[2] )
 		
-		if l3 >= l1 or l3 >= l2 then return false end
+		if Length3 >= Length1 or Length3 >= Length2 then return false end
 		return x[1], y[1], x[2], y[2]
-	elseif not m1 then
+	elseif not Slope1 then
 		x = x2
-		y = m2 * x + b2
+		y = Slope2 * x + Intercept2
 		
-		local l1 = mlib.line.length( x1, y1, x2, y2 )
-		local l2 = mlib.line.length( x3, y3, x4, y4 )
-		local d1 = mlib.line.length( x1, y1, x, y )
-		local d2 = mlib.line.length( x2, y2, x, y )
-		local d3 = mlib.line.length( x3, y3, x, y )
-		local d4 = mlib.line.length( x4, y4, x, y )
+		local Length1 = mlib.line.getLength( x1, y1, x2, y2 )
+		local Length2 = mlib.line.getLength( x3, y3, x4, y4 )
+		local Distance1 = mlib.line.getLength( x1, y1, x, y )
+		local Distance2 = mlib.line.getLength( x2, y2, x, y )
+		local Distance3 = mlib.line.getLength( x3, y3, x, y )
+		local Distance4 = mlib.line.getLength( x4, y4, x, y )
 		
-		if ( d1 > l1 ) or ( d2 > l1 ) or ( d3 > l2 ) or ( d4 > l2 ) then 
+		if ( Distance1 > Length1 ) or ( Distance2 > Length1 ) or ( Distance3 > Length2 ) or ( Distance4 > Length2 ) then 
 			return false 
 		end
-	elseif not m2 then
+	elseif not Slope2 then
 		x = x4
-		y = m1 * x + b1
+		y = Slope1 * x + Intercept1
 		
-		local l1 = mlib.line.length( x1, y1, x2, y2 )
-		local l2 = mlib.line.length( x3, y3, x4, y4 )
-		local d1 = mlib.line.length( x1, y1, x, y )
-		local d2 = mlib.line.length( x2, y2, x, y )
-		local d3 = mlib.line.length( x3, y3, x, y )
-		local d4 = mlib.line.length( x4, y4, x, y )
+		local Length1 = mlib.line.getLength( x1, y1, x2, y2 )
+		local Length2 = mlib.line.getLength( x3, y3, x4, y4 )
+		local Distance1 = mlib.line.getLength( x1, y1, x, y )
+		local Distance2 = mlib.line.getLength( x2, y2, x, y )
+		local Distance3 = mlib.line.getLength( x3, y3, x, y )
+		local Distance4 = mlib.line.getLength( x4, y4, x, y )
 		
-		if ( d1 > l1 ) or ( d2 > l1 ) or ( d3 > l2 ) or ( d4 > l2 ) then return false end
+		if ( Distance1 > Length1 ) or ( Distance2 > Length1 ) or ( Distance3 > Length2 ) or ( Distance4 > Length2 ) then return false end
 	else
-		x, y = mlib.line.intersect( m1, b1, m2, b2 )
+		x, y = mlib.line.getIntersection( Slope1, Intercept1, Slope2, Intercept2 )
 		if not x then return false end
 		
-		local l1, l2 = mlib.line.length( x1, y1, x2, y2 ), mlib.line.length( x3, y3, x4, y4 )
-		local d1 = mlib.line.length( x1, y1, x, y )
-		if d1 > l1 then return false end
+		local Length1, Length2 = mlib.line.getLength( x1, y1, x2, y2 ), mlib.line.getLength( x3, y3, x4, y4 )
+		local Distance1 = mlib.line.getLength( x1, y1, x, y )
+		if Distance1 > Length1 then return false end
 		
-		local d2 = mlib.line.length( x2, y2, x, y )
-		if d2 > l1 then return false end
+		local Distance2 = mlib.line.getLength( x2, y2, x, y )
+		if Distance2 > Length1 then return false end
 		
-		local d3 = mlib.line.length( x3, y3, x, y )
-		if d3 > l2 then return false end
+		local Distance3 = mlib.line.getLength( x3, y3, x, y )
+		if Distance3 > Length2 then return false end
 		
-		local d4 = mlib.line.length( x4, y4, x, y )
-		if d4 > l2 then return false end
+		local Distance4 = mlib.line.getLength( x4, y4, x, y )
+		if Distance4 > Length2 then return false end
 	end
+	
 	return x, y
 end
 
--- Polygon
-function mlib.polygon.triangleHeight( base, ... )
-	local tab = {}
-	local area = 0
-	local b = 0
+-- polygon
+function mlib.polygon.getTriangleHeight( base, ... )
+	local userdata = checkUserdata( ... )
+	local Area = 0
+	local Intercept = 0
+
+	if #userdata == 1 then Area = userdata[1] else Area = mlib.polygon.getArea( userdata ) end
 	
-	if type( ... ) ~= 'table' then tab = { ... } else tab = ... end
-	if #tab == 1 then area = tab[1] else area = mlib.polygon.area( tab ) end
-	
-	return ( 2 * area ) / base, area
+	return ( 2 * Area ) / base, Area
 end
 
-function mlib.polygon.area( ... ) 
-	local tab = {}
-	local points = {}
+function mlib.polygon.getSignedArea( ... ) 
+	local userdata = checkUserdata( ... )
+	local Points = {}
 	
-	if type( ... ) ~= 'table' then tab = { ... } else tab = ... end
-	
-	for a = 1, #tab, 2 do
-		table.insert( points, { tab[a], tab[a+1] } )
+	for Index = 1, #userdata, 2 do
+		Points[#Points + 1] = { userdata[a], userdata[Index + 1] } 
 	end
 	
-	points[#points + 1] = {}
-	points[#points][1], points[#points][2] = points[1][1], points[1][2]
-	return ( .5 * math.abs( mlib.math.summation( 1, #points, 
-		function( i ) 
-			if points[i + 1] then 
-				return ( ( points[i][1] * points[i + 1][2] ) - ( points[i + 1][1] * points[i][2] ) ) 
+	Points[#Points + 1] = {}
+	Points[#Points][1], Points[#Points][2] = Points[1][1], Points[1][2]
+	return ( .5 * mlib.math.getSummation( 1, #Points, 
+		function( Index ) 
+			if Points[Index + 1] then 
+				return ( ( Points[Index][1] * Points[Index + 1][2] ) - ( Points[Index + 1][1] * Points[Index][2] ) ) 
 			else 
-				return ( ( points[i][1] * points[1][2] ) - ( points[1][1] * points[i][2] ) )
+				return ( ( Points[Index][1] * Points[1][2] ) - ( Points[1][1] * Points[Index][2] ) )
 			end 
 		end 
-	) ) )
+	) )
 end
 
-function mlib.polygon.centroid( ... ) 
-	local tab = {}
-	if type( ... ) ~= 'table' then tab = { ... } else tab = ... end
+function mlib.polygon.getArea( ... ) 
+	return math.abs( mlib.polygon.getSignedArea( ... ) )
+end
+
+function mlib.polygon.getCentroid( ... ) 
+	local userdata = checkUserdata( ... )
 	
-	local points = {}
-	for a = 1, #tab, 2 do
-		table.insert( points, { tab[a], tab[a+1] } )
+	local Points = {}
+	for Index = 1, #userdata, 2 do
+		table.insert( Points, { userdata[Index], userdata[Index + 1] } )
 	end
-	points[#points + 1] = {}
-	points[#points][1], points[#points][2] = points[1][1], points[1][2]
-	local area = .5 * mlib.math.summation( 1, #points, -- Need to signed area here, in case coordinates are arranged counter-clockwise.
-		function( i ) 
-			if points[i + 1] then 
-				return ( ( points[i][1] * points[i + 1][2] ) - ( points[i + 1][1] * points[i][2] ) ) 
-			else 
-				return ( ( points[i][1] * points[1][2] ) - ( points[1][1] * points[i][2] ) )
-			end 
-		end 
-	) 
 	
-	local cx = ( 1 / ( 6 * area ) ) * ( mlib.math.summation( 1, #points, 
-		function( i ) 
-			if points[i + 1] then
-				return ( ( points[i][1] + points[i + 1][1] ) * ( ( points[i][1] * points[i + 1][2] ) - ( points[i + 1][1] * points[i][2] ) ) )
+	Points[#Points + 1] = {}
+	Points[#Points][1], Points[#Points][2] = Points[1][1], Points[1][2]
+	
+	local Area = GetSignedArea( userdata ) -- Needs to be signed here in case points are counter-clockwise. 
+	
+	local CentroidX = ( 1 / ( 6 * Area ) ) * ( mlib.math.getSummation( 1, #Points, 
+		function( Index ) 
+			if Points[Index + 1] then
+				return ( ( Points[Index][1] + Points[Index + 1][1] ) * ( ( Points[Index][1] * Points[Index + 1][2] ) - ( Points[Index + 1][1] * Points[Index][2] ) ) )
 			else
-				return ( ( points[i][1] + points[1][1] ) * ( ( points[i][1] * points[1][2] ) - ( points[1][1] * points[i][2] ) ) )
+				return ( ( Points[Index][1] + Points[1][1] ) * ( ( Points[Index][1] * Points[1][2] ) - ( Points[1][1] * Points[Index][2] ) ) )
 			end
 		end
 	) )
 	
-	local cy = ( 1 / ( 6 * area ) ) * ( mlib.math.summation( 1, #points, 
-		function( i ) 
-			if points[i + 1] then
-				return ( ( points[i][2] + points[i + 1][2] ) * ( ( points[i][1] * points[i + 1][2] ) - ( points[i + 1][1] * points[i][2] ) ) )
+	local CentroidY = ( 1 / ( 6 * Area ) ) * ( mlib.math.getSummation( 1, #Points, 
+		function( Index ) 
+			if Points[Index + 1] then
+				return ( ( Points[Index][2] + Points[Index + 1][2] ) * ( ( Points[Index][1] * Points[Index + 1][2] ) - ( Points[Index + 1][1] * Points[Index][2] ) ) )
 			else
-				return ( ( points[i][2] + points[1][2] ) * ( ( points[i][1] * points[1][2] ) - ( points[1][1] * points[i][2] ) ) )
+				return ( ( Points[Index][2] + Points[1][2] ) * ( ( Points[Index][1] * Points[1][2] ) - ( Points[1][1] * Points[Index][2] ) ) )
 			end
 		end 
 	) )
-	
-	return cx, cy
+
+	return CentroidX, CentroidY
 end
 
-function mlib.polygon.checkPoint( px, py, ... )
-	local tab = {}
+function mlib.polygon.checkPoint( PointX, PointY, ... )
+	local userdata = {}
 	local x = {}
 	local y = {}
-	local m = {}
+	local Slopes = {}
 	
-	if type( ... ) ~= 'table' then tab = { ... } else tab = ... end
+	if type( ... ) ~= 'table' then userdata = { ... } else userdata = ... end
 	
-	for a = 1, #tab, 2 do
-		table.insert( x, tab[a] )
-		table.insert( y, tab[a + 1] )
+	for Index = 1, #userdata, 2 do
+		table.insert( x, userdata[Index] )
+		table.insert( y, userdata[Index + 1] )
 	end
 	
-	for a = 1, #x do
-		local slope = nil
-		if a ~= #x then
-			slope = ( y[a] - y[a + 1] ) / ( x[a] - x[a + 1] )
+	for Index = 1, #x do
+		local Slope
+		if Index ~= #x then
+			Slope = ( y[Index] - y[Index + 1] ) / ( x[Index] - x[Index + 1] )
 		else 
-			slope = ( y[a] - y[1] ) / ( x[a] - x[1] )
+			Slope = ( y[Index] - y[1] ) / ( x[Index] - x[1] )
 		end
-		table.insert( m, slope )
+		Slopes[#Slopes + 1] = Slope
 	end
 	
-	local lowx = math.min( unpack( x ) )
-	local largex = math.max( unpack( x ) )
-	local lowy = math.min( unpack( y ) )
-	local largey = math.max( unpack( y ) )
+	local LowestX = math.min( unpack( x ) )
+	local LargestX = math.max( unpack( x ) )
+	local LowestY = math.min( unpack( y ) )
+	local LargestY = math.max( unpack( y ) )
 	
-	if px < lowx or px > largex or py < lowy or py > largey then return false end
+	if PointX < LowestX or PointX > LargestX or PointY < LowestY or PointY > LargestY then return false end
 	
-	local count = 0
+	local Count = 0
 	
-	local function loop( num, large )
-		if num > large then return num - large end
-		return num
+	function Wrap( Number, Limit )
+		if Number > Limit then return Number - Limit end
+		return Number
 	end
 	
-	for a = 1, #m do
-		if a ~= #m then
-			local x1, x2 = x[a], x[a + 1]
-			local y1, y2 = y[a], y[a + 1]
-			if py == y1 or py == y2 then 
-				if y[loop( a + 2, #y )] ~= py and y[loop( a + 3, #y )] ~= py then
-					count = count + 1
+	for Index = 1, #Slopes do
+		if Index ~= #Slopes then
+			local x1, x2 = x[Index], x[Index + 1]
+			local y1, y2 = y[Index], y[Index + 1]
+			if PointY == y1 or PointY == y2 then 
+				if y[ Wrap( Index + 2, #y ) ] ~= PointY and y[Wrap( Index + 3, #y )] ~= PointY then
+					Count = Count + 1
 				end
-			elseif mlib.line.segment.intersect( x1, y1, x2, y2, px, py, lowx, py ) then 
-				count = count + 1 
+			elseif mlib.line.segment.getIntersection( x1, y1, x2, y2, PointX, PointY, LowestX, PointY ) then 
+				Count = Count + 1 
 			end
 		else
-			local x1, x2 = x[a], x[1]
-			local y1, y2 = y[a], y[1]
-			if py == y1 or py == y2 then 
-				if y[loop( a + 2, #y )] ~= py and y[loop( a + 3, #y )] ~= py then
-					count = count + 1
+			local x1, x2 = x[Index], x[1]
+			local y1, y2 = y[Index], y[1]
+			if PointY == y1 or PointY == y2 then 
+				if y[Wrap( Index + 2, #y )] ~= PointY and y[Wrap( Index + 3, #y )] ~= PointY then
+					Count = Count + 1
 				end
-			elseif mlib.line.segment.intersect( x1, y1, x2, y2, px, py, lowx, py ) then 
-				count = count + 1 
+			elseif mlib.line.segment.getIntersection( x1, y1, x2, y2, PointX, PointY, LowestX, PointY ) then 
+				Count = Count + 1 
 			end
 		end
 	end
-	
-	if math.floor( count / 2 ) ~= count / 2 then return true end
-	return false	
+
+	return math.floor( Count / 2 ) ~= Count / 2 and true
 end
 
 function mlib.polygon.lineIntersects( x1, y1, x2, y2, ... )
-	local tab = {}
+	local userdata = checkUserdata( ... )
+	local Choices = {}
+
+	if mlib.polygon.checkPoint( x1, y1, userdata ) then Choices[#Choices + 1] = { x1, y1 } end
+	if mlib.polygon.checkPoint( x2, y2, userdata ) then Choices[#Choices + 1] = { x2, y2 } end
 	
-	if type( ... ) ~= 'table' then tab = { ... } else tab = ... end
-	if mlib.polygon.checkPoint( x1, y1, tab ) then return true end
-	if mlib.polygon.checkPoint( x2, y2, tab ) then return true end
-	
-	for a = 1, #tab, 2 do
-		if mlib.line.segment.checkPoint( x1, y1, x2, y2, tab[a], tab[a + 1] ) then return true end
-		if tab[a + 2] then
-			if mlib.line.segment.intersect( tab[a], tab[a + 1], tab[a + 2], tab[a + 3], x1, y1, x2, y2 ) then return true end
+	for Index = 1, #userdata, 2 do
+		-- if mlib.line.segment.checkPoint( x1, y1, x2, y2, userdata[Index], userdata[Index + 1] ) then return true end
+		if userdata[Index + 2] then
+			local x1, y1, x2, y2 = mlib.line.segment.getIntersection( userdata[Index], userdata[Index + 1], userdata[Index + 2], userdata[Index + 3], x1, y1, x2, y2 )
+			if x2 then Choices[#Choices + 1] = { x1, y1, x2, y2 } 
+			elseif x1 then Choices[#Choices + 1] = { x1, y1 } end
 		else
-			if mlib.line.segment.intersect( tab[a], tab[a + 1], tab[1], tab[2], x1, y1, x2, y2 ) then return true end
+			local x1, y1, x2, y2 = mlib.line.segment.getIntersection( userdata[Index], userdata[Index + 1], userdata[1], userdata[2], x1, y1, x2, y2 )
+			if x2 then Choices[#Choices + 1] = { x1, y1, x2, y2 } 
+			elseif x1 then Choices[#Choices + 1] = { x1, y1 } end
 		end
 	end
 	
-	return false
+	return #Choices > 0 and Choices or false
 end
 
 function mlib.polygon.polygonIntersects( polygon1, polygon2 )
-	for a = 1, #polygon1, 2 do
-		if polygon1[a + 2] then
-			if mlib.polygon.lineIntersects( polygon1[a], polygon1[a + 1], polygon1[a + 2], polygon1[a + 3], polygon2 ) then return true end
+	local Choices = {}
+	
+	for Index = 1, #polygon1, 2 do
+		if polygon1[Index + 2] then
+			local Intersections = mlib.polygon.lineIntersects( polygon1[Index], polygon1[Index + 1], polygon1[Index + 2], polygon1[Index + 3], polygon2 )
+			if Intersections and #Intersections > 0 then
+				for Index2 = 1, #Intersections do
+					Choices[#Choices + 1] = { unpack( Intersections[Index2] ) }
+				end
+			end
 		else
-			if mlib.polygon.lineIntersects( polygon1[a], polygon1[a + 1], polygon1[1], polygon1[2], polygon2 ) then return true end
+			local Intersections = mlib.polygon.lineIntersects( polygon1[Index], polygon1[Index + 1], polygon1[1], polygon1[2], polygon2 )
+			if Intersections and #Intersections > 0 then
+				for Index2 = 1, #Intersections do
+					Choices[#Choices + 1] = { unpack( Intersections[Index2] ) }
+				end
+			end
 		end
 	end
 	
-	for a = 1, #polygon2, 2 do
-		if polygon2[a + 2] then
-			if mlib.polygon.lineIntersects( polygon2[a], polygon2[a + 1], polygon2[a + 2], polygon2[a + 3], polygon1 ) then return true end
+	for Index = 1, #polygon2, 2 do
+		if polygon2[Index + 2] then
+			local Intersections = mlib.polygon.lineIntersects( polygon2[Index], polygon2[Index + 1], polygon2[Index + 2], polygon2[Index + 3], polygon1 )
+			if Intersections and #Intersections > 0 then
+				for Index2 = 1, #Intersections do
+					Choices[#Choices + 1] = { unpack( Intersections[Index2] ) }
+				end
+			end
 		else
-			if mlib.polygon.lineIntersects( polygon2[a], polygon2[a + 1], polygon2[1], polygon2[2], polygon1 ) then return true end
+			local Intersections = mlib.polygon.lineIntersects( polygon2[Index], polygon2[Index + 1], polygon2[1], polygon2[2], polygon1 )
+			if Intersections and #Intersections > 0 then
+				for Index2 = 1, #Intersections do
+					Choices[#Choices + 1] = { unpack( Intersections[Index2] ) }
+				end
+			end
 		end
 	end	
 	
-	return false
+	function RemoveDuplicates( Table ) -- Local because it is very custom-coded. 
+		for Index1 = #Table, 1, -1 do
+			local First = Table[Index1]
+			for Index2 = #Table, 1, -1 do
+				local Second = Table[Index2]
+				if Index1 ~= Index2 then
+					if First[1] == Second[1] and First[2] == Second[2] then
+						table.remove( Table, Index1 )
+					end
+				end
+			end
+		end
+		return Table
+	end
+	
+	local Final = RemoveDuplicates( Choices )
+	
+	return #Final > 0 and Final or false 
 end
 
-function mlib.polygon.circleIntersects( x, y, r, ... )
-	local tab = {}
+function mlib.polygon.circleIntersects( x, y, Radius, ... )
+	local userdata = checkUserdata( ... )
+	local Choices = {}
 	
-	if type( ... ) ~= 'table' then tab = { ... } else tab = ... end
+	if mlib.polygon.checkPoint( x, y, userdata ) then Choices[#Choices + 1] = { x, y } end
 	
-	if mlib.polygon.checkPoint( x, y, tab ) then return true end
-	
-	for a = 1, #tab, 2 do
-		if tab[a + 2] then 
-			if mlib.circle.segmentSecant( x, y, r, tab[a], tab[a + 1], tab[a + 2], tab[a + 3] ) then return mlib.circle.segmentSecant( x, y, r, tab[a], tab[a + 1], tab[a + 2], tab[a + 3] ) end
+	for Index = 1, #userdata, 2 do
+		if userdata[Index + 2] then 
+			local x1, y1, x2, y2 = mlib.circle.isSegmentSecant( x, y, Radius, userdata[Index], userdata[Index + 1], userdata[Index + 2], userdata[Index + 3] )
+			if x2 then 
+				Choices[#Choices + 1] = { x1, y1 } 
+				Choices[#Choices + 1] = { x2, y2 }
+			elseif x1 then Choices[#Choices + 1] = { x1, y1 } end
 		else
-			if mlib.circle.segmentSecant( x, y, r, tab[a], tab[a + 1], tab[1], tab[2] ) then return mlib.circle.segmentSecant( x, y, r, tab[a], tab[a + 1], tab[1], tab[2] ) end
+			local x1, y1, x2, y2 = mlib.circle.isSegmentSecant( x, y, Radius, userdata[Index], userdata[Index + 1], userdata[1], userdata[2] )
+			if x2 then 
+				Choices[#Choices + 1] = { x1, y1 } 
+				Choices[#Choices + 1] = { x2, y2 }
+			elseif x1 then Choices[#Choices + 1] = { x1, y1 } end
 		end
 	end
 	
-	return false
+	return #Choices > 0 and Choices or false
 end
 
--- Circle
-function mlib.circle.area( r )
-	return math.pi * ( r ^ 2 )
+-- circle
+function mlib.circle.getArea( Radius )
+	return math.pi * ( Radius ^ 2 )
 end
 
-function mlib.circle.checkPoint( cx, cy, r, x, y )
-	return ( x - cx ) ^ 2 + ( y - cy ) ^ 2 == r ^ 2 
+function mlib.circle.checkPoint( circleX, circleY, Radius, x, y )
+	return ( x - circleX ) ^ 2 + ( y - circleY ) ^ 2 == Radius ^ 2 
 end
 
-function mlib.circle.circumference( r )
-	return 2 * math.pi * r
+function mlib.circle.getCircumference( Radius )
+	return 2 * math.pi * Radius
 end
 
-function mlib.circle.secant( cx, cy, r, ... )
-	local tab = {}
+function mlib.circle.isLineSecant( circleX, circleY, Radius, ... )
+	local userdata = checkUserdata( ... )
 	
-	local m, b = 0, 0
-	if type( ... ) ~= 'table' then tab = { ... } else tab = ... end
+	local Slope, Intercept = 0, 0
 	
-	if #tab == 2 then m, b = tab[1], tab[2] else m = mlib.line.slope( tab[1], tab[2], tab[3], tab[4] ) b = mlib.line.intercept( tab[1], tab[2], m ) end
+	if #userdata == 2 then 
+		Slope, Intercept = userdata[1], userdata[2] 
+	else 
+		Slope = mlib.line.getSlope( userdata[1], userdata[2], userdata[3], userdata[4] ) 
+		Intercept = mlib.line.getIntercept( userdata[1], userdata[2], Slope ) 
+	end
 	
-	local x1, y1, x2, y2 = nil, nil, nil, nil
-	if #tab == 4 then x1, y1, x2, y2 = unpack( tab ) end
+	local x1, y1, x2, y2
+	if #userdata == 4 then x1, y1, x2, y2 = unpack( userdata ) end
 	
-	if m then 
-		local a1 = ( 1 + m ^ 2 )
-		local b1 = ( -2 * ( cx ) + ( 2 * m * b ) - ( 2 * cy * m ) )
-		local c1 = ( cx ^ 2 + b ^ 2 - 2 * ( cy ) * ( b ) + cy ^ 2 - r ^ 2 )
+	if Slope then 
+		local a = ( 1 + Slope ^ 2 )
+		local b = ( -2 * ( circleX ) + ( 2 * Slope * Intercept ) - ( 2 * circleY * Slope ) )
+		local c = ( circleX ^ 2 + Intercept ^ 2 - 2 * ( circleY ) * ( Intercept ) + circleY ^ 2 - Radius ^ 2 )
 		
-		x1, x2 = mlib.math.quadraticFactor( a1, b1, c1 )
+		x1, x2 = mlib.math.getRootsOfQuadratic( a, b, c )
 		
 		if not x1 then return false end
 		
-		y1 = m * x1 + b
-		y2 = m * x2 + b
+		y1 = Slope * x1 + Intercept
+		y2 = Slope * x2 + Intercept
 		
 		if x1 == x2 and y1 == y2 then 
-			return 'tangent', x1, y1
+			return 'Tangent', x1, y1
 		else 
-			return 'secant', x1, y1, x2, y2 
+			return 'Secant', x1, y1, x2, y2 
 		end
 	else
-		-- Theory: *see circle.png for information on how it works.
-		local j = cx - x1
-		local k = j - r
-		local b = math.sqrt( -( j ^ 2 - r ^ 2 ) )
+		-- Theory: *see Reference Pictures/circle.png for information on how it works.
+		local LengthToPoint1 = circleX - x1
+		local RemainingDistance = LengthToPoint1 - Radius
+		local Intercept = math.sqrt( -( LengthToPoint1 ^ 2 - Radius ^ 2 ) )
 		
-		if -( j ^ 2 - r ^ 2 ) < 0 then return false end
+		if -( LengthToPoint1 ^ 2 - Radius ^ 2 ) < 0 then return false end
 		
-		local px, py = x1, cy - b
-		local qx, qy = x1, cy + b
+		local BottomX, BottomY = x1, circleY - Intercept
+		local TopX, TopY = x1, circleY + Intercept
 		
-		if qy ~= py then 
-			return 'secant', qx, qy, px, py 
+		if TopY ~= BottomY then 
+			return 'Secant', TopX, TopY, BottomX, BottomY 
 		else 
-			return 'tangent', qx, qy 
+			return 'Tangent', TopX, TopY 
 		end
 	end
 end
 
-function mlib.circle.segmentSecant( cx, cy, r, x1, y1, x2, y2 )
-	local Type, x3, y3, x4, y4 = mlib.circle.secant( cx, cy, r, x1, y1, x2, y2 )
+function mlib.circle.isSegmentSecant( circleX, circleY, Radius, x1, y1, x2, y2 )
+	local Type, x3, y3, x4, y4 = mlib.circle.isLineSecant( circleX, circleY, Radius, x1, y1, x2, y2 )
 	if not Type then return false end
 	
-	local m, b = mlib.line.slope( x1, y1, x2, y2 ), mlib.line.intercept( x1, y1, x2, y2 )
+	local Slope, Intercept = mlib.line.getSlope( x1, y1, x2, y2 ), mlib.line.getIntercept( x1, y1, x2, y2 )
 	
-	if m then 
-		if mlib.circle.inCircle( cx, cy, r, x1, y1 ) and mlib.circle.inCircle( cx, cy, r, x2, y2 ) then -- Line-segment is fully in circle. 
-			return true
+	if Slope then 
+		if mlib.circle.isPointIncircle( circleX, circleY, Radius, x1, y1 ) and mlib.circle.isPointIncircle( circleX, circleY, Radius, x2, y2 ) then -- line-segment is fully in circle. 
+			return x1, y1, x2, y2
 		elseif x3 and x4 then
 			if mlib.line.segment.checkPoint( x1, y1, x2, y2, x3, y3 ) and mlib.line.segment.checkPoint( x1, y1, x2, y2, x4, y4 ) then -- Both points are on line-segment. 
 				return x3, y3, x4, y4
@@ -613,16 +626,16 @@ function mlib.circle.segmentSecant( cx, cy, r, x1, y1, x2, y2 )
 			elseif mlib.line.segment.checkPoint( x1, y1, x2, y2, x4, y4 ) then -- Only the second of the points is on the line-segment. 
 				return x4, y4
 			else -- Neither of the points are on the line-segment (means that the segment is not on the circle or "encasing" the circle)
-				local l = mlib.line.length( x1, y1, x2, y2 )
+				local Length = mlib.line.getLength( x1, y1, x2, y2 )
 				
-				local d1 = mlib.line.length( x1, y1, x3, y3 )
-				local d2 = mlib.line.length( x2, y2, x3, y3 )
-				local d3 = mlib.line.length( x1, y1, x4, y4 )
-				local d4 = mlib.line.length( x2, y3, x4, y4 )
+				local Distance1 = mlib.line.getLength( x1, y1, x3, y3 )
+				local Distance2 = mlib.line.getLength( x2, y2, x3, y3 )
+				local Distance3 = mlib.line.getLength( x1, y1, x4, y4 )
+				local Distance4 = mlib.line.getLength( x2, y3, x4, y4 )
 				
-				if l > d1 or l > d2 or l > d3 or l > d4 then
+				if Length > Distance1 or Length > Distance2 or Length > Distance3 or Length > Distance4 then
 					return false
-				elseif l < d1 and l < d2 and l < d3 and l < d4 then 
+				elseif Length < Distance1 and Length < Distance2 and Length < Distance3 and Length < Distance4 then 
 					return false 
 				else
 					return true
@@ -632,13 +645,13 @@ function mlib.circle.segmentSecant( cx, cy, r, x1, y1, x2, y2 )
 			if mlib.line.segment.checkPoint( x1, y1, x2, y2, x3, y3 ) then
 				return x3, y3
 			else -- Neither of the points are on the line-segment (means that the segment is not on the circle or "encasing" the circle).
-				local l = mlib.line.length( x1, y1, x2, y2 )
-				local d1 = mlib.line.length( x1, y1, x3, y3 )
-				local d2 = mlib.line.length( x2, y2, x3, y3 )
+				local Length = mlib.line.getLength( x1, y1, x2, y2 )
+				local Distance1 = mlib.line.getLength( x1, y1, x3, y3 )
+				local Distance2 = mlib.line.getLength( x2, y2, x3, y3 )
 				
-				if l > d1 or l > d2 then 
+				if Length > Distance1 or Length > Distance2 then 
 					return false
-				elseif l < d1 and l < d2 then 
+				elseif Length < Distance1 and Length < Distance2 then 
 					return false 
 				else
 					return true
@@ -646,33 +659,33 @@ function mlib.circle.segmentSecant( cx, cy, r, x1, y1, x2, y2 )
 			end
 		end
 	else
-		-- Theory: *see circle.png for information on how it works.
-		local j = cx - x1
-		local k = j - r
-		local b = math.sqrt( -( j ^ 2 - r ^ 2 ) )
+		-- Theory: *see Reference Images/circle.png for information on how it works.
+		local LengthToPoint1 = circleX - x1
+		local RemainingDistance = LengthToPoint1 - Radius
+		local Intercept = math.sqrt( -( LengthToPoint1 ^ 2 - Radius ^ 2 ) )
 		
-		if -( j ^ 2 - r ^ 2 ) < 0 then return false end
+		if -( LengthToPoint1 ^ 2 - Radius ^ 2 ) < 0 then return false end
 		
-		local px, py = x1, cy - b
-		local qx, qy = x1, cy + b
+		local TopX, TopY = x1, circleY - Intercept
+		local BottomX, BottomY = x1, circleY + Intercept
 		
-		local l = mlib.line.length( x1, y1, x2, y2 )
-		local d1 = mlib.line.length( x1, y1, px, py )
-		local d2 = mlib.line.length( x2, y2, px, py )
+		local Length = mlib.line.getLength( x1, y1, x2, y2 )
+		local Distance1 = mlib.line.getLength( x1, y1, TopX, TopY )
+		local Distance2 = mlib.line.getLength( x2, y2, TopX, TopY )
 		
-		if qy ~= py then 
-			if mlib.line.segment.checkPoint( x1, y1, x2, y2, px, py ) and mlib.line.segment.checkPoint( x1, y1, x2, y2, qx, qy ) then
-				return px, py, qx, qy
-			elseif mlib.line.segment.checkPoint( x1, y1, x2, y2, px, py ) then
-				return px, px
-			elseif mlib.line.segment.checkPoint( x1, y1, x2, y2, qx, qy ) then
-				return qx, qy
+		if BottomY ~= TopY then 
+			if mlib.line.segment.checkPoint( x1, y1, x2, y2, TopX, TopY ) and mlib.line.segment.checkPoint( x1, y1, x2, y2, BottomX, BottomY ) then
+				return TopX, TopY, BottomX, BottomY
+			elseif mlib.line.segment.checkPoint( x1, y1, x2, y2, TopX, TopY ) then
+				return TopX, TopX
+			elseif mlib.line.segment.checkPoint( x1, y1, x2, y2, BottomX, BottomY ) then
+				return BottomX, BottomY
 			else
 				return false
 			end
 		else 
-			if mlib.line.segment.checkPoint( x1, y1, x2, y2, px, py ) then
-				return px, py
+			if mlib.line.segment.checkPoint( x1, y1, x2, y2, TopX, TopY ) then
+				return TopX, TopY
 			else
 				return false
 			end
@@ -680,419 +693,397 @@ function mlib.circle.segmentSecant( cx, cy, r, x1, y1, x2, y2 )
 	end
 end
 
-function mlib.circle.circlesIntersect( p0x, p0y, r0, p1x, p1y, r1 )
-	local d = mlib.line.length( p0x, p0y, p1x, p1y )
-	if d > r0 + r1 then return false end
-	if d == 0 and r0 == r1 then return true end
+function mlib.circle.circleIntersects( circle1CenterX, circle1CenterY, Radius1, circle2CenterX, circle2CenterY, Radius2 )
+	local Distance = mlib.line.getLength( circle1CenterX, circle1CenterY, circle2CenterX, circle2CenterY )
+	if Distance > Radius1 + Radius2 then return false end
+	if Distance == 0 and Radius1 == Radius2 then return true end
 	
-	local a = ( r0 ^ 2 - r1 ^ 2 + d ^ 2 ) / ( 2 * d )
-	local h = math.sqrt( r0 ^ 2 - a ^ 2 )
+	local a = ( Radius1 ^ 2 - Radius2 ^ 2 + Distance ^ 2 ) / ( 2 * Distance )
+	local h = math.sqrt( Radius1 ^ 2 - a ^ 2 )
 	
-	local p2x = p0x + a * ( p1x - p0x ) / d
-	local p2y = p0y + a * ( p1y - p0y ) / d
-	local p3x = p2x + h * ( p1y - p0y ) / d
-	local p3y = p2y - h * ( p1x - p0x ) / d
-	local p4x = p2x - h * ( p1y - p0y ) / d
-	local p4y = p2y + h * ( p1x - p0x ) / d
+	local p2x = circle1CenterX + a * ( circle2CenterX - circle1CenterX ) / Distance
+	local p2y = circle1CenterY + a * ( circle2CenterY - circle1CenterY ) / Distance
+	local p3x = p2x + h * ( circle2CenterY - circle1CenterY ) / Distance
+	local p3y = p2y - h * ( circle2CenterX - circle1CenterX ) / Distance
+	local p4x = p2x - h * ( circle2CenterY - circle1CenterY ) / Distance
+	local p4y = p2y + h * ( circle2CenterX - circle1CenterX ) / Distance
 	
-	if d == r0 + r1 then return p3x, p3y end
+	if Distance == Radius1 + Radius2 then return p3x, p3y end
 	return p3x, p3y, p4x, p4y 
 end
 
-function mlib.circle.inCircle( cx, cy, r, x, y )
-	return mlib.line.length( cx, cy, x, y ) <= r
+function mlib.circle.isPointIncircle( circleX, circleY, Radius, x, y )
+	return mlib.line.getLength( circleX, circleY, x, y ) <= Radius
 end
 
--- Statistics
-function mlib.stats.mean( ... )
-	local name = {}
+-- statistics
+function mlib.statistics.getMean( ... )
+	local userdata = checkUserdata( ... )
 	
-	if type( ... ) ~= 'table' then name = { ... } else name = ... end
-	
-	local mean = 0
-	for i = 1, #name do
-		mean = mean + name[i]
+	local Mean = 0
+	for Index = 1, #userdata do
+		Mean = Mean + userdata[Index]
 	end
-	mean = mean / #name
+	Mean = Mean / #userdata
 	
-	return mean
+	return Mean
 end
 
-function mlib.stats.median( ... )
-	local name = {}
+function mlib.statistics.getMedian( ... )
+	local userdata = checkUserdata( ... )
 	
-	if type( ... ) ~= 'table' then name = { ... } else name = ... end
+	table.sort( userdata )
 	
-	table.sort( name )
-	
-	if #name % 2 == 0 then
-		name = ( name[math.floor( #name / 2 )] + name[math.floor( #name / 2 + 1 )] ) / 2
+	if #userdata % 2 == 0 then
+		userdata = ( userdata[math.floor( #userdata / 2 )] + userdata[math.floor( #userdata / 2 + 1 )] ) / 2
 	else
-		name =  name[#name / 2 + .5]
+		userdata =  userdata[#userdata / 2 + .5]
 	end
 	
-	return name
+	return userdata
 end
 
-function mlib.stats.mode( ... ) 
-	local name = {}
-	
-	if type( ... ) ~= 'table' then name = { ... } else name = ... end
-	table.sort( name )
-	local num = { { name[1] } }
-	for i = 2, #name do
-		if name[i] == num[#num][1] then table.insert( num[#num], name[i] ) 
-		else table.insert( num, { name[i] } ) end
-	end
-	local large = { { #num[1], num[1][1] } }
-	for i = 2, #num do
-		if #num[i] > large[1][1] then
-			for ii = #large, 1, -1 do
-				table.remove( large, ii )
-			end
-		table.insert( large, { #num[i], num[i][1] } )
-		elseif #num[i] == large[1][1] then
-			table.insert( large, { #num[i], num[i][1] } )
+function mlib.statistics.getMode( ... ) 
+	local userdata = checkUserdata( ... )
+
+	table.sort( userdata )
+	local Number = { { userdata[1] } }
+	for Index = 2, #userdata do
+		if userdata[Index] == Number[#Number][1] then 
+			table.insert( Number[#Number], userdata[Index] ) 
+		else 
+			table.insert( Number, { userdata[Index] } ) 
 		end
 	end
 	
-	if #large < 1 then 
+	local Large = { { #Number[1], Number[1][1] } }
+	for Index = 2, #Number do
+		if #Number[Index] > Large[1][1] then
+			for NextIndex = #Large, 1, -1 do
+				table.remove( Large, NextIndex )
+			end
+		table.insert( Large, { #Number[Index], Number[Index][1] } )
+		elseif #Number[Index] == Large[1][1] then
+			table.insert( Large, { #Number[Index], Number[Index][1] } )
+		end
+	end
+	
+	if #Large < 1 then 
 		return false 
-	elseif #large > 1 then 
+	elseif #Large > 1 then 
 		return false 
 	else 
-		return large[1][2], large[1][1] 
+		return Large[1][2], Large[1][1] 
 	end
 end
 
-function mlib.stats.range( ... )
-	local name = {}
+function mlib.statistics.getRange( ... )
+	local userdata = {}
 	
-	if type( ... ) ~= 'table' then name = { ... } else name = ... end
+	local Upper, Lower = math.max( unpack( userdata ) ), math.min( unpack( userdata ) )
 	
-	local upper, lower = math.max( unpack( name ) ), math.min( unpack( name ) )
-	
-	return upper - lower
+	return Upper - Lower
 end
 
--- Math (homeless functions)
-function mlib.math.root( number, root )
-	return number ^ ( 1 / root )
+-- math (homeless functions)
+function mlib.math.getRoot( Number, Root )
+	return Number ^ ( 1 / Root )
 end
 
-function mlib.math.prime( ... )
-	local num = 0
-	local name = false
-	
-	if type( ... ) ~= 'table' then num = { ... } else num = ... end
-	
-	if #num == 1 then num = num[1] end
-	
-	if type( num ) == 'number' then
-		if num < 2 then return false end
+function mlib.math.isPrime( Number )	
+	if Number < 2 then return false end
 		
-		for i = 2, math.sqrt( num ) do
-			if num % i == 0 then
-				return false
-			end
+	for Index = 2, math.sqrt( Number ) do
+		if Number % Index == 0 then
+			return false
 		end
-		
-		return true
 	end
+	
+	return true
 end
 
-function mlib.math.round( num )
-
-	local name
-	local up_num = math.ceil( num )
-	local down_num = math.floor( num )
+function mlib.math.round( Number, DecimalPlace )
+	local DecimalPlace, ReturnedValue = DecimalPlace and 10 ^ DecimalPlace or 1
 	
-	local up_dif = up_num - num
-	local down_dif = num - down_num
+	local UpperNumber = math.ceil( Number * DecimalPlace )
+	local LowerNumber = math.floor( Number * DecimalPlace )
 	
-	if up_num == num then
-		name = num
+	local UpperDifferance = UpperNumber - ( Number * DecimalPlace ) 
+	local LowerDifference = ( Number * DecimalPlace ) - LowerNumber
+	
+	if UpperNumber == Number then
+		ReturnedValue = Number
 	else
-		if up_dif <= down_dif then name = up_num elseif down_dif < up_dif then name = down_num end
+		if UpperDifferance <= LowerDifference then ReturnedValue = UpperNumber elseif LowerDifference < UpperDifferance then ReturnedValue = LowerNumber end
 	end
 	
-	return name
+	return ReturnedValue / DecimalPlace
 end
 
-function mlib.math.log( number, base )
-	base = base or 10
-	return ( math.log( number ) ) / ( math.log( base ) )
-end
-
-function mlib.math.summation( start, stop, func )
-	if stop == 1 / 0 or stop == -1 / 0 then return false end
+function mlib.math.getSummation( Start, Stop, Function )
+	if Stop == 1 / 0 or Stop == -1 / 0 then return false end
 	
-	local ret = {}
-	local val = 0
+	local ReturnedValue = {}
+	local Value = 0
 	
-	for a = start, stop do
-		local new = func( a, ret )
+	for Index = Start, Stop do
+		local New = Function( Index, ReturnedValue )
 		
-		ret[a] = new
-		val = val + new
+		ReturnedValue[Index] = New
+		Value = Value + New
 	end
 	
-	return val
+	return Value
 end
 
-function mlib.math.percentOfChange( old, new )
-	if old == 0 then 
+function mlib.math.getPercentOfChange( Old, New )
+	if Old == 0 then 
 		return false
 	else 
-		return ( new - old ) / math.abs( old ) 
+		return ( New - Old ) / math.abs( Old ) 
 	end
 end
 
-function mlib.math.percent( percent, num )
-	return percent * math.abs( num ) + num 
+function mlib.math.getPercent( Percent, Number )
+	return Percent * math.abs( Number ) + Number 
 end
 
-function mlib.math.quadraticFactor( a, b, c )
-	local d = b ^ 2 - ( 4 * a * c )
-	if d < 0 then return false end
+function mlib.math.getRootsOfQuadratic( a, b, c )
+	local Discriminant = b ^ 2 - ( 4 * a * c )
+	if Discriminant < 0 then return false end
 	
-	d = math.sqrt( d )
+	Discriminant = math.sqrt( Discriminant )
 	
-	return ( -b - d ) / ( 2 * a ), ( -b + d ) / ( 2 * a )
+	return ( -b - Discriminant ) / ( 2 * a ), ( -b + Discriminant ) / ( 2 * a )
 end
 
 function mlib.math.getAngle( ... )
-	local angle = 0
-	local tab = {}
+	local userdata = checkUserdata( ... )
+	local Angle = 0
 	
-	if type( ... ) ~= 'table' then tab = { ... } else tab = ... end
-	
-	if #tab <= 5 then
-		local x1, y1, x2, y2, dir = unpack( tab )
+	if #userdata <= 5 then
+		local x1, y1, x2, y2, Direction = unpack( userdata )
 		
-		if not dir or dir == 'up' then dir = math.rad( 90 ) 
-			elseif dir == 'right' then dir = 0 
-			elseif dir == 'down' then dir = math.rad( -90 )
-			elseif dir == 'left' then dir = math.rad( -180 )
+		if not Direction or Direction == 'Up' then Direction = math.rad( 90 ) 
+			elseif Direction == 'Right' then Direction = 0 
+			elseif Direction == 'Down' then Direction = math.rad( -90 )
+			elseif Direction == 'Left' then Direction = math.rad( -180 )
 		end
 		
 		local dx, dy = x2 - x1, y2 - y1
+		Angle = math.atan2( dy, dx ) + Direction
+	elseif #userdata == 6 then
+		local x1, y1, x2, y2, x3, y3 = unpack( userdata )
 		
-		angle = math.atan2( dy, dx ) + dir
-	elseif #tab == 6 then
-		local x1, y1, x2, y2, x3, y3 = unpack( tab )
+		local AB = mlib.line.getLength( x1, y1, x2, y2 )
+		local BC = mlib.line.getLength( x2, y2, x3, y3 )
+		local AC = mlib.line.getLength( x1, y1, x3, y3 )
 		
-		local AB = mlib.line.length( x1, y1, x2, y2 )
-		local BC = mlib.line.length( x2, y2, x3, y3 )
-		local AC = mlib.line.length( x1, y1, x3, y3 )
-		
-		angle = math.acos( ( BC * BC + AB * AB - AC * AC ) / ( 2 * BC * AB ) )
+		Angle = math.acos( ( BC * BC + AB * AB - AC * AC ) / ( 2 * BC * AB ) )
 	end
 	
-	return angle
+	return Angle
 end
 
--- Shape
-function mlib.shape.new( ... )
-	local tab = {}
+-- shape
+function mlib.shape.newShape( ... )
+	local userdata = checkUserdata( ... )
 	
-	if type( ... ) ~= 'table' then tab = { ... } else tab = ... end
-	
-	if #tab == 3 then
-		tab.type = 'circle'
-		tab.x, tab.y, tab.radius = unpack( tab )
-		tab.area = mlib.circle.area( tab.radius )
-	elseif #tab == 4 then
-		tab.type = 'line'
-		tab.x1, tab.y1, tab.x2, tab.y2 = unpack( tab )
-		tab.slope = mlib.line.slope( unpack( tab ) )
-		tab.intercept = mlib.line.intercept( unpack( tab ) )
+	if #userdata == 3 then
+		userdata.Type = 'circle'
+		userdata.x, userdata.y, userdata.radius = unpack( userdata )
+		userdata.Area = mlib.circle.getArea( userdata.radius )
+	elseif #userdata == 4 then
+		userdata.Type = 'line'
+		userdata.x1, userdata.y1, userdata.x2, userdata.y2 = unpack( userdata )
+		userdata.mlib.line.getSlope = mlib.line.getSlope( unpack( userdata ) )
+		userdata.mlib.line.getIntercept = mlib.line.getIntercept( unpack( userdata ) )
 	else
-		tab.type = 'polygon'
-		tab.area = mlib.polygon.area( tab )
-		tab.points = tab
+		userdata.Type = 'polygon'
+		userdata.Area = mlib.polygon.getArea( userdata )
+		userdata.Points = userdata
 	end
 	
-	tab.collided = false
-	tab.index = #mlib.shape.user + 1
-	tab.removed = false
+	userdata.Collided = false
+	userdata.Index = #mlib.shape.user + 1
+	userdata.removed = false
 	
-	setmetatable( tab, mlib.shape )
-	table.insert( mlib.shape.user, tab )
+	setmetatable( userdata, mlib.shape )
+	table.insert( mlib.shape.user, userdata )
 	
-	return tab
+	return userdata
 end
 
-function mlib.shape:checkCollisions( ... )
-	local tab = { ... }
+function mlib.shape.checkCollisions( Self, ... )
+	local userdata = { ... }
 	
-	if type( self ) == 'table' then -- Using a self:table. 
-		if #tab == 0 then -- No arguments (colliding with everything). 
-			for a = 1, #mlib.shape.user do
-				if a ~= self.index then 
-					local collided = false
-					local shape = mlib.shape.user[a]
-					if not shape.removed and not self.removed then 
-						if self.type == 'line' then 
-							if shape.type == 'line' then
-								if mlib.line.segment.intersect( self.x1, self.y1, self.x2, self.y2, shape.x1, shape.y1, shape.x2, shape.y2 ) then collided, self.collided, shape.collided = true, true end
-							elseif shape.type == 'polygon' then
-								if mlib.polygon.lineIntersects( self.x1, self.y1, self.x2, self.y2, shape.points ) then collided, self.collided, shape.collided = true, true end
-							elseif shape.type == 'circle' then
-								if mlib.circle.segmentSecant( shape.x, shape.y, shape.radius, self.x1, self.y1, self.x2, self.y2 ) then collided, self.collided, shape.collided = true, true end
+	if Type( Self ) == 'table' then -- Using Index Self:table. 
+		if #userdata == 0 then -- No arguments (colliding with everything). 
+			for Index = 1, #mlib.shape.user do
+				if Index ~= Self.Index then 
+					local Collided = false
+					local shape = mlib.shape.user[Index]
+					if not shape.removed and not Self.removed then 
+						if Self.Type == 'line' then 
+							if shape.Type == 'line' then
+								if mlib.line.segment.getIntersection( Self.x1, Self.y1, Self.x2, Self.y2, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, Self.Collided, shape.Collided = true, true end
+							elseif shape.Type == 'polygon' then
+								if mlib.polygon.lineIntersects( Self.x1, Self.y1, Self.x2, Self.y2, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+							elseif shape.Type == 'circle' then
+								if mlib.circle.isSegmentSecant( shape.x, shape.y, shape.radius, Self.x1, Self.y1, Self.x2, Self.y2 ) then Collided, Self.Collided, shape.Collided = true, true end
 							end
-						elseif self.type == 'polygon' then
-							if shape.type == 'line' then
-								if mlib.polygon.lineIntersects( shape.x1, shape.y1, shape.x2, shape.y2, self.points ) then collided, self.collided, shape.collided = true, true end
-							elseif shape.type == 'polygon' then
-								if mlib.polygon.polygonIntersects( self.points, shape.points ) then collided, self.collided, shape.collided = true, true end
-							elseif shape.type == 'circle' then
-								if mlib.polygon.circleIntersects( shape.x, shape.y, shape.radius, self.points ) then collided, self.collided, shape.collided = true, true end
+						elseif Self.Type == 'polygon' then
+							if shape.Type == 'line' then
+								if mlib.polygon.lineIntersects( shape.x1, shape.y1, shape.x2, shape.y2, Self.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+							elseif shape.Type == 'polygon' then
+								if mlib.polygon.polygonIntersects( Self.Points, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+							elseif shape.Type == 'circle' then
+								if mlib.polygon.circleIntersects( shape.x, shape.y, shape.radius, Self.Points ) then Collided, Self.Collided, shape.Collided = true, true end
 							end
-						elseif self.type == 'circle' then
-							if shape.type == 'line' then
-								if mlib.circle.segmentSecant( self.x, self.y, self.radius, shape.x1, shape.y1, shape.x2, shape.y2 ) then collided, self.collided, shape.collided = true, true end
-							elseif shape.type == 'polygon' then
-								if mlib.polygon.circleIntersects( self.x, self.y, self.radius, shape.points ) then collided, self.collided, shape.collided = true, true end
-							elseif shape.type == 'circle' then
-								if mlib.circle.circlesIntersect( self.x, self.y, self.radius, shape.x, shape.y, shape.radius ) then collided, self.collided, shape.collided = true, true end
+						elseif Self.Type == 'circle' then
+							if shape.Type == 'line' then
+								if mlib.circle.isSegmentSecant( Self.x, Self.y, Self.radius, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, Self.Collided, shape.Collided = true, true end
+							elseif shape.Type == 'polygon' then
+								if mlib.polygon.circleIntersects( Self.x, Self.y, Self.radius, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+							elseif shape.Type == 'circle' then
+								if mlib.circle.circleIntersects( Self.x, Self.y, Self.radius, shape.x, shape.y, shape.radius ) then Collided, Self.Collided, shape.Collided = true, true end
 							end
 						end
 					end
-					if not collided then self.collided = false end
+					if not Collided then Self.Collided = false end
 				end
 			end
 		else -- Colliding with only certain things. 
-			for a = 1, #tab do
-				local collided = false
-				local shape = tab[a]
-				if not shape.removed and not self.removed then 
-					if self.type == 'line' then 
-						if shape.type == 'line' then
-							if mlib.line.segment.intersect( self.x1, self.y1, self.x2, self.y2, shape.x1, shape.y1, shape.x2, shape.y2 ) then collided, self.collided, shape.collided = true, true end
-						elseif shape.type == 'polygon' then
-							if mlib.polygon.lineIntersects( self.x1, self.y1, self.x2, self.y2, shape.points ) then collided, self.collided, shape.collided = true, true end
-						elseif shape.type == 'circle' then
-							if mlib.circle.segmentSecant( shape.x, shape.y, shape.radius, self.x1, self.y1, self.x2, self.y2 ) then collided, self.collided, shape.collided = true, true end
+			for Index = 1, #userdata do
+				local Collided = false
+				local shape = userdata[Index]
+				if not shape.removed and not Self.removed then 
+					if Self.Type == 'line' then 
+						if shape.Type == 'line' then
+							if mlib.line.segment.getIntersection( Self.x1, Self.y1, Self.x2, Self.y2, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, Self.Collided, shape.Collided = true, true end
+						elseif shape.Type == 'polygon' then
+							if mlib.polygon.lineIntersects( Self.x1, Self.y1, Self.x2, Self.y2, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+						elseif shape.Type == 'circle' then
+							if mlib.circle.isSegmentSecant( shape.x, shape.y, shape.radius, Self.x1, Self.y1, Self.x2, Self.y2 ) then Collided, Self.Collided, shape.Collided = true, true end
 						end
-					elseif self.type == 'polygon' then
-						if shape.type == 'line' then
-							if mlib.polygon.lineIntersects( shape.x1, shape.y1, shape.x2, shape.y2, self.points ) then collided, self.collided, shape.collided = true, true end
-						elseif shape.type == 'polygon' then
-							if mlib.polygon.polygonIntersects( self.points, shape.points ) then collided, self.collided, shape.collided = true, true end
-						elseif shape.type == 'circle' then
-							if mlib.polygon.circleIntersects( shape.x, shape.y, shape.radius, self.points ) then collided, self.collided, shape.collided = true, true end
+					elseif Self.Type == 'polygon' then
+						if shape.Type == 'line' then
+							if mlib.polygon.lineIntersects( shape.x1, shape.y1, shape.x2, shape.y2, Self.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+						elseif shape.Type == 'polygon' then
+							if mlib.polygon.polygonIntersects( Self.Points, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+						elseif shape.Type == 'circle' then
+							if mlib.polygon.circleIntersects( shape.x, shape.y, shape.radius, Self.Points ) then Collided, Self.Collided, shape.Collided = true, true end
 						end
-					elseif self.type == 'circle' then
-						if shape.type == 'line' then
-							if mlib.circle.segmentSecant( self.x, self.y, self.radius, shape.x1, shape.y1, shape.x2, shape.y2 ) then collided, self.collided, shape.collided = true, true end
-						elseif shape.type == 'polygon' then
-							if mlib.polygon.circleIntersects( self.x, self.y, self.radius, shape.points ) then collided, self.collided, shape.collided = true, true end
-						elseif shape.type == 'circle' then
-							if mlib.circle.circlesIntersect( self.x, self.y, self.radius, shape.x, shape.y, shape.radius ) then collided, self.collided, shape.collided = true, true end
+					elseif Self.Type == 'circle' then
+						if shape.Type == 'line' then
+							if mlib.circle.isSegmentSecant( Self.x, Self.y, Self.radius, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, Self.Collided, shape.Collided = true, true end
+						elseif shape.Type == 'polygon' then
+							if mlib.polygon.circleIntersects( Self.x, Self.y, Self.radius, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+						elseif shape.Type == 'circle' then
+							if mlib.circle.circleIntersects( Self.x, Self.y, Self.radius, shape.x, shape.y, shape.radius ) then Collided, Self.Collided, shape.Collided = true, true end
 						end
 					end
 				end
-				if not collided then self.collided = false end
+				if not Collided then Self.Collided = false end
 			end
 		end
-	else -- Not using self:table. 
-		local tab = { unpack( tab ) }
-		if #tab == 0 then -- Checking all collisions. 
-			for a = 1, #mlib.shape.user do
-				local self = mlib.shape.user[a]
-				local collided = false
-				for e = 1, #mlib.shape.user do
-					if a ~= e then 
-						local shape = mlib.shape.user[e]
-						if not shape.removed and not self.removed then 
-							if self.type == 'line' then 
-								if shape.type == 'line' then
-									if mlib.line.segment.intersect( self.x1, self.y1, self.x2, self.y2, shape.x1, shape.y1, shape.x2, shape.y2 ) then collided, self.collided, shape.collided = true, true, true end
-								elseif shape.type == 'polygon' then
-									if mlib.polygon.lineIntersects( self.x1, self.y1, self.x2, self.y2, shape.points ) then collided, self.collided, shape.collided = true, true, true end
-								elseif shape.type == 'circle' then
-									if mlib.circle.segmentSecant( shape.x, shape.y, shape.radius, self.x1, self.y1, self.x2, self.y2 ) then collided, self.collided, shape.collided = true, true, true end
+	else -- Not using Self:table. 
+		local userdata = { unpack( userdata ) }
+		if #userdata == 0 then -- Checking all collisions. 
+			for Index = 1, #mlib.shape.user do
+				local Self = mlib.shape.user[Index]
+				local Collided = false
+				for Index2 = 1, #mlib.shape.user do
+					if Index ~= Index2 then 
+						local shape = mlib.shape.user[Index2]
+						if not shape.removed and not Self.removed then 
+							if Self.Type == 'line' then 
+								if shape.Type == 'line' then
+									if mlib.line.segment.getIntersection( Self.x1, Self.y1, Self.x2, Self.y2, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, Self.Collided, shape.Collided = true, true, true end
+								elseif shape.Type == 'polygon' then
+									if mlib.polygon.lineIntersects( Self.x1, Self.y1, Self.x2, Self.y2, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true, true end
+								elseif shape.Type == 'circle' then
+									if mlib.circle.isSegmentSecant( shape.x, shape.y, shape.radius, Self.x1, Self.y1, Self.x2, Self.y2 ) then Collided, Self.Collided, shape.Collided = true, true, true end
 								end
-							elseif self.type == 'polygon' then
-								if shape.type == 'line' then
-									if mlib.polygon.lineIntersects( shape.x1, shape.y1, shape.x2, shape.y2, self.points ) then collided, self.collided, shape.collided = true, true, true end
-								elseif shape.type == 'polygon' then
-									if mlib.polygon.polygonIntersects( self.points, shape.points ) then collided, self.collided, shape.collided = true, true, true end
-								elseif shape.type == 'circle' then
-									if mlib.polygon.circleIntersects( shape.x, shape.y, shape.radius, self.points ) then collided, self.collided, shape.collided = true, true, true end
+							elseif Self.Type == 'polygon' then
+								if shape.Type == 'line' then
+									if mlib.polygon.lineIntersects( shape.x1, shape.y1, shape.x2, shape.y2, Self.Points ) then Collided, Self.Collided, shape.Collided = true, true, true end
+								elseif shape.Type == 'polygon' then
+									if mlib.polygon.polygonIntersects( Self.Points, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true, true end
+								elseif shape.Type == 'circle' then
+									if mlib.polygon.circleIntersects( shape.x, shape.y, shape.radius, Self.Points ) then Collided, Self.Collided, shape.Collided = true, true, true end
 								end
-							elseif self.type == 'circle' then
-								if shape.type == 'line' then
-									if mlib.circle.segmentSecant( self.x, self.y, self.radius, shape.x1, shape.y1, shape.x2, shape.y2 ) then collided, self.collided, shape.collided = true, true, true end
-								elseif shape.type == 'polygon' then
-									if mlib.polygon.circleIntersects( self.x, self.y, self.radius, shape.points ) then self.collided, collided, self.collided, shape.collided = true, true, true end
-								elseif shape.type == 'circle' then
-									if mlib.circle.circlesIntersect( self.x, self.y, self.radius, shape.x, shape.y, shape.radius ) then collided, self.collided, shape.collided = true, true, true end
+							elseif Self.Type == 'circle' then
+								if shape.Type == 'line' then
+									if mlib.circle.isSegmentSecant( Self.x, Self.y, Self.radius, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, Self.Collided, shape.Collided = true, true, true end
+								elseif shape.Type == 'polygon' then
+									if mlib.polygon.circleIntersects( Self.x, Self.y, Self.radius, shape.Points ) then Self.Collided, Collided, Self.Collided, shape.Collided = true, true, true end
+								elseif shape.Type == 'circle' then
+									if mlib.circle.circleIntersects( Self.x, Self.y, Self.radius, shape.x, shape.y, shape.radius ) then Collided, Self.Collided, shape.Collided = true, true, true end
 								end
 							end
 						end
 					end
 				end
-				if not collided then self.collided = false end
+				if not Collided then Self.Collided = false end
 			end
 		else -- Checking only certain collisions
-			for a = 1, #tab do
-				local self = mlib.shape.user[a]
-				local collided = false
-				for e = 1, #mlib.shape.user do
-					if self.index ~= tab[e].index then 
-						local shape = mlib.shape.user[e]
-						if not shape.removed and not self.removed then 
-							if self.type == 'line' then 
-								if shape.type == 'line' then
-									if mlib.line.segment.intersect( self.x1, self.y1, self.x2, self.y2, shape.x1, shape.y1, shape.x2, shape.y2 ) then collided, self.collided, shape.collided = true, true end
-								elseif shape.type == 'polygon' then
-									if mlib.polygon.lineIntersects( self.x1, self.y1, self.x2, self.y2, shape.points ) then collided, self.collided, shape.collided = true, true end
-								elseif shape.type == 'circle' then
-									if mlib.circle.segmentSecant( shape.x, shape.y, shape.radius, self.x1, self.y1, self.x2, self.y2 ) then collided, self.collided, shape.collided = true, true end
+			for Index = 1, #userdata do
+				local Self = mlib.shape.user[Index]
+				local Collided = false
+				for Index2 = 1, #mlib.shape.user do
+					if Self.Index ~= userdata[Index2].Index then 
+						local shape = mlib.shape.user[Index2]
+						if not shape.removed and not Self.removed then 
+							if Self.Type == 'line' then 
+								if shape.Type == 'line' then
+									if mlib.line.segment.getIntersection( Self.x1, Self.y1, Self.x2, Self.y2, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, Self.Collided, shape.Collided = true, true end
+								elseif shape.Type == 'polygon' then
+									if mlib.polygon.lineIntersects( Self.x1, Self.y1, Self.x2, Self.y2, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+								elseif shape.Type == 'circle' then
+									if mlib.circle.isSegmentSecant( shape.x, shape.y, shape.radius, Self.x1, Self.y1, Self.x2, Self.y2 ) then Collided, Self.Collided, shape.Collided = true, true end
 								end
-							elseif self.type == 'polygon' then
-								if shape.type == 'line' then
-									if mlib.polygon.lineIntersects( shape.x1, shape.y1, shape.x2, shape.y2, self.points ) then collided, self.collided, shape.collided = true, true end
-								elseif shape.type == 'polygon' then
-									if mlib.polygon.polygonIntersects( self.points, shape.points ) then collided, self.collided, shape.collided = true, true end
-								elseif shape.type == 'circle' then
-									if mlib.polygon.circleIntersects( shape.x, shape.y, shape.radius, self.points ) then collided, self.collided, shape.collided = true, true end
+							elseif Self.Type == 'polygon' then
+								if shape.Type == 'line' then
+									if mlib.polygon.lineIntersects( shape.x1, shape.y1, shape.x2, shape.y2, Self.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+								elseif shape.Type == 'polygon' then
+									if mlib.polygon.polygonIntersects( Self.Points, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+								elseif shape.Type == 'circle' then
+									if mlib.polygon.circleIntersects( shape.x, shape.y, shape.radius, Self.Points ) then Collided, Self.Collided, shape.Collided = true, true end
 								end
-							elseif self.type == 'circle' then
-								if shape.type == 'line' then
-									if mlib.circle.segmentSecant( self.x, self.y, self.radius, shape.x1, shape.y1, shape.x2, shape.y2 ) then collided, self.collided, shape.collided = true, true end
-								elseif shape.type == 'polygon' then
-									if mlib.polygon.circleIntersects( self.x, self.y, self.radius, shape.points ) then collided, self.collided, shape.collided = true, true end
-								elseif shape.type == 'circle' then
-									if mlib.circle.circlesIntersect( self.x, self.y, self.radius, shape.x, shape.y, shape.radius ) then collided, self.collided, shape.collided = true, true end
+							elseif Self.Type == 'circle' then
+								if shape.Type == 'line' then
+									if mlib.circle.isSegmentSecant( Self.x, Self.y, Self.radius, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, Self.Collided, shape.Collided = true, true end
+								elseif shape.Type == 'polygon' then
+									if mlib.polygon.circleIntersects( Self.x, Self.y, Self.radius, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+								elseif shape.Type == 'circle' then
+									if mlib.circle.circleIntersects( Self.x, Self.y, Self.radius, shape.x, shape.y, shape.radius ) then Collided, Self.Collided, shape.Collided = true, true end
 								end
 							end
 						end
 					end
 				end
-				if not collided then self.collided = false end
+				if not Collided then Self.Collided = false end
 			end
 		end
 	end
 end
 
-function mlib.shape:remove( ... )
-	local tab = { ... }
+function mlib.shape.remove( Self, ... )
+	local userdata = { ... }
 	
-	if type( self ) == 'table' then
-		mlib.shape.user[self.index] = { removed = false }
+	if Type( Self ) == 'table' then
+		mlib.shape.user[Self.Index] = { Removed = false }
 		
-		if #tab > 0 then
-			for a = 1, #tab do
-				mlib.shape.user[tab[a].index] = { removed = true }
+		if #userdata > 0 then
+			for Index = 1, #userdata do
+				mlib.shape.user[userdata[Index].Index] = { Removed = true }
 			end
 		end
 	else
-		if #tab > 0 then
-			for a = 1, #tab do
-				mlib.shape.user[tab[a].index] = { removed = true }
+		if #userdata > 0 then
+			for Index = 1, #userdata do
+				mlib.shape.user[userdata[Index].Index] = { Removed = true }
 			end
 		else
 			mlib.shape.user = {}

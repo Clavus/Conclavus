@@ -1,6 +1,7 @@
 
 A math library made in Lua
-Copyright (C) 2013 Davis Claiborne
+
+Copyright (C) 2014 Davis Claiborne
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,4 +18,5 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 Contact me at davisclaib@gmail.com
+
 
