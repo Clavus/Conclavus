@@ -5,6 +5,7 @@ require("engine/extend/package")
 require("engine/extend/math")
 require("engine/extend/table")
 require("engine/extend/string")
+require("engine/extend/global")
 require("engine/extend/debug")
 
 -- Loading order of elements is important!
@@ -25,6 +26,7 @@ local toload = {
 	{ util = 			"engine/util/util" },
 	{ easing = 	"engine/util/easing" },
 	{ resource = "engine/util/resource" },
+	{ graphics = "engine/util/graphics" },
 	
 	-- Mixins
 	{ CollisionResolver = 	"engine/classes/mixins/collisionresolver" },

@@ -108,11 +108,19 @@ tab table.filter( t, func, retainkeys ) -- filter t where func(key, value) retur
 tab table.merge(t1, t2, retainkeys) 	-- merges t2 into t1, when retaining keys, t2 overwrites t1 keys
 str table.toString( t, name, nice_formatting, [maxdepth], [maxseq] ) -- summarizes (sub)tables longer than maxseq, or deeper nested than maxdepth
 
+// Iteration //
+for p,c in chars( str ) do 	  -- iterates over every char in "string", with p as pos in string, c as char
+for p,w in words( str ) do 	  -- iterates over every word separated by a space
+for p,w in split( str, delim ) do -- iterates overy every word seperated by delim
+
 // Extended string functions //
 tab	string.split(str, [sep])	-- splits on space if seperator not provided
 str	string.trim(str, [chars]) 	-- trims whitespace if chars not set
 str	string.simpleFormat(str, ...)	-- string.simpleFormat("{b} hi {a}", {a = "mark", b = "Oh"}) -- Returns "Oh hi mark"
 					-- string.simpleFormat("Hello {1}!", "world") -- Returns "Hello world!"
+
+str string.fill(str, size, fixpos, char) -- Fills up string with size * char, "before" or "after" the str. 
+					 -- Example: string.fill(12, 5, "before", "0") returns "00012".
 
 // Extended math functions //
 
@@ -178,6 +186,10 @@ util.equalsAll(value, ...)
 util.equalsAny(value, ...)
 util.lua( str ) 		-- runs the given string
 util.readParticleSystem( path ) -- read SPERM particle configurations and returns a new ParticleSystem from it
+
+// Graphics //
+graphics.roundRectangle(mode, x, y, w, h, radius, segments) -- mode 'fill' or 'line'
+graphics.ellipse( mode, x, y, rx, ry, angle, ox, oy ) -- mode 'fill' or 'line'. rx, ry = radii for x, y. ox, oy = origin, default top left (0, 0)
 
 // Color class //
 Color:toHex()		-- Example: Color.Red:toHex() returns "FF0000"
