@@ -1,4 +1,55 @@
 
+-- https://github.com/davisdude/mlib
+-- Functions are renamed as:
+--[[
+mlib.line.getLength( x1, y1, x2, y2 )
+mlib.line.getMidpoint( x1, y1, x2, y2 )
+mlib.line.getSlope( x1, y1, x2, y2 )
+mlib.line.getPerpendicularSlope( ... )
+mlib.line.getPerpendicularBisector( x1, y1, x2, y2 )
+mlib.line.getIntercept( x, y, ... )
+mlib.line.getIntersection( ... )
+mlib.line.getClosestPoint( px, py, ... )
+mlib.line.getsegmentIntersection( x1, y1, x2, y2, ... )
+mlib.line.segment.checkPoint( x1, y1, x2, y2, x3, y3 )
+mlib.line.segment.getIntersection( x1, y1, x2, y2, x3, y3, x4, y4 )
+
+mlib.polygon.getTriangleHeight( base, ... )
+mlib.polygon.getSignedArea( ... ) 
+mlib.polygon.getArea( ... ) 
+mlib.polygon.getCentroid( ... ) 
+mlib.polygon.checkPoint( PointX, PointY, ... )
+mlib.polygon.lineIntersects( x1, y1, x2, y2, ... )
+mlib.polygon.polygonIntersects( polygon1, polygon2 )
+mlib.polygon.circleIntersects( x, y, Radius, ... )
+
+mlib.circle.getArea( Radius )
+mlib.circle.checkPoint( circleX, circleY, Radius, x, y )
+mlib.circle.getCircumference( Radius )
+mlib.circle.isLineSecant( circleX, circleY, Radius, ... )
+mlib.circle.isSegmentSecant( circleX, circleY, Radius, x1, y1, x2, y2 )
+mlib.circle.circleIntersects( circle1CenterX, circle1CenterY, Radius1, circle2CenterX, circle2CenterY, Radius2 )
+mlib.circle.isPointIncircle( circleX, circleY, Radius, x, y )
+
+mlib.statistics.getMean( ... )
+mlib.statistics.getMedian( ... )
+mlib.statistics.getMode( ... ) 
+mlib.statistics.getRange( ... )
+
+mlib.math.getRoot( Number, Root )
+mlib.math.isPrime( Number )	
+mlib.math.round( Number, DecimalPlace )
+mlib.math.getSummation( Start, Stop, Function )
+mlib.math.getPercentOfChange( Old, New )
+mlib.math.getPercent( Percent, Number )
+mlib.math.getRootsOfQuadratic( a, b, c )
+mlib.math.getAngle( ... )
+
+mlib.shape.newShape( ... )
+mlib.shape:checkCollisions( ... )
+mlib.shape:remove( ... )
+]]--
+
 local mlib = {
 	line = {
 		segment = {}, 
@@ -914,166 +965,166 @@ function mlib.shape.newShape( ... )
 	return userdata
 end
 
-function mlib.shape.checkCollisions( Self, ... )
+function mlib.shape.checkCollisions( self, ... )
 	local userdata = { ... }
 	
-	if Type( Self ) == 'table' then -- Using Index Self:table. 
+	if Type( self ) == 'table' then -- Using Index self:table. 
 		if #userdata == 0 then -- No arguments (colliding with everything). 
 			for Index = 1, #mlib.shape.user do
-				if Index ~= Self.Index then 
+				if Index ~= self.Index then 
 					local Collided = false
 					local shape = mlib.shape.user[Index]
-					if not shape.removed and not Self.removed then 
-						if Self.Type == 'line' then 
+					if not shape.removed and not self.removed then 
+						if self.Type == 'line' then 
 							if shape.Type == 'line' then
-								if mlib.line.segment.getIntersection( Self.x1, Self.y1, Self.x2, Self.y2, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, Self.Collided, shape.Collided = true, true end
+								if mlib.line.segment.getIntersection( self.x1, self.y1, self.x2, self.y2, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, self.Collided, shape.Collided = true, true end
 							elseif shape.Type == 'polygon' then
-								if mlib.polygon.lineIntersects( Self.x1, Self.y1, Self.x2, Self.y2, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+								if mlib.polygon.lineIntersects( self.x1, self.y1, self.x2, self.y2, shape.Points ) then Collided, self.Collided, shape.Collided = true, true end
 							elseif shape.Type == 'circle' then
-								if mlib.circle.isSegmentSecant( shape.x, shape.y, shape.radius, Self.x1, Self.y1, Self.x2, Self.y2 ) then Collided, Self.Collided, shape.Collided = true, true end
+								if mlib.circle.isSegmentSecant( shape.x, shape.y, shape.radius, self.x1, self.y1, self.x2, self.y2 ) then Collided, self.Collided, shape.Collided = true, true end
 							end
-						elseif Self.Type == 'polygon' then
+						elseif self.Type == 'polygon' then
 							if shape.Type == 'line' then
-								if mlib.polygon.lineIntersects( shape.x1, shape.y1, shape.x2, shape.y2, Self.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+								if mlib.polygon.lineIntersects( shape.x1, shape.y1, shape.x2, shape.y2, self.Points ) then Collided, self.Collided, shape.Collided = true, true end
 							elseif shape.Type == 'polygon' then
-								if mlib.polygon.polygonIntersects( Self.Points, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+								if mlib.polygon.polygonIntersects( self.Points, shape.Points ) then Collided, self.Collided, shape.Collided = true, true end
 							elseif shape.Type == 'circle' then
-								if mlib.polygon.circleIntersects( shape.x, shape.y, shape.radius, Self.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+								if mlib.polygon.circleIntersects( shape.x, shape.y, shape.radius, self.Points ) then Collided, self.Collided, shape.Collided = true, true end
 							end
-						elseif Self.Type == 'circle' then
+						elseif self.Type == 'circle' then
 							if shape.Type == 'line' then
-								if mlib.circle.isSegmentSecant( Self.x, Self.y, Self.radius, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, Self.Collided, shape.Collided = true, true end
+								if mlib.circle.isSegmentSecant( self.x, self.y, self.radius, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, self.Collided, shape.Collided = true, true end
 							elseif shape.Type == 'polygon' then
-								if mlib.polygon.circleIntersects( Self.x, Self.y, Self.radius, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+								if mlib.polygon.circleIntersects( self.x, self.y, self.radius, shape.Points ) then Collided, self.Collided, shape.Collided = true, true end
 							elseif shape.Type == 'circle' then
-								if mlib.circle.circleIntersects( Self.x, Self.y, Self.radius, shape.x, shape.y, shape.radius ) then Collided, Self.Collided, shape.Collided = true, true end
+								if mlib.circle.circleIntersects( self.x, self.y, self.radius, shape.x, shape.y, shape.radius ) then Collided, self.Collided, shape.Collided = true, true end
 							end
 						end
 					end
-					if not Collided then Self.Collided = false end
+					if not Collided then self.Collided = false end
 				end
 			end
 		else -- Colliding with only certain things. 
 			for Index = 1, #userdata do
 				local Collided = false
 				local shape = userdata[Index]
-				if not shape.removed and not Self.removed then 
-					if Self.Type == 'line' then 
+				if not shape.removed and not self.removed then 
+					if self.Type == 'line' then 
 						if shape.Type == 'line' then
-							if mlib.line.segment.getIntersection( Self.x1, Self.y1, Self.x2, Self.y2, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, Self.Collided, shape.Collided = true, true end
+							if mlib.line.segment.getIntersection( self.x1, self.y1, self.x2, self.y2, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, self.Collided, shape.Collided = true, true end
 						elseif shape.Type == 'polygon' then
-							if mlib.polygon.lineIntersects( Self.x1, Self.y1, Self.x2, Self.y2, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+							if mlib.polygon.lineIntersects( self.x1, self.y1, self.x2, self.y2, shape.Points ) then Collided, self.Collided, shape.Collided = true, true end
 						elseif shape.Type == 'circle' then
-							if mlib.circle.isSegmentSecant( shape.x, shape.y, shape.radius, Self.x1, Self.y1, Self.x2, Self.y2 ) then Collided, Self.Collided, shape.Collided = true, true end
+							if mlib.circle.isSegmentSecant( shape.x, shape.y, shape.radius, self.x1, self.y1, self.x2, self.y2 ) then Collided, self.Collided, shape.Collided = true, true end
 						end
-					elseif Self.Type == 'polygon' then
+					elseif self.Type == 'polygon' then
 						if shape.Type == 'line' then
-							if mlib.polygon.lineIntersects( shape.x1, shape.y1, shape.x2, shape.y2, Self.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+							if mlib.polygon.lineIntersects( shape.x1, shape.y1, shape.x2, shape.y2, self.Points ) then Collided, self.Collided, shape.Collided = true, true end
 						elseif shape.Type == 'polygon' then
-							if mlib.polygon.polygonIntersects( Self.Points, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+							if mlib.polygon.polygonIntersects( self.Points, shape.Points ) then Collided, self.Collided, shape.Collided = true, true end
 						elseif shape.Type == 'circle' then
-							if mlib.polygon.circleIntersects( shape.x, shape.y, shape.radius, Self.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+							if mlib.polygon.circleIntersects( shape.x, shape.y, shape.radius, self.Points ) then Collided, self.Collided, shape.Collided = true, true end
 						end
-					elseif Self.Type == 'circle' then
+					elseif self.Type == 'circle' then
 						if shape.Type == 'line' then
-							if mlib.circle.isSegmentSecant( Self.x, Self.y, Self.radius, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, Self.Collided, shape.Collided = true, true end
+							if mlib.circle.isSegmentSecant( self.x, self.y, self.radius, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, self.Collided, shape.Collided = true, true end
 						elseif shape.Type == 'polygon' then
-							if mlib.polygon.circleIntersects( Self.x, Self.y, Self.radius, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+							if mlib.polygon.circleIntersects( self.x, self.y, self.radius, shape.Points ) then Collided, self.Collided, shape.Collided = true, true end
 						elseif shape.Type == 'circle' then
-							if mlib.circle.circleIntersects( Self.x, Self.y, Self.radius, shape.x, shape.y, shape.radius ) then Collided, Self.Collided, shape.Collided = true, true end
+							if mlib.circle.circleIntersects( self.x, self.y, self.radius, shape.x, shape.y, shape.radius ) then Collided, self.Collided, shape.Collided = true, true end
 						end
 					end
 				end
-				if not Collided then Self.Collided = false end
+				if not Collided then self.Collided = false end
 			end
 		end
-	else -- Not using Self:table. 
+	else -- Not using self:table. 
 		local userdata = { unpack( userdata ) }
 		if #userdata == 0 then -- Checking all collisions. 
 			for Index = 1, #mlib.shape.user do
-				local Self = mlib.shape.user[Index]
+				local self = mlib.shape.user[Index]
 				local Collided = false
 				for Index2 = 1, #mlib.shape.user do
 					if Index ~= Index2 then 
 						local shape = mlib.shape.user[Index2]
-						if not shape.removed and not Self.removed then 
-							if Self.Type == 'line' then 
+						if not shape.removed and not self.removed then 
+							if self.Type == 'line' then 
 								if shape.Type == 'line' then
-									if mlib.line.segment.getIntersection( Self.x1, Self.y1, Self.x2, Self.y2, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, Self.Collided, shape.Collided = true, true, true end
+									if mlib.line.segment.getIntersection( self.x1, self.y1, self.x2, self.y2, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, self.Collided, shape.Collided = true, true, true end
 								elseif shape.Type == 'polygon' then
-									if mlib.polygon.lineIntersects( Self.x1, Self.y1, Self.x2, Self.y2, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true, true end
+									if mlib.polygon.lineIntersects( self.x1, self.y1, self.x2, self.y2, shape.Points ) then Collided, self.Collided, shape.Collided = true, true, true end
 								elseif shape.Type == 'circle' then
-									if mlib.circle.isSegmentSecant( shape.x, shape.y, shape.radius, Self.x1, Self.y1, Self.x2, Self.y2 ) then Collided, Self.Collided, shape.Collided = true, true, true end
+									if mlib.circle.isSegmentSecant( shape.x, shape.y, shape.radius, self.x1, self.y1, self.x2, self.y2 ) then Collided, self.Collided, shape.Collided = true, true, true end
 								end
-							elseif Self.Type == 'polygon' then
+							elseif self.Type == 'polygon' then
 								if shape.Type == 'line' then
-									if mlib.polygon.lineIntersects( shape.x1, shape.y1, shape.x2, shape.y2, Self.Points ) then Collided, Self.Collided, shape.Collided = true, true, true end
+									if mlib.polygon.lineIntersects( shape.x1, shape.y1, shape.x2, shape.y2, self.Points ) then Collided, self.Collided, shape.Collided = true, true, true end
 								elseif shape.Type == 'polygon' then
-									if mlib.polygon.polygonIntersects( Self.Points, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true, true end
+									if mlib.polygon.polygonIntersects( self.Points, shape.Points ) then Collided, self.Collided, shape.Collided = true, true, true end
 								elseif shape.Type == 'circle' then
-									if mlib.polygon.circleIntersects( shape.x, shape.y, shape.radius, Self.Points ) then Collided, Self.Collided, shape.Collided = true, true, true end
+									if mlib.polygon.circleIntersects( shape.x, shape.y, shape.radius, self.Points ) then Collided, self.Collided, shape.Collided = true, true, true end
 								end
-							elseif Self.Type == 'circle' then
+							elseif self.Type == 'circle' then
 								if shape.Type == 'line' then
-									if mlib.circle.isSegmentSecant( Self.x, Self.y, Self.radius, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, Self.Collided, shape.Collided = true, true, true end
+									if mlib.circle.isSegmentSecant( self.x, self.y, self.radius, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, self.Collided, shape.Collided = true, true, true end
 								elseif shape.Type == 'polygon' then
-									if mlib.polygon.circleIntersects( Self.x, Self.y, Self.radius, shape.Points ) then Self.Collided, Collided, Self.Collided, shape.Collided = true, true, true end
+									if mlib.polygon.circleIntersects( self.x, self.y, self.radius, shape.Points ) then self.Collided, Collided, self.Collided, shape.Collided = true, true, true end
 								elseif shape.Type == 'circle' then
-									if mlib.circle.circleIntersects( Self.x, Self.y, Self.radius, shape.x, shape.y, shape.radius ) then Collided, Self.Collided, shape.Collided = true, true, true end
+									if mlib.circle.circleIntersects( self.x, self.y, self.radius, shape.x, shape.y, shape.radius ) then Collided, self.Collided, shape.Collided = true, true, true end
 								end
 							end
 						end
 					end
 				end
-				if not Collided then Self.Collided = false end
+				if not Collided then self.Collided = false end
 			end
 		else -- Checking only certain collisions
 			for Index = 1, #userdata do
-				local Self = mlib.shape.user[Index]
+				local self = mlib.shape.user[Index]
 				local Collided = false
 				for Index2 = 1, #mlib.shape.user do
-					if Self.Index ~= userdata[Index2].Index then 
+					if self.Index ~= userdata[Index2].Index then 
 						local shape = mlib.shape.user[Index2]
-						if not shape.removed and not Self.removed then 
-							if Self.Type == 'line' then 
+						if not shape.removed and not self.removed then 
+							if self.Type == 'line' then 
 								if shape.Type == 'line' then
-									if mlib.line.segment.getIntersection( Self.x1, Self.y1, Self.x2, Self.y2, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, Self.Collided, shape.Collided = true, true end
+									if mlib.line.segment.getIntersection( self.x1, self.y1, self.x2, self.y2, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, self.Collided, shape.Collided = true, true end
 								elseif shape.Type == 'polygon' then
-									if mlib.polygon.lineIntersects( Self.x1, Self.y1, Self.x2, Self.y2, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+									if mlib.polygon.lineIntersects( self.x1, self.y1, self.x2, self.y2, shape.Points ) then Collided, self.Collided, shape.Collided = true, true end
 								elseif shape.Type == 'circle' then
-									if mlib.circle.isSegmentSecant( shape.x, shape.y, shape.radius, Self.x1, Self.y1, Self.x2, Self.y2 ) then Collided, Self.Collided, shape.Collided = true, true end
+									if mlib.circle.isSegmentSecant( shape.x, shape.y, shape.radius, self.x1, self.y1, self.x2, self.y2 ) then Collided, self.Collided, shape.Collided = true, true end
 								end
-							elseif Self.Type == 'polygon' then
+							elseif self.Type == 'polygon' then
 								if shape.Type == 'line' then
-									if mlib.polygon.lineIntersects( shape.x1, shape.y1, shape.x2, shape.y2, Self.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+									if mlib.polygon.lineIntersects( shape.x1, shape.y1, shape.x2, shape.y2, self.Points ) then Collided, self.Collided, shape.Collided = true, true end
 								elseif shape.Type == 'polygon' then
-									if mlib.polygon.polygonIntersects( Self.Points, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+									if mlib.polygon.polygonIntersects( self.Points, shape.Points ) then Collided, self.Collided, shape.Collided = true, true end
 								elseif shape.Type == 'circle' then
-									if mlib.polygon.circleIntersects( shape.x, shape.y, shape.radius, Self.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+									if mlib.polygon.circleIntersects( shape.x, shape.y, shape.radius, self.Points ) then Collided, self.Collided, shape.Collided = true, true end
 								end
-							elseif Self.Type == 'circle' then
+							elseif self.Type == 'circle' then
 								if shape.Type == 'line' then
-									if mlib.circle.isSegmentSecant( Self.x, Self.y, Self.radius, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, Self.Collided, shape.Collided = true, true end
+									if mlib.circle.isSegmentSecant( self.x, self.y, self.radius, shape.x1, shape.y1, shape.x2, shape.y2 ) then Collided, self.Collided, shape.Collided = true, true end
 								elseif shape.Type == 'polygon' then
-									if mlib.polygon.circleIntersects( Self.x, Self.y, Self.radius, shape.Points ) then Collided, Self.Collided, shape.Collided = true, true end
+									if mlib.polygon.circleIntersects( self.x, self.y, self.radius, shape.Points ) then Collided, self.Collided, shape.Collided = true, true end
 								elseif shape.Type == 'circle' then
-									if mlib.circle.circleIntersects( Self.x, Self.y, Self.radius, shape.x, shape.y, shape.radius ) then Collided, Self.Collided, shape.Collided = true, true end
+									if mlib.circle.circleIntersects( self.x, self.y, self.radius, shape.x, shape.y, shape.radius ) then Collided, self.Collided, shape.Collided = true, true end
 								end
 							end
 						end
 					end
 				end
-				if not Collided then Self.Collided = false end
+				if not Collided then self.Collided = false end
 			end
 		end
 	end
 end
 
-function mlib.shape.remove( Self, ... )
+function mlib.shape.remove( self, ... )
 	local userdata = { ... }
 	
-	if Type( Self ) == 'table' then
-		mlib.shape.user[Self.Index] = { Removed = false }
+	if Type( self ) == 'table' then
+		mlib.shape.user[self.Index] = { Removed = false }
 		
 		if #userdata > 0 then
 			for Index = 1, #userdata do
