@@ -1,6 +1,6 @@
 
 local play = gamestate.new("play")
-local gui, level, player, world
+local gui, level, player, world, physics
 
 function play:init()
 
@@ -8,8 +8,16 @@ function play:init()
 	gui = GUI()
 	
 	-- Create level with physics world
-	level = Level(LevelData(), true)
-	world = level:getPhysicsWorld()
+	
+	level = Level(LevelData())
+	
+	love.physics.setMeter(level:getPixelsPerMeter())
+	
+	physics = Box2DPhysicsSystem( true )
+	physics:initDefaultCollisionCallbacks()
+	level:addPhysicsSystem( physics )
+	
+	world = physics:getWorld()
 	world:setGravity(0, 300)
 	
 	-- Set up example

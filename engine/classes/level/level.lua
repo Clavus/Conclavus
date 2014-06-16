@@ -1,18 +1,13 @@
 
 local Level = class('Level')
 
-function Level:initialize( leveldata, use_physics )
+function Level:initialize( leveldata )
 
 	self._leveldata = leveldata
 	self._camera = Camera()
 	
-	self._physics_enabled = use_physics
-	if (use_physics) then
-		love.physics.setMeter(leveldata.physics.pixels_per_meter)
-		self._physworld = love.physics.newWorld(0, 0, true)
-		
-		self:initDefaultCollisionCallbacks()
-	end
+	self._physics_systems = {}
+	self._pixels_per_meter = leveldata.physics.pixels_per_meter
 	
 	local objects = nil
 	if (leveldata) then
@@ -28,8 +23,8 @@ function Level:update( dt )
 
 	self._camera:update(dt)
 	
-	if (self._physics_enabled) then
-		self._physworld:update(dt)
+	for k, sys in pairs(self._physics_systems) do
+		sys:update(dt)
 	end
 	
 	self._entManager:update(dt)
@@ -119,12 +114,19 @@ function Level:draw()
 	
 end
 
-function Level:getCamera()
-	return self._camera
+function Level:addPhysicsSystem( phys_system )
+
+	assert(phys_system ~= nil and phys_system.class ~= nil and phys_system:isInstanceOf( PhysicsSystem ), "Not a PhysicsSystem object!")
+	table.insert( self._physics_systems, phys_system )
+
 end
 
-function Level:getPhysicsWorld()
-	return self._physworld
+function Level:getPixelsPerMeter()
+	return self._pixels_per_meter
+end
+
+function Level:getCamera()
+	return self._camera
 end
 
 function Level:createEntity( class, ... )
@@ -141,80 +143,6 @@ end
 
 function Level:getAllEntities()
 	return self._entManager:getAllEntities()
-end
-
-function Level:initDefaultCollisionCallbacks()
-
-	if not self._physics_enabled then return end
-
-	local CollisionResolver = CollisionResolver
-	
-	local beginContact = function(a, b, contact)
-		
-		local ao = a:getUserData() or a:getBody():getUserData()
-		local bo = b:getUserData() or b:getBody():getUserData()
-		if (not ao or not bo or not ao.class or not bo.class) then return end
-		
-		if (ao.class:includes(CollisionResolver)) then
-			ao:beginContactWith(bo, contact, a, b, true)
-		end
-
-		if (bo.class:includes(CollisionResolver)) then
-			bo:beginContactWith(ao, contact, b, a, false)
-		end
-		
-	end
-
-	local endContact = function(a, b, contact)
-
-		local ao = a:getUserData() or a:getBody():getUserData()
-		local bo = b:getUserData() or b:getBody():getUserData()
-		if (not ao or not bo or not ao.class or not bo.class) then return end
-		
-		if (ao.class:includes(CollisionResolver)) then
-			ao:endContactWith(bo, contact, a, b, true)
-		end
-
-		if (bo.class:includes(CollisionResolver)) then
-			bo:endContactWith(ao, contact, b, a, false)
-		end
-		
-	end
-
-	local preSolve = function(a, b, contact)
-
-		local ao = a:getUserData() or a:getBody():getUserData()
-		local bo = b:getUserData() or b:getBody():getUserData()
-		if (not ao or not bo or not ao.class or not bo.class) then return end
-		
-		if (ao.class:includes(CollisionResolver)) then
-			ao:preSolveWith(bo, contact, a, b, true)
-		end
-
-		if (bo.class:includes(CollisionResolver)) then
-			bo:preSolveWith(ao, contact, b, a, false)
-		end
-		
-	end
-
-	local postSolve = function(a, b, contact)
-
-		local ao = a:getUserData() or a:getBody():getUserData()
-		local bo = b:getUserData() or b:getBody():getUserData()
-		if (not ao or not bo or not ao.class or not bo.class) then return end
-		
-		if (ao.class:includes(CollisionResolver)) then
-			ao:postSolveWith(bo, contact, a, b, true)
-		end
-
-		if (bo.class:includes(CollisionResolver)) then
-			bo:postSolveWith(ao, contact, b, a, false)
-		end
-		
-	end
-	
-	self._physworld:setCallbacks( beginContact, endContact, preSolve, postSolve )
-	
 end
 
 return Level

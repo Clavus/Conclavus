@@ -21,7 +21,13 @@ Level:createEntity( class, ... )
 Level:getEntitiesByClass( class )
 Level:getEntitiesByMixin( mixin )
 Level:getCamera()
-Level:getPhysicsWorld()
+Level:addPhysicsSystem( physics_system ) -- physics systems are updated after camera, but before level entities
+
+// Physics system //
+Box2DPhysicsSystem( allowsleep ) -- default LOVE Box2D physics system
+Box2DPhysicsSystem:getWorld()
+Box2DPhysicsSystem:initDefaultCollisionCallbacks()
+Box2DPhysicsSystem:setCallbacks( beginContact, endContact, preSolve, postSolve ) 
 
 // Camera //
 void	Camera:setScale( x, y )
