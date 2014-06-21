@@ -62,7 +62,7 @@ function play:update( dt )
 end
 
 function play:draw()
-	
+
 	level:draw()
 	gui:draw()
 	

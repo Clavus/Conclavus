@@ -19,6 +19,7 @@ local toload = {
 	{ mlib = 		"engine/lib/mlib/mlib" },
 	{ tlib =		"engine/lib/tlib/tlib" },
 	{ loveframes =	"engine/lib/loveframes/loveframes" },
+	{ noise =		"engine/lib/lovenoise/lovenoise" },
 	
 	-- Utility libraries
 	{ screen =	"engine/util/screen" },

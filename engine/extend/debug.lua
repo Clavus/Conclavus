@@ -11,7 +11,7 @@ end
 function debug.time( func, ... )
 
 	local start = clock()
-	local rtn = { fn(...) }
+	local rtn = { func(...) }
 	return (clock() - start), unpack(rtn)
 	
 end

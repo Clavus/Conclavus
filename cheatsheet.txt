@@ -197,6 +197,15 @@ util.readParticleSystem( path ) -- read SPERM particle configurations and return
 graphics.roundRectangle(mode, x, y, w, h, radius, segments) -- mode 'fill' or 'line'
 graphics.ellipse( mode, x, y, rx, ry, angle, ox, oy ) -- mode 'fill' or 'line'. rx, ry = radii for x, y. ox, oy = origin, default top left (0, 0)
 
+// Noise //
+noise.simplex(pos, seed, frequency)				      	-- pos is table of dimensional values ({x}, {x,y}, {x,y,z} or {x,y,z,w})
+noise.fractal(pos, seed, frequency, octaves, lacunarity, persistence) 	-- good default: octaves 1
+, lacunarity 2,
+ persistence 0.5
+noise.ridgedMulti(pos, seed, frequency, octaves, lacunarity, persistence)
+noise.billow(pos, seed, frequency, octaves, lacunarity, persistence)
+noise.findOctaveLimit(persistence, detail)
+
 // Color class //
 Color:toHex()		-- Example: Color.Red:toHex() returns "FF0000"
 Color:getTable()	-- returns { r, g, b, a }

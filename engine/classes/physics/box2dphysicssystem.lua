@@ -7,7 +7,7 @@ function Box2DPhysicsSystem:initialize( allowsleep )
 	if (allowsleep == nil) then allowsleep = true end
 
 	self._world = love.physics.newWorld(0, 0, allowsleep )
-	print("world: "..tostring(self._world))
+	
 end
 
 function Box2DPhysicsSystem:update( dt )
