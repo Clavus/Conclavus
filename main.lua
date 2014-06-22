@@ -7,9 +7,9 @@ nilfunction = function() end -- null function so you can do "(a or nilfunction)(
 currentTime = function() return _curTime end
 
 local oldprint = print
-function print( str )
+function print( ... )
 
-	oldprint("[".._prntcnt.."] "..str)
+	oldprint("[".._prntcnt.."]", ...)
 	_prntcnt = _prntcnt + 1
 	
 end

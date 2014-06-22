@@ -7,6 +7,7 @@ lume			- https://github.com/rxi/lume
 lovebird		- https://github.com/rxi/lovebird
 loveframes		- http://nikolairesokav.com/projects/loveframes
 SPERM (yes, really)	- http://www.love2d.org/forums/viewtopic.php?f=5&t=76986
+lovenoise		- http://www.love2d.org/forums/viewtopic.php?f=5&t=78140
 
 // Time //
 currentTime()	- returns seconds since game start
