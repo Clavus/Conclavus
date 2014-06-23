@@ -1,7 +1,16 @@
 
+-- copies base table, but not nested tables
+function table.copy(t)
+
+	local clone = {}
+	for k, v in pairs(t) do clone[k] = v end
+	return clone
+	
+end
+
 -- Originally from: http://lua-users.org/wiki/PitLibTablestuff
 -- fully copies table and nested tables
-function table.copy(t, lookup_table)
+function table.deepCopy(t, lookup_table)
 	
 	local copy = {}
 	setmetatable(copy, getmetatable(t))
@@ -14,20 +23,11 @@ function table.copy(t, lookup_table)
 			if lookup_table[v] then -- avoid duplicate / recursive references
 				copy[i] = lookup_table[v]
 			else
-				copy[i] = table.copy(v,lookup_table)
+				copy[i] = table.deepCopy(v,lookup_table)
 			end
 		end
 	end
 	return copy
-	
-end
-
--- copies base table, but not nested tables
-function table.clone(t)
-
-	local clone = {}
-	for k, v in pairs(t) do clone[k] = v end
-	return clone
 	
 end
 

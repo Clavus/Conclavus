@@ -166,7 +166,7 @@ end
 
 function EntityManager:getAllEntities()
 	
-	return table.clone( self._entities )
+	return table.copy( self._entities )
 	
 end
 

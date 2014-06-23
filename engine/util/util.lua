@@ -146,4 +146,10 @@ function util.readParticleSystem( name )
 	
 end
 
+function util.openSaveDirectory()
+	
+	love.system.openURL("file://"..love.filesystem.getSaveDirectory())
+	
+end
+
 return util

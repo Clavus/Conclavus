@@ -10,19 +10,19 @@ SPERM (yes, really)	- http://www.love2d.org/forums/viewtopic.php?f=5&t=76986
 lovenoise		- http://www.love2d.org/forums/viewtopic.php?f=5&t=78140
 
 // Time //
-currentTime()	- returns seconds since game start
+num	currentTime()	- returns seconds since game start
 
 // Load resources //
-resource.getImage( image_file, wrap )
-resource.getSound( sound_file, stype )
-resource.getImageDimensions( image_file )
+img	resource.getImage( image_file, wrap )
+snd	resource.getSound( sound_file, stype )
+x,y	resource.getImageDimensions( image_file )
 
 // Level management //
-Level:createEntity( class, ... )
-Level:getEntitiesByClass( class )
-Level:getEntitiesByMixin( mixin )
-Level:getCamera()
-Level:addPhysicsSystem( physics_system ) -- physics systems are updated after camera, but before level entities
+ent	Level:createEntity( class, ... )
+tab	Level:getEntitiesByClass( class )
+tab	Level:getEntitiesByMixin( mixin )
+ent	Level:getCamera()
+void	Level:addPhysicsSystem( physics_system ) -- physics systems are updated after camera, but before level entities
 
 // Physics system //
 Box2DPhysicsSystem( allowsleep ) -- default LOVE Box2D physics system
@@ -72,48 +72,48 @@ GUI:addSimpleElement( id, depth, x, y, image / image_file )
 GUI:addDynamicElement( id, depth, x, y, func )
 
 // Vector math //
-vec Vector:copy()
-x,y Vector:unpack()
-num Vector:distance( vec )
-num Vector:distance2( vec )
-num Vector:length()
-num Vector:angle()
-vec Vector:snap( gridsize )		-- modifies self
-vec Vector:approach( vec, step )	-- modifies self
-vec Vector:round( [decimals] ) 		-- modifies self
-vec Vector:perpendicular()
-num Vector:dot( vec )
-num Vector:cross( vec )
-vec Vector:projectOn( vec )
-vec Vector:mirrorOn( vec )
-vec Vector:normalize()			-- modifies self
-vec Vector:getNormalized() / getNormal()
-vec Vector:trim( maxLength )		-- modifies self
-vec Vector:getTrimmed( maxLength )
-vec Vector:rotate( r ) 			-- modifies self
-vec Vector:getRotated( r )
-vec Vector:multiplyBy( a )		-- modifies self
-vec Vector:divideBy( a )		-- modifies self
-vec Vector:add( vec )			-- modifies self
-vec Vector:subtract( vec )		-- modifies self
+vec	Vector:copy()
+x,y	Vector:unpack()
+num	Vector:distance( vec )
+num	Vector:distance2( vec )
+num	Vector:length()
+num	Vector:angle()
+vec	Vector:snap( gridsize )		-- modifies self
+vec	Vector:approach( vec, step )	-- modifies self
+vec	Vector:round( [decimals] ) 	-- modifies self
+vec	Vector:perpendicular()
+num	Vector:dot( vec )
+num	Vector:cross( vec )
+vec	Vector:projectOn( vec )
+vec	Vector:mirrorOn( vec )
+vec	Vector:normalize()		-- modifies self
+vec	Vector:getNormalized() / getNormal()
+vec	Vector:trim( maxLength )	-- modifies self
+vec	Vector:getTrimmed( maxLength )
+vec	Vector:rotate( r ) 		-- modifies self
+vec	Vector:getRotated( r )
+vec	Vector:multiplyBy( a )		-- modifies self
+vec	Vector:divideBy( a )		-- modifies self
+vec	Vector:add( vec )		-- modifies self
+vec	Vector:subtract( vec )		-- modifies self
 
 // Extended table functions //
-tab table.copy(t, lookup_table)		-- fully copies table including nested tables
-tab table.clone(t)			-- copies base table, but not nested tables (references original tables)
-bool table.hasValue( t, val )
-mix table.keyFromValue( tbl, val )	-- returns key of first occurence of <val> in this table
-tab table.keysFromValue( tbl, val )	-- returns all keys that hold <val>
-tab table.removeByValue( tbl, val )	-- removes all occurences of <val> from the table (assumes table is sequential)
-tab table.removeByFilter( tbl, func )	-- removes all occurences where <func> returns true (assumes table is sequential)
-tab table.getKeys(t)			-- get all keys in the table
-tab table.shuffle(t)			-- shuffles key - value combinations
-tab table.forEach( t, func, ... ) 	-- if func is a function, then do func( key, value, ... ) on every table entry
-					-- or if func is a string, do entry_value:func( ... ) on every table entry
-num table.count( t, count_func ) 	-- if count_func(key, value) is supplied, only count where it returns true
-mix table.random( t )			-- get random value
-tab table.filter( t, func, retainkeys ) -- filter t where func(key, value) returns true, returns new filtered table
-tab table.merge(t1, t2, retainkeys) 	-- merges t2 into t1, when retaining keys, t2 overwrites t1 keys
-str table.toString( t, name, nice_formatting, [maxdepth], [maxseq] ) -- summarizes (sub)tables longer than maxseq, or deeper nested than maxdepth
+tab	table.copy(t)				-- copies base table, but not nested tables (references original tables)
+tab	table.deepCopy(t, lookup_table)		-- fully copies table including nested tables
+bool	table.hasValue( t, val )
+mix	table.keyFromValue( tbl, val )		-- returns key of first occurence of <val> in this table
+tab	table.keysFromValue( tbl, val )		-- returns all keys that hold <val>
+tab	table.removeByValue( tbl, val )		-- removes all occurences of <val> from the table (assumes table is sequential)
+tab	table.removeByFilter( tbl, func )	-- removes all occurences where <func> returns true (assumes table is sequential)
+tab	table.getKeys(t)			-- get all keys in the table
+tab	table.shuffle(t)			-- shuffles key - value combinations
+tab	table.forEach( t, func, ... ) 		-- if func is a function, then do func( key, value, ... ) on every table entry
+						-- or if func is a string, do entry_value:func( ... ) on every table entry
+num	table.count( t, count_func ) 		-- if count_func(key, value) is supplied, only count where it returns true
+mix	table.random( t )			-- get random value
+tab	table.filter( t, func, retainkeys ) 	-- filter t where func(key, value) returns true, returns new filtered table
+tab	table.merge(t1, t2, retainkeys) 	-- merges t2 into t1, when retaining keys, t2 overwrites t1 keys
+str	table.toString( t, name, nice_formatting, [maxdepth], [maxseq] ) -- summarizes (sub)tables longer than maxseq, or deeper nested than maxdepth
 
 // Iteration //
 for p,c in chars( str ) do 	  -- iterates over every char in "string", with p as pos in string, c as char
@@ -125,8 +125,7 @@ tab	string.split(str, [sep])	-- splits on space if seperator not provided
 str	string.trim(str, [chars]) 	-- trims whitespace if chars not set
 str	string.simpleFormat(str, ...)	-- string.simpleFormat("{b} hi {a}", {a = "mark", b = "Oh"}) -- Returns "Oh hi mark"
 					-- string.simpleFormat("Hello {1}!", "world") -- Returns "Hello world!"
-
-str string.fill(str, size, fixpos, char) -- Fills up string with size * char, "before" or "after" the str. 
+str	string.fill(str, size, fixpos, char) -- Fills up string with size * char, "before" or "after" the str. 
 					 -- Example: string.fill(12, 5, "before", "0") returns "00012".
 
 // Extended math functions //
@@ -153,12 +152,12 @@ package.autoHotswapUpdateRate( n )	-- update rate (in seconds) of auto-hotswap p
 package.updatePackages()		-- scans for files to hotswap
 
 // Extended debug functions //
-void		debug.printLoadedPackages()	-- prints list of everything in packages.loaded
-num, ... 	debug.time( func, ... )		-- executes function, returns time followed by function returns
-void		debug.benchmarkStart( name )	-- starts benchmarking
-void		debug.benchmarkStop( name, message, cond_func )	-- stops benchmark <name>, prints <message> (use tokens {name} 
-								-- and {time} to show name and time. <cond_func>(time) is a conditional
-								-- function that returns if it should print the message at all
+void	debug.printLoadedPackages()	-- prints list of everything in packages.loaded
+num,... debug.time( func, ... )	-- executes function, returns time followed by function returns
+void	debug.benchmarkStart( name )	-- starts benchmarking
+void	debug.benchmarkStop( name, message, cond_func )	-- stops benchmark <name>, prints <message> (use tokens {name} 
+							-- and {time} to show name and time. <cond_func>(time) is a conditional
+							-- function that returns if it should print the message at all
 
 // Sprites //
 Sprite( { (img) image, (vec) offset, (vec) size (default = image size), (vec) origin_pos, 
@@ -167,45 +166,46 @@ Sprite( { (img) image, (vec) offset, (vec) size (default = image size), (vec) or
 
 // Input controller //
 
-bool InputController:keyIsPressed(key)
-bool InputController:keyIsReleased(key)
-bool InputController:mouseIsPressed(button) -- l, r, m, wd, wu, x1, x2
-bool InputController:mouseIsReleased(button)
-bool InputController:keyIsDown(key)
-bool InputController:mouseIsDown(button)
+bool	InputController:keyIsPressed(key)
+bool	InputController:keyIsReleased(key)
+bool	InputController:mouseIsPressed(button) -- l, r, m, wd, wu, x1, x2
+bool	InputController:mouseIsReleased(button)
+bool	InputController:keyIsDown(key)
+bool	InputController:mouseIsDown(button)
 
-void InputController:addKeyPressCallback(id, key, func) -- callback = func(key)
-void InputController:addKeyReleaseCallback(id, key, func) -- callback = func(key, timediff)
-void InputController:addMousePressCallback(id, button, func) -- callback = func(button)
-void InputController:addMouseReleaseCallback(id, button, func) -- callback = func(button, timediff)
+void	InputController:addKeyPressCallback(id, key, func) -- callback = func(key)
+void	InputController:addKeyReleaseCallback(id, key, func) -- callback = func(key, timediff)
+void	InputController:addMousePressCallback(id, button, func) -- callback = func(button)
+void	InputController:addMouseReleaseCallback(id, button, func) -- callback = func(button, timediff)
 
-void InputController:removeKeyPressCallback(id)
-void InputController:removeKeyReleaseCallback(id)
-void InputController:removeMousePressCallback(id)
-void InputController:removeMouseReleaseCallback(id)
+void	InputController:removeKeyPressCallback(id)
+void	InputController:removeKeyReleaseCallback(id)
+void	InputController:removeMousePressCallback(id)
+void	InputController:removeMouseReleaseCallback(id)
 
 // Util functions //
-util.getPathFromFilename( file_path, [seperator] )
-util.choose( ... )
-util.weightedChoice( ... ) 	-- in format util.weightedChoice("duck", 20, "cat", 10). "duck" is twice as likely to be chosen
-util.array(...)			-- util.array(pairs({a = 1, b = 2})) -- Returns {"a", "b"}
-util.equalsAll(value, ...)
-util.equalsAny(value, ...)
-util.lua( str ) 		-- runs the given string
-util.readParticleSystem( path ) -- read SPERM particle configurations and returns a new ParticleSystem from it
+str	util.getPathFromFilename( file_path, [seperator] )
+var	util.choose( ... )
+var	util.weightedChoice( ... ) 	-- in format util.weightedChoice("duck", 20, "cat", 10). "duck" is twice as likely to be chosen
+tab	util.array(...)			-- util.array(pairs({a = 1, b = 2})) -- Returns {"a", "b"}
+bool	util.equalsAll(value, ...)
+bool	util.equalsAny(value, ...)
+void	util.lua( str ) 		-- runs the given string
+psystem	util.readParticleSystem( path ) -- read SPERM particle configurations and returns a new ParticleSystem from it
+void	util.openSaveDirectory()	-- opens save directory in file explorer
 
 // Graphics //
 graphics.roundRectangle(mode, x, y, w, h, radius, segments) -- mode 'fill' or 'line'
 graphics.ellipse( mode, x, y, rx, ry, angle, ox, oy ) -- mode 'fill' or 'line'. rx, ry = radii for x, y. ox, oy = origin, default top left (0, 0)
 
 // Noise //
-noise.simplex(pos, seed, frequency)				      	-- pos is table of dimensional values ({x}, {x,y}, {x,y,z} or {x,y,z,w})
-noise.fractal(pos, seed, frequency, octaves, lacunarity, persistence) 	-- good default: octaves 1
+num	noise.simplex(pos, seed, frequency)				      	-- pos is table of dimensional values ({x}, {x,y}, {x,y,z} or {x,y,z,w})
+num	noise.fractal(pos, seed, frequency, octaves, lacunarity, persistence) 	-- good default: octaves 1
 , lacunarity 2,
  persistence 0.5
-noise.ridgedMulti(pos, seed, frequency, octaves, lacunarity, persistence)
-noise.billow(pos, seed, frequency, octaves, lacunarity, persistence)
-noise.findOctaveLimit(persistence, detail)
+num	noise.ridgedMulti(pos, seed, frequency, octaves, lacunarity, persistence)
+num	noise.billow(pos, seed, frequency, octaves, lacunarity, persistence)
+num	noise.findOctaveLimit(persistence, detail)
 
 // Color class //
 Color:toHex()		-- Example: Color.Red:toHex() returns "FF0000"
@@ -228,8 +228,8 @@ signal.clear( signal ) 					-- clears the whole signal
 signal.clear_pattern( signal )
 
 // Timers //
-timer 	timer.new()					-- create new timer instance
-handle 	timer.add(delay, function)			-- trigger <function>() after <delay>
+timer	timer.new()					-- create new timer instance
+handle	timer.add(delay, function)			-- trigger <function>() after <delay>
 handle	timer.addPeriodic(delay, function, [count])	-- trigger <function>() every <delay>, for <count> times (infinite if <count> = 0)
 handle	timer.do_for(delay, function, [after])		-- executes <function>(dt) every update step for the next <delay> seconds. After that it calls <after>()
 void	timer.cancel(handle)				-- removes the function that is linked to the listed <handle>

@@ -28,7 +28,7 @@ function package.hotswap( modref )
 	
 	local modname = loaded_packages[modref].path
 	local fullpath = loaded_packages[modref].fullpath
-	local oldglobal = table.clone(_G)
+	local oldglobal = table.copy(_G)
 	local updated = {}
 	local function update(old, new)
 	
