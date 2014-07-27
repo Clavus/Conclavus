@@ -168,20 +168,46 @@ Sprite( { (img) image, (vec) offset, (vec) size (default = image size), (vec) or
 
 bool	InputController:keyIsPressed(key)
 bool	InputController:keyIsReleased(key)
-bool	InputController:mouseIsPressed(button) -- l, r, m, wd, wu, x1, x2
-bool	InputController:mouseIsReleased(button)
 bool	InputController:keyIsDown(key)
+bool	InputController:mouseIsPressed(button)				-- button = l, r, m, wd, wu, x1, x2
+bool	InputController:mouseIsReleased(button)
 bool	InputController:mouseIsDown(button)
+bool	InputController:gamepadIsPressed(joystick, button)		-- joystick = Joystick object
+bool	InputController:gamepadIsReleased(joystick, button)
+bool	InputController:gamepadIsDown(joystick, button)
+num	InputController:gamepadAxisValue(joystick, axis)		-- note: shoulder triggers are considered axis, not buttons
 
-void	InputController:addKeyPressCallback(id, key, func) -- callback = func(key)
-void	InputController:addKeyReleaseCallback(id, key, func) -- callback = func(key, timediff)
-void	InputController:addMousePressCallback(id, button, func) -- callback = func(button)
-void	InputController:addMouseReleaseCallback(id, button, func) -- callback = func(button, timediff)
-
+void	InputController:addKeyPressCallback(id, key, callback) 		-- callback = function(key)
+void	InputController:addKeyReleaseCallback(id, key, callback) 	-- callback = function(key, timediff)
+void	InputController:addMousePressCallback(id, button, callback) 	-- callback = function(button)
+void	InputController:addMouseReleaseCallback(id, button, callback) 	-- callback = function(button, timediff)
+void	InputController:addGamepadPressCallback(id, button, callback) 	-- callback = function(joystick, button)
+void	InputController:addGamepadReleaseCallback(id, button, callback) -- callback = function(joystick, button, timediff)
+void	InputController:addGamepadAxisCallback(id, axis, callback)	-- callback = function(joystick, axis, value)
 void	InputController:removeKeyPressCallback(id)
 void	InputController:removeKeyReleaseCallback(id)
 void	InputController:removeMousePressCallback(id)
 void	InputController:removeMouseReleaseCallback(id)
+void	InputController:removeGamepadAxisCallback(id)
+
+void	InputController:registerAction( action )			-- register an action for input binding
+void	InputController:bindActionToKey( action, key )			-- bind specified keyboard key to action
+void	InputController:bindActionToMouse( action, btn )		-- idem mouse buttons
+void	InputController:bindActionToGamepad( action, btn)		-- idem gamepad buttons
+void	InputController:unbindActionFromKey( action, [key] )		-- unbind specified key from action, or if left blank, unbind all keys that trigger action
+void	InputController:unbindActionFromMouse( action, [btn] )		-- idem mouse buttons
+void	InputController:unbindActionFromGamepad( action, [btn]) 	-- idem gamepad buttons
+
+void	InputController:actionIsPressed(action)
+void	InputController:actionIsReleased(action)
+void	InputController:actionIsDown(action)
+
+void	InputController:addActionPressCallback(id, action, callback) 	-- callback = function(input_type, input, joystick) 
+void	InputController:addActionReleaseCallback(id, action, callback) 	-- callback = function(input_type, input, timediff, joystick)
+									-- 	input_type = "key", "mouse" or "gamepad", input = key/button pressed
+									-- 	joystick object passed if triggered by gamepad
+void	InputController:removeActionPressCallback(id)
+void	InputController:removeActionReleaseCallback(id)
 
 // Util functions //
 str	util.getPathFromFilename( file_path, [seperator] )
@@ -200,9 +226,7 @@ graphics.ellipse( mode, x, y, rx, ry, angle, ox, oy ) -- mode 'fill' or 'line'. 
 
 // Noise //
 num	noise.simplex(pos, seed, frequency)				      	-- pos is table of dimensional values ({x}, {x,y}, {x,y,z} or {x,y,z,w})
-num	noise.fractal(pos, seed, frequency, octaves, lacunarity, persistence) 	-- good default: octaves 1
-, lacunarity 2,
- persistence 0.5
+num	noise.fractal(pos, seed, frequency, octaves, lacunarity, persistence) 	-- good default: octaves 1, lacunarity 2, persistence 0.5
 num	noise.ridgedMulti(pos, seed, frequency, octaves, lacunarity, persistence)
 num	noise.billow(pos, seed, frequency, octaves, lacunarity, persistence)
 num	noise.findOctaveLimit(persistence, detail)

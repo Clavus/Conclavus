@@ -40,6 +40,10 @@ function play:init()
 		level:getCamera():rotate( math.pi / 10 )
 	end)
 	
+	input:addGamepadPressCallback( "turnother", "x", function()
+		level:getCamera():rotate( -math.pi / 10 )
+	end)
+	
 	-- Particle system test
 	level:createEntity("ParticleSystem", "Black Hole")
 	

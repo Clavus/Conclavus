@@ -108,15 +108,33 @@ function love.keyreleased(key, unicode)
 end
 
 function love.gamepadpressed( joystick, button )
-
+	
+	input:handle_gamepadpressed(joystick, button)
+	
 end
 
 function love.gamepadreleased( joystick, button )
 
+	input:handle_gamepadreleased(joystick, button)
+	
 end
 
 function love.gamepadaxis( joystick, axis, value )
+	
+	input:handle_gamepadaxis( joystick, axis, value )
+	
+end
 
+function love.joystickadded( joystick )
+
+	input:handle_gamepadadded(joystick)
+	
+end
+
+function love.joystickadded( joystick )
+	
+	input:handle_gamepadremoved(joystick)
+	
 end
 
 function love.resize( w, h )
