@@ -146,8 +146,12 @@ function Vector:mirrorOn( vec )
 end
 
 function Vector:normalize()
-
-	return self:divideBy( self:length() )
+	
+	if (self:length() == 0) then
+		return self
+	else
+		return self:divideBy( self:length() )
+	end
 	
 end
 

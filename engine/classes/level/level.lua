@@ -9,12 +9,17 @@ function Level:initialize( leveldata )
 	self._physics_systems = {}
 	self._pixels_per_meter = leveldata.physics.pixels_per_meter
 	
+	self._entManager = EntityManager()
+	
+end
+
+function Level:spawnObjects()
+	
 	local objects = nil
-	if (leveldata) then
-		objects = leveldata.objects
+	if (self._leveldata) then
+		objects = self._leveldata.objects
 	end
 	
-	self._entManager = EntityManager()
 	self._entManager:loadLevelObjects(self, objects)
 	
 end
@@ -119,6 +124,10 @@ function Level:addPhysicsSystem( phys_system )
 	assert(phys_system ~= nil and phys_system.class ~= nil and phys_system:isInstanceOf( PhysicsSystem ), "Not a PhysicsSystem object!")
 	table.insert( self._physics_systems, phys_system )
 
+end
+
+function Level:getProperties()
+	return self._leveldata.properties
 end
 
 function Level:getPixelsPerMeter()

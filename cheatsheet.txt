@@ -13,8 +13,8 @@ lovenoise		- http://www.love2d.org/forums/viewtopic.php?f=5&t=78140
 num	currentTime()	- returns seconds since game start
 
 // Load resources //
-img	resource.getImage( image_file, wrap )
-snd	resource.getSound( sound_file, stype )
+img	resource.getImage( image_file, wrap, force_new ) -- if force_new = true, then it creates a new resource and skips the cache
+snd	resource.getSound( sound_file, stype, force_new )
 x,y	resource.getImageDimensions( image_file )
 
 // Level management //
@@ -223,6 +223,7 @@ void	util.openSaveDirectory()	-- opens save directory in file explorer
 // Graphics //
 graphics.roundRectangle(mode, x, y, w, h, radius, segments) -- mode 'fill' or 'line'
 graphics.ellipse( mode, x, y, rx, ry, angle, ox, oy ) -- mode 'fill' or 'line'. rx, ry = radii for x, y. ox, oy = origin, default top left (0, 0)
+graphics.arrow( x1, y1, x2, y2, arrow_head_length, arrow_head_width ) -- draws a line with an arrow head point towards x2, y2
 
 // Noise //
 num	noise.simplex(pos, seed, frequency)				      	-- pos is table of dimensional values ({x}, {x,y}, {x,y,z} or {x,y,z,w})
@@ -232,12 +233,14 @@ num	noise.billow(pos, seed, frequency, octaves, lacunarity, persistence)
 num	noise.findOctaveLimit(persistence, detail)
 
 // Color class //
+Color:copy()		-- Copies Color instance
 Color:toHex()		-- Example: Color.Red:toHex() returns "FF0000"
 Color:getTable()	-- returns { r, g, b, a }
 Color:unpack()		-- returns r, g, b, a
 Color:negative()	-- modifies self
 Color:invert()		-- modifies self
 Color:getHSV()		-- returns h, s, v, a in [0, 255] range
+Color.lerp( color1, color2, frac ) -- lerp from color1 to color2 by fraction [0 to 1], returns new color
 Color.fromHex( hex )	-- returns new Color
 Color.fromHSV(h, s, v, a) -- returns new Color
 

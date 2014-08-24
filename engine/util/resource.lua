@@ -4,11 +4,11 @@ local resource = {}
 local loaded_images = {}
 local loaded_sounds = {}
 
-function resource.getImage( image_file, wrap )
+function resource.getImage( image_file, wrap, force_new )
 	
 	if (image_file == nil) then return end
 	
-	if (loaded_images[image_file] == nil) then
+	if (loaded_images[image_file] == nil or force_new) then
 		loaded_images[image_file] = love.graphics.newImage(image_file)
 		if (wrap) then
 			loaded_images[image_file]:setWrap(wrap, wrap)
@@ -19,11 +19,11 @@ function resource.getImage( image_file, wrap )
 	
 end
 
-function resource.getSound( sound_file, stype )
+function resource.getSound( sound_file, stype, force_new )
 	
 	if (sound_file == nil) then return end
 	
-	if (loaded_sounds[sound_file] == nil) then
+	if (loaded_sounds[sound_file] == nil or force_new) then
 		loaded_sounds[sound_file] = love.audio.newSource( sound_file, stype )
 	end
 	

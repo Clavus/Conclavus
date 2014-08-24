@@ -203,7 +203,7 @@ end
 -------------- Handling raw input ------------------
 ----------------------------------------------------
 
-local function inputPressed( input_type, input, tab_press, tab_down, tab_calls, tab_binds, joystick)
+local function inputPressed(input_object, input_type, input, tab_press, tab_down, tab_calls, tab_binds, joystick)
 	
 	tab_press[input] = true
 	tab_down[input] = { time = currentTime() }
@@ -219,12 +219,14 @@ local function inputPressed( input_type, input, tab_press, tab_down, tab_calls, 
 	local actions = tab_binds[input]
 	if (actions == nil) then return end
 	
-	for action, v in ipairs( actions ) do
-		self._actionpressed[action] = true
-		self._actiondown[action] = { time = currentTime() }
+	print("Pressed "..input..", actions: "..table.toString(actions, "actions", false))
+	
+	for k, action in ipairs( actions ) do
+		input_object._actionpressed[action] = true
+		input_object._actiondown[action] = { time = currentTime() }
 		
-		if (self._actionpresscalls[action]) then
-			for k, v in pairs(self._actionpresscalls[action]) do
+		if (input_object._actionpresscalls[action]) then
+			for k, v in pairs(input_object._actionpresscalls[action]) do
 				if (input_type == "gamepad") then v(input_type, input, joystick)
 				else v(input_type, input) end
 			end
@@ -234,7 +236,7 @@ local function inputPressed( input_type, input, tab_press, tab_down, tab_calls, 
 	
 end
 
-local function inputReleased(input_type, input, tab_released, tab_down, tab_calls, tab_binds, joystick)
+local function inputReleased(input_object, input_type, input, tab_released, tab_down, tab_calls, tab_binds, joystick)
 	
 	tab_released[input] = true
 	
@@ -251,52 +253,52 @@ local function inputReleased(input_type, input, tab_released, tab_down, tab_call
 	local actions = tab_binds[input]
 	if (actions == nil) then return end
 	
-	for action, v in ipairs( actions ) do
-		self._actionreleased[action] = true
-		self._actiondown[action] = nil
+	for k, action in ipairs( actions ) do
+		input_object._actionreleased[action] = true
+		input_object._actiondown[action] = nil
 		
-		if (self._actionreleasecalls[action] and self._actiondown[action]) then
-			for k, v in pairs(self._actionreleasecalls[action]) do
-				if (input_type == "gamepad") then v(input_type, input, currentTime() - self._actiondown[input].time, joystick)
+		if (input_object._actionreleasecalls[action] and input_object._actiondown[action]) then
+			for k, v in pairs(input_object._actionreleasecalls[action]) do
+				if (input_type == "gamepad") then v(input_type, input, currentTime() - input_object._actiondown[input].time, joystick)
 				else v(input_type, input, currentTime() - self._actiondown[input].time) end
 				
 			end
 		end
 		
-		self._actiondown[action] = nil
+		input_object._actiondown[action] = nil
 	end
 	
 end
 
 
 function InputController:handle_keypressed(key, unicode)
-	inputPressed( "key", key, self._keyspressed, self._keysdown, self._keypresscalls, self._actionbinds.keys )
+	inputPressed(self, "key", key, self._keyspressed, self._keysdown, self._keypresscalls, self._actionbinds.keys )
 end
 
 function InputController:handle_keyreleased(key, unicode)
-	inputReleased("key", key, self._keysreleased, self._keysdown, self._keyreleasecalls, self._actionbinds.keys)
+	inputReleased(self, "key", key, self._keysreleased, self._keysdown, self._keyreleasecalls, self._actionbinds.keys)
 end
 
 function InputController:handle_mousepressed(x, y, button)
-	inputPressed( "mouse", button, self._mousepressed, self._mousedown, self._mousepresscalls, self._actionbinds.mouse )
+	inputPressed(self, "mouse", button, self._mousepressed, self._mousedown, self._mousepresscalls, self._actionbinds.mouse )
 end
 
 function InputController:handle_mousereleased(x, y, button)
-	inputReleased("mouse", button, self._mousereleased, self._mousedown, self._mousereleasecalls, self._actionbinds.mouse)
+	inputReleased(self, "mouse", button, self._mousereleased, self._mousedown, self._mousereleasecalls, self._actionbinds.mouse )
 end
 
 function InputController:handle_gamepadpressed(joystick, button)
 	local id = joystick:getID()
 	self._gamepadpressed[id] = self._gamepadpressed[id] or {}
 	self._gamepaddown[id] = self._gamepaddown[id] or {}
-	inputPressed( "gamepad", button, self._gamepadpressed[id], self._gamepaddown[id], self._gamepadpresscalls, self._actionbinds.gamepad, joystick )
+	inputPressed(self, "gamepad", button, self._gamepadpressed[id], self._gamepaddown[id], self._gamepadpresscalls, self._actionbinds.gamepad, joystick )
 end
 
 function InputController:handle_gamepadreleased(joystick, button)
 	local id = joystick:getID()
 	self._gamepadreleased[id] = self._gamepadreleased[id] or {}
 	self._gamepaddown[id] = self._gamepaddown[id] or {}
-	inputReleased("gamepad", button, self._gamepadreleased[id], self._gamepaddown[id], self._gamepadreleasecalls, self._actionbinds.gamepad, joystick )
+	inputReleased(self, "gamepad", button, self._gamepadreleased[id], self._gamepaddown[id], self._gamepadreleasecalls, self._actionbinds.gamepad, joystick )
 end
 
 function InputController:handle_gamepadaxis( joystick, axis, value )

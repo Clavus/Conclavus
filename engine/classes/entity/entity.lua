@@ -49,7 +49,7 @@ end
 
 function Entity:setDrawBoundingBox( x1, y1, x2, y2 )
 	
-	self._drawbox = { x1 = x1 or -16, y1 = y1 or -16, x2 = x2 or 32, y2 = y2 or 32 }
+	self._drawbox = { x1 = x1 or -16, y1 = y1 or -16, x2 = x2 or 16, y2 = y2 or 16 }
 	
 end
 

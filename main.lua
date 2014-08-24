@@ -32,6 +32,7 @@ function love.load()
 	
 	local libdiff = os.clock() - start
 	start = os.clock()
+	math.randomseed(start)
 	-------------------------------------------------------
 		
 	input = InputController()

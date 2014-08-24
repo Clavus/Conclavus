@@ -26,6 +26,8 @@ function TiledLevelData:processTiledData( data )
 	self.level_tilewidth =  data.tilewidth or self.level_tilewidth 
 	self.level_tileheight = data.tileheight or self.level_tileheight
 	
+	self.properties = data.properties or {}
+	
 	assert(data.orientation == "orthogonal", "Only orthogonal maps are supported right now")
 	
 	local tilesetcache = {}

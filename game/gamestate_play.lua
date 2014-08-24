@@ -86,4 +86,9 @@ function play:draw()
 	
 end
 
+
+function play:createLevelEntity( level, entData )
+	
+end
+
 return play

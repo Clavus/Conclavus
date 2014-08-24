@@ -8,6 +8,8 @@ function LevelData:initialize()
 	self.level_tilewidth = 32
 	self.level_tileheight = 32
 	
+	self.properties = {}
+	
 	self.physics = {
 		pixels_per_meter = 20
 	}

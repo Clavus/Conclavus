@@ -73,4 +73,23 @@ function graphics.ellipse( mode, x, y, rx, ry, angle, ox, oy )
 	lg.pop()
 end
 
+function graphics.arrow( x1, y1, x2, y2, arrow_head_length, arrow_head_width )
+	
+	local v1 = Vector(x1, y1)
+	local v2 = Vector(x2, y2)
+	
+	local lv = v2 - v1
+	lv:trim( lv:length() - arrow_head_length )
+	
+	local bv = Vector(v1.x+lv.x, v1.y+lv.y)
+	local pv = lv:normalize():perpendicular()
+	local t1x, t1y = (bv + (pv * (arrow_head_width / 2))):unpack()
+	local t2x, t2y = (bv - (pv * (arrow_head_width / 2))):unpack()
+	
+	lg.line(v1.x, v1.y, bv.x, bv.y)
+	lg.polygon("fill", t1x, t1y, t2x, t2y, x2, y2)
+
+
+end
+
 return graphics

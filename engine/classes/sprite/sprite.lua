@@ -81,7 +81,7 @@ function Sprite:draw(x, y, r, sx, sy)
 	
 	r = r or 0
 	sx = sx or 1
-	sy = sy or 1	
+	sy = sy or sx	
 	local frame = self._frames[math.floor(self._cur_frame)] or self._frames[1]
 	local origin = self._origin_pos
 	love.graphics.draw(self._image, frame, x, y, r, sx, sy, origin.x, origin.y)

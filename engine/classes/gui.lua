@@ -64,4 +64,10 @@ function GUI:removeElement( id )
 	
 end
 
+function GUI:clear()
+
+	self._elements = {}
+
+end
+
 return GUI
