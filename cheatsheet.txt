@@ -8,6 +8,7 @@ lovebird		- https://github.com/rxi/lovebird
 loveframes		- http://nikolairesokav.com/projects/loveframes
 SPERM (yes, really)	- http://www.love2d.org/forums/viewtopic.php?f=5&t=76986
 lovenoise		- http://www.love2d.org/forums/viewtopic.php?f=5&t=78140
+love-loader		- https://github.com/adonaac/fuccboiGDX/tree/master/fuccboi/libraries/love-loader
 
 // Time //
 num	currentTime()	- returns seconds since game start
@@ -16,6 +17,15 @@ num	currentTime()	- returns seconds since game start
 img	resource.getImage( image_file, wrap, force_new ) -- if force_new = true, then it creates a new resource and skips the cache
 snd	resource.getSound( sound_file, stype, force_new )
 x,y	resource.getImageDimensions( image_file )
+
+// Loader //
+void	loader.newImage(holder, key, path). 			-- Adds a new image to the list of images to load.
+void	loader.newSource(holder, key, path, sourceType)		-- Adds a new source to the list of images to load.
+void	loader.start(finishCallback, loadedCallback)		-- Starts loading liasted items on a separate thread. 
+								-- Invokes finishCallback on finish. 
+								-- Invokes loadedCallback with function(kind, holder, key) on each resource load. 'kind' is a string ("image", "source" or "stream").
+num	loader.loadedCount 		-- Number of resources loaded. When loader.start gets invoked, it's 0.
+num	loader.resourceCount 		-- Number of resources to be loaded.
 
 // Level management //
 ent	Level:createEntity( class, ... )
