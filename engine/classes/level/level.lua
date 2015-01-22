@@ -150,6 +150,9 @@ function Level:getEntitiesByMixin( mixin )
 	return self._entManager:getEntitiesByMixin( mixin )
 end
 
+function Level:getEntitiesWhere( func )
+	return self._entManager:getEntitiesWhere( func )
+end
 function Level:getAllEntities()
 	return self._entManager:getAllEntities()
 end

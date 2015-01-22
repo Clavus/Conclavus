@@ -142,21 +142,27 @@ end
 
 function EntityManager:getEntitiesByClass( cl )
 
-	local res = {}
-	for k, v in ipairs( self._entities ) do
-		if (v:isInstanceOf(cl)) then
-			table.insert(res, v)
-		end
-	end
-	return res
+	return self:getEntitiesWhere( function( ent ) 
+		if ent:isInstanceOf(cl) then return true
+	end )
 	
 end
 
 function EntityManager:getEntitiesByMixin( mixin )
 	
+	return self:getEntitiesWhere( function( ent ) 
+		if ent.class:includes(mixin) then return true
+	end )
+	
+end
+
+function EntityManager:getEntitiesWhere( func )
+
+	assert(type(func) == "function", "Parameter is not a function")
+	
 	local res = {}
 	for k, v in ipairs( self._entities ) do
-		if (v.class:includes(mixin)) then
+		if (func(v) == true) then
 			table.insert(res, v)
 		end
 	end

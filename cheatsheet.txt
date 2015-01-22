@@ -21,6 +21,7 @@ x,y	resource.getImageDimensions( image_file )
 ent	Level:createEntity( class, ... )
 tab	Level:getEntitiesByClass( class )
 tab	Level:getEntitiesByMixin( mixin )
+tab	Level:getEntitiesWhere( func ) 		-- returns entities where func( entity ) returns true
 ent	Level:getCamera()
 void	Level:addPhysicsSystem( physics_system ) -- physics systems are updated after camera, but before level entities
 
