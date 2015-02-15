@@ -26,8 +26,11 @@ game = {}
 require("engine/engine_includes")
 require("game/game_includes")
 
-function love.load()
+function love.load( arg )
 	
+  -- zerobrane studio support
+  if arg[#arg] == "-debug" then require("mobdebug").start() end
+  
 	_curTime = 0
 	
 	local libdiff = os.clock() - start
