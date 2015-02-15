@@ -1,22 +1,22 @@
 
 local EntityManager = class("EntityManager")
 
-function EntityManager:initialize()
+function EntityManager:initialize( level )
 	
 	self._entities = {}
 	self._drawlist = {}
 	self._update_drawlist = true
 	
+	self._level = level
+	
 end
 
-function EntityManager:loadLevelObjects( level, levelobjects )
-	
-	self._level = level
+function EntityManager:loadLevelObjects( levelobjects )
 	
 	if (levelobjects and game.createLevelEntity) then
 	
 		for i,v in ipairs(levelobjects) do
-			game.createLevelEntity(level, v)
+			game.createLevelEntity(self._level, v)
 		end
 		
 	end
@@ -143,7 +143,9 @@ end
 function EntityManager:getEntitiesByClass( cl )
 
 	return self:getEntitiesWhere( function( ent ) 
-		if ent:isInstanceOf(cl) then return true
+		if ent:isInstanceOf(cl) then 
+			return true
+		end
 	end )
 	
 end
@@ -151,7 +153,9 @@ end
 function EntityManager:getEntitiesByMixin( mixin )
 	
 	return self:getEntitiesWhere( function( ent ) 
-		if ent.class:includes(mixin) then return true
+		if ent.class:includes(mixin) then 
+			return true
+		end
 	end )
 	
 end

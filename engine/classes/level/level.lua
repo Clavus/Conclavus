@@ -9,7 +9,7 @@ function Level:initialize( leveldata )
 	self._physics_systems = {}
 	self._pixels_per_meter = leveldata.physics.pixels_per_meter
 	
-	self._entManager = EntityManager()
+	self._entManager = EntityManager(self)
 	
 end
 
@@ -20,7 +20,7 @@ function Level:spawnObjects()
 		objects = self._leveldata.objects
 	end
 	
-	self._entManager:loadLevelObjects(self, objects)
+	self._entManager:loadLevelObjects(objects)
 	
 end
 

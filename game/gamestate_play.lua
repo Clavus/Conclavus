@@ -44,6 +44,9 @@ function play:init()
 		level:getCamera():rotate( -math.pi / 10 )
 	end)
 	
+	-- Spawn objects part of the level data
+	level:spawnObjects()
+	
 	-- Particle system test
 	level:createEntity("ParticleSystem", "Black Hole")
 	
