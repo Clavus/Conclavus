@@ -34,7 +34,8 @@ function love.load()
 	start = os.clock()
 	math.randomseed(start)
 	-------------------------------------------------------
-		
+	
+	love.joystick.loadGamepadMappings( "gamecontrollerdb.txt" )
 	input = InputController()
 	
 	screen.init( love.window.getMode() )
