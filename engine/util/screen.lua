@@ -110,7 +110,7 @@ end
 function screen.preDraw()
 	
 	lg.push()
-	love.graphics.setBackgroundColor( Color.Black:unpack() )
+	love.graphics.setBackgroundColor( 0, 0, 0, 0 )
 	love.graphics.clear()
 	lg.translate(screen.transform.translateX, screen.transform.translateY)
 	lg.scale(screen.transform.scaleX, screen.transform.scaleY)

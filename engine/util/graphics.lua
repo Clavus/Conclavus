@@ -51,9 +51,11 @@ function graphics.roundRectangle(mode, x, y, w, h, rd, s)
 	lg.setColor(r, g, b, a)
 	lg.rectangle(mode, x, y, w, h)
 	lg.setStencil()
+	
 end
 
 function graphics.ellipse( mode, x, y, rx, ry, angle, ox, oy )
+	
 	-- x & y are upper left corner
 	-- for centering  ox = rx/2 & oy = ry/2
 	ry = ry or rx
@@ -71,6 +73,7 @@ function graphics.ellipse( mode, x, y, rx, ry, angle, ox, oy )
 	end
 	lg.polygon( mode, vertices )
 	lg.pop()
+	
 end
 
 function graphics.arrow( x1, y1, x2, y2, arrow_head_length, arrow_head_width )
@@ -88,7 +91,6 @@ function graphics.arrow( x1, y1, x2, y2, arrow_head_length, arrow_head_width )
 	
 	lg.line(v1.x, v1.y, bv.x, bv.y)
 	lg.polygon("fill", t1x, t1y, t2x, t2y, x2, y2)
-
 
 end
 

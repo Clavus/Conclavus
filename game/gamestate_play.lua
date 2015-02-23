@@ -68,6 +68,9 @@ function play:update( dt )
 	
 end
 
+local red = Color.get("Red")
+local white = Color.get("White")
+
 function play:draw()
 
 	level:draw()
@@ -75,16 +78,16 @@ function play:draw()
 	
 	level:getCamera():draw( function()
 		
-		love.graphics.setColor( Color.Red:unpack() )
+		love.graphics.setColor( red:unpack() )
 		love.graphics.line( 0, 0, 10, 0 )
 		love.graphics.line( 0, 0, 0, 10 )
-		love.graphics.setColor( Color.White:unpack() )
+		love.graphics.setColor( white:unpack() )
 		
 	end)
 	
 	local mx, my = screen.getMousePosition()
 	local mwx, mwy = level:getCamera():getMouseWorldPos()
-	love.graphics.setColor( Color.White:unpack() )
+	love.graphics.setColor( white:unpack() )
 	love.graphics.print( "["..math.round(mwx)..", "..math.round(mwy).."]", mx + 8, my )
 	
 end

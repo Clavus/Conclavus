@@ -42,9 +42,11 @@ function TiledLevelData:processTiledData( data )
 		newtileset.tilemargin = tileset.margin or 0
 		newtileset.tilespacing = tileset.spacing or 0
 		newtileset.properties = tileset.properties or {}
-		newtileset.image = resource.getImage( self._file_dir..tileset.image, "repeat" )
+		newtileset.image = resource.getImage( self._file_dir..tileset.image )
 		newtileset.imagewidth = tileset.imagewidth
 		newtileset.imageheight = tileset.imageheight
+		
+		newtileset.image:setWrap("repeat", "repeat")
 		
 		local tiles_per_row = 0
 		local tiles_per_column = 0

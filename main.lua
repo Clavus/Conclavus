@@ -14,10 +14,10 @@ function print( ... )
 	
 end
 
-function dprint( str )
+function keyprint( str, key )
 	
-	-- only print if p key is held down. Useful for stopping printing output
-	if not input:keyIsDown("p") then return end
+	-- only print if the key is held down. Useful for stopping printing output
+	if not input:keyIsDown(key) then return end
 	print( str )
 	
 end
@@ -62,6 +62,7 @@ function love.update( dt )
 	
 	lovebird.update()
 	timer.update(dt)
+	resource.update()
 	game.update( dt )
 	loveframes.update( dt )
 	input:clear()

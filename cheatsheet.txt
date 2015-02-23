@@ -1,31 +1,36 @@
 
 // External libraries //
 MiddleClass 		- https://github.com/kikito/middleclass/wiki
-Hump			- http://vrld.github.io/hump/
-tlib			- http://love2d.org/forums/viewtopic.php?f=5&t=76960
-lume			- https://github.com/rxi/lume
-lovebird		- https://github.com/rxi/lovebird
-loveframes		- http://nikolairesokav.com/projects/loveframes
+Hump						- http://vrld.github.io/hump/
+tlib						- http://love2d.org/forums/viewtopic.php?f=5&t=76960
+lume						- https://github.com/rxi/lume
+lovebird				- https://github.com/rxi/lovebird
+loveframes			- http://nikolairesokav.com/projects/loveframes
 SPERM (yes, really)	- http://www.love2d.org/forums/viewtopic.php?f=5&t=76986
-lovenoise		- http://www.love2d.org/forums/viewtopic.php?f=5&t=78140
-love-loader		- https://github.com/adonaac/fuccboiGDX/tree/master/fuccboi/libraries/love-loader
+lovenoise				- http://www.love2d.org/forums/viewtopic.php?f=5&t=78140
+love-loader			- https://github.com/adonaac/fuccboiGDX/tree/master/fuccboi/libraries/love-loader
 
 // Time //
-num	currentTime()	- returns seconds since game start
+num	currentTime()	-- returns seconds since game start
+void keyprint( str, key ) -- same as print, but only prints if the key is held down. Handy for debugging 
 
 // Load resources //
-img	resource.getImage( image_file, wrap, force_new ) -- if force_new = true, then it creates a new resource and skips the cache
-snd	resource.getSound( sound_file, stype, force_new )
+img	resource.getImage( image_file, force_new ) -- grabs image from cache, or directly loads it if not present or force_new = true
+imgDat resource.getImageData( image_file, force_new ) -- grabs ImageData from cache, or directly loads it if not present or force_new = true
+snd	resource.getSound( sound_file, stype, force_new ) -- grabs sound from cache (stype = "source" or "stream"), or directly loads it if not present or force_new = true
+sndDat resource.getSoundData( sound_file, force_new ) -- grabs SoundData from cache, or directly loads it if not present or force_new = true
 x,y	resource.getImageDimensions( image_file )
-
-// Loader //
-void	loader.newImage(holder, key, path). 			-- Adds a new image to the list of images to load.
-void	loader.newSource(holder, key, path, sourceType)		-- Adds a new source to the list of images to load.
-void	loader.start(finishCallback, loadedCallback)		-- Starts loading liasted items on a separate thread. 
-								-- Invokes finishCallback on finish. 
-								-- Invokes loadedCallback with function(kind, holder, key) on each resource load. 'kind' is a string ("image", "source" or "stream").
-num	loader.loadedCount 		-- Number of resources loaded. When loader.start gets invoked, it's 0.
-num	loader.resourceCount 		-- Number of resources to be loaded.
+num resource.beginBatch() -- start a loader batch (for loading on a seperate thread), returns batch handle number
+void resource.addImageToBatch( handle, image_file, force_new ) -- add image resource to this batch
+void resource.addImageDataToBatch( handle, image_file ) -- add image data resource to this batch
+void resource.addSoundToBatch( handle, sound_file, stype, force_new ) -- add sound resource to this batch
+void resource.addSoundDataToBatch( handle, sound_file ) -- add sound data resource to this batch
+void resource.loadBatch( handle, onFinishCallback, onLoadCallback ) -- start loading this batch. 
+								-- Invokes onFinishCallback on finish, with no params
+								-- Invokes onLoadCallback( file_path, resource ) on each resource loaded
+bool resource.isBatchDone( handle ) -- returns whether this batch is done loading
+num,num resource.getBatchProgress( handle ) -- returns amount of resources & resources loaded by this batch respectively
+void resource.update() -- needs to be called for the loaders to update
 
 // Level management //
 ent	Level:createEntity( class, ... )
@@ -71,7 +76,7 @@ screen.getRenderHeight()	-- gets current render height
 screen.getAspectRatio()		-- gets current aspect ratio of the screen
 screen.getMousePosition()
 screen.setScaleType( stype )	-- can be set to one of the following:
-				-- SCREEN_SCALE.CENTER 			-- centre drawing screen, never larger than render width / height
+				-- SCREEN_SCALE.CENTER 			-- center drawing screen, never larger than render width / height
 				-- SCREEN_SCALE.STRETCH			-- stretch screen over entire window
 				-- SCREEN_SCALE.FIT_LETTERBOX		-- fit screen in window while maintaining default render aspect ratio, without clipping
 				-- SCREEN_SCALE.FIT_CLIPEDGES		-- fit screen in window, overriding render dimensions to avoid black borders 
@@ -111,7 +116,7 @@ vec	Vector:subtract( vec )		-- modifies self
 // Extended table functions //
 tab	table.copy(t)				-- copies base table, but not nested tables (references original tables)
 tab	table.deepCopy(t, lookup_table)		-- fully copies table including nested tables
-bool	table.hasValue( t, val )
+bool table.hasValue( t, val )
 mix	table.keyFromValue( tbl, val )		-- returns key of first occurence of <val> in this table
 tab	table.keysFromValue( tbl, val )		-- returns all keys that hold <val>
 tab	table.removeByValue( tbl, val )		-- removes all occurences of <val> from the table (assumes table is sequential)
@@ -140,7 +145,6 @@ str	string.fill(str, size, fixpos, char) -- Fills up string with size * char, "b
 					 -- Example: string.fill(12, 5, "before", "0") returns "00012".
 
 // Extended math functions //
-
 num	math.distance( x1, y1, x2, y2 )
 num	math.deg2rad( degrees )
 num	math.rad2deg( rad )
@@ -154,6 +158,17 @@ num	math.smooth(a, b, frac) 		-- same as math.lerp but with cosine interpolation
 num	math.normalizeAngle( a )		-- normalizes angle to be between pi and -pi radians
 num	math.angleDifference( a, b )
 num	math.approachAngle( cur, target, inc )
+
+// Steering //
+x,y steering.futurePosition(x, y, lvx, lvy, damping, gx, gy, dt) -- Returns the future position assuming no external forces are acting on the body
+num	steering.futureAngle(a, av, damping, dt) -- Returns the future angle assuming no external forces are acting on the body
+x,y steering.compensateGravity(lvx, lvy, gx, gy, dt) -- Compensates for the effects of gravity, returns target linear velocity
+x,y steering.compensateLinearDamping(lvx, lvy, damping, maxLV, dt) -- Compensates for the effects of linear damping, returns target linear velocity
+num steering.compensateAngularDamping(av, damping, maxAV, dt) -- Compensates for the effects of angular damping, returns target linear velocity
+num steering.force(ivx, ivy, fvx, fvy, mass, dt) -- Returns the force required to reach a given linear velocity
+num steering.torque(iv, fv, mass, dt) -- Returns the torque required to reach a given angular velocity
+num steering.accelerationTime(ivx, ivy, fvx, fvy, mass, force) -- Returns the time required to accelerate to a given linear velocity
+num steering.angularAccelerationTime(iv, fv, mass, torque) -- Returns the time required to accelerate to a given angular velocity
 
 // Extended package functions //
 package.loadSwappable(table)		-- loads swappable lua modules. Table in format { { module_name = "path_to_module" }, ... }
@@ -225,11 +240,11 @@ str	util.getPathFromFilename( file_path, [seperator] )
 var	util.choose( ... )
 var	util.weightedChoice( ... ) 	-- in format util.weightedChoice("duck", 20, "cat", 10). "duck" is twice as likely to be chosen
 tab	util.array(...)			-- util.array(pairs({a = 1, b = 2})) -- Returns {"a", "b"}
-bool	util.equalsAll(value, ...)
-bool	util.equalsAny(value, ...)
-void	util.lua( str ) 		-- runs the given string
+bool util.equalsAll(value, ...)
+bool util.equalsAny(value, ...)
+void util.lua( str ) 		-- runs the given string
 psystem	util.readParticleSystem( path ) -- read SPERM particle configurations and returns a new ParticleSystem from it
-void	util.openSaveDirectory()	-- opens save directory in file explorer
+void util.openSaveDirectory()	-- opens save directory in file explorer
 
 // Graphics //
 graphics.roundRectangle(mode, x, y, w, h, radius, segments) -- mode 'fill' or 'line'
@@ -244,16 +259,19 @@ num	noise.billow(pos, seed, frequency, octaves, lacunarity, persistence)
 num	noise.findOctaveLimit(persistence, detail)
 
 // Color class //
-Color:copy()		-- Copies Color instance
-Color:toHex()		-- Example: Color.Red:toHex() returns "FF0000"
-Color:getTable()	-- returns { r, g, b, a }
-Color:unpack()		-- returns r, g, b, a
-Color:negative()	-- modifies self
-Color:invert()		-- modifies self
-Color:getHSV()		-- returns h, s, v, a in [0, 255] range
-Color.lerp( color1, color2, frac ) -- lerp from color1 to color2 by fraction [0 to 1], returns new color
-Color.fromHex( hex )	-- returns new Color
-Color.fromHSV(h, s, v, a) -- returns new Color
+col Color:copy()		-- Copies Color instance
+str Color:toHex()		-- Example: Color.get("Red"):toHex() returns "FF0000"
+num Color:toHexNumber() -- packs color in a single number, discards the alpha channel
+tab Color:getTable()	-- returns { r, g, b, a }
+r,g,b,a Color:unpack()		-- returns r, g, b, a
+col	Color:negative()	-- modifies self
+col	Color:invert()		-- modifies self
+h,s,v,a Color:getHSV()		-- returns h, s, v, a in [0, 255] range
+col Color.lerp( color1, color2, frac ) -- lerp from color1 to color2 by fraction [0 to 1], returns new color
+col Color.fromHex( hex )	-- returns new Color
+col Color.fromHexNumber( hexnum ) -- returns new Color
+col Color.fromHSV(h, s, v, a) -- returns new Color
+col Color.get( name ) -- get a predefined color by name, see the HTML color list
 
 // Signals and slots //
 signal.new() 						-- returns new signal register table

@@ -13,7 +13,6 @@ local toload = {
 	-- Libraries from others
 	{ lovebird =	"engine/lib/lovebird/lovebird" },
 	{ class = 		"engine/lib/middleclass/middleclass" },
-	{ loader =		"engine/lib/loveloader/love-loader" },
 	{ timer = 		"engine/lib/hump/timer" },
 	{ signal = 		"engine/lib/hump/signal" },
 	{ gamestate = 	"engine/lib/hump/gamestate" },
@@ -29,6 +28,7 @@ local toload = {
 	{ easing = 	"engine/util/easing" },
 	{ resource = "engine/util/resource" },
 	{ graphics = "engine/util/graphics" },
+	{ steering = "engine/util/steering" },
 	
 	-- Mixins
 	{ CollisionResolver = 	"engine/classes/mixins/collisionresolver" },

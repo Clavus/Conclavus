@@ -7,23 +7,32 @@ function SpaceShip:initialize()
 	Entity.initialize( self )
 	Rotatable.initialize( self )
 	
-	self._img = Sprite({
-		image = resource.getImage( FOLDER.ASSETS.."spaceship.png" ),
-		origin_relative = Vector(0.5, 0.5)
-	})
+	local imgpath = FOLDER.ASSETS.."spaceship.png"
+	
+	-- resource batch loading test
+	local b = resource.beginBatch()
+	resource.addImageToBatch(b, imgpath)
+	resource.loadBatch(b, function()
+		self._img = Sprite({
+			image = resource.getImage(imgpath),
+			origin_relative = Vector(0.5, 0.5)
+		})
+	end)
 	
 end
 
 function SpaceShip:update( dt )
 	
-	self._pos.x = self._pos.x + 1.2*math.sin(currentTime())
+	self._pos.x = 200*math.sin(currentTime())
 	
 end
 
 function SpaceShip:draw()
 	
-	local x, y = self:getPos()
-	self._img:draw( x, y, 0 )
+	if (self._img) then
+		local x, y = self:getPos()
+		self._img:draw( x, y, 0 )
+	end
 	
 end
 
