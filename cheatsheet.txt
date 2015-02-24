@@ -123,12 +123,14 @@ tab	table.removeByValue( tbl, val )		-- removes all occurences of <val> from the
 tab	table.removeByFilter( tbl, func )	-- removes all occurences where <func> returns true (assumes table is sequential)
 tab	table.getKeys(t)			-- get all keys in the table
 tab	table.shuffle(t)			-- shuffles key - value combinations
+tab table.invert(t)				-- returns table where key->value pairs are switched around (value->key)
+tab table.set(t)				-- returns copy of table with duplicate values removed
 tab	table.forEach( t, func, ... ) 		-- if func is a function, then do func( key, value, ... ) on every table entry
 						-- or if func is a string, do entry_value:func( ... ) on every table entry
 num	table.count( t, count_func ) 		-- if count_func(key, value) is supplied, only count where it returns true
 mix	table.random( t )			-- get random value
-tab	table.filter( t, func, retainkeys ) 	-- filter t where func(key, value) returns true, returns new filtered table
-tab	table.merge(t1, t2, retainkeys) 	-- merges t2 into t1, when retaining keys, t2 overwrites t1 keys
+tab	table.filter( t, func [, retainkeys] ) -- filter t where func(key, value) returns true, returns new filtered table. retainkeys means original keys are preserved.
+tab	table.merge(t1, t2 [, retainkeys]) 	-- merges t2 into t1, when retaining keys, t2 overwrites t1 keys
 str	table.toString( t, name, nice_formatting, [maxdepth], [maxseq] ) -- summarizes (sub)tables longer than maxseq, or deeper nested than maxdepth
 
 // Iteration //
@@ -242,7 +244,9 @@ var	util.weightedChoice( ... ) 	-- in format util.weightedChoice("duck", 20, "ca
 tab	util.array(...)			-- util.array(pairs({a = 1, b = 2})) -- Returns {"a", "b"}
 bool util.equalsAll(value, ...)
 bool util.equalsAny(value, ...)
+num util.toggle( x ) -- toggles x between 0 and 1
 void util.lua( str ) 		-- runs the given string
+func util.memoize( fn )	-- Returns a wrapper function for fn that caches the result for any given set of arguments
 psystem	util.readParticleSystem( path ) -- read SPERM particle configurations and returns a new ParticleSystem from it
 void util.openSaveDirectory()	-- opens save directory in file explorer
 

@@ -72,9 +72,34 @@ function util.equalsAny(value, ...)
 	
 end
 
+function util.toggle( x )
+	
+	return 1 - math_abs(1 - x % 2)
+	
+end
+
 function util.lua( str ) -- executes the string
 
 	return assert((loadstring or load)(str))()
+	
+end
+
+local memoize_fnkey = {}
+local memoize_nil = {}
+
+function util.memoize( fn )
+
+	local cache = {}
+	return function(...)
+		local c = cache
+		for i = 1, select("#", ...) do
+			local a = select(i, ...) or memoize_nil
+			c[a] = c[a] or {}
+			c = c[a]
+		end
+		c[memoize_fnkey] = c[memoize_fnkey] or {fn(...)}
+		return unpack(c[memoize_fnkey])
+	end
 	
 end
 

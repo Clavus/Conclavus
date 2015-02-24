@@ -92,7 +92,7 @@ function table.getKeys( t )
 	
 end
 
-function table.shuffle(t)
+function table.shuffle( t )
 
 	local keys = table.getKeys(t)
 	for _, key in ipairs(keys) do
@@ -101,6 +101,24 @@ function table.shuffle(t)
 	end
 	return t
 	
+end
+
+function table.invert( t )
+
+	local rtn = {}
+	for k, v in pairs(t) do rtn[v] = k end
+	return rtn
+	
+end
+
+function table.set( t )
+
+	local rtn = {}
+	for k, v in pairs(table.invert(t)) do
+		rtn[#rtn + 1] = k
+	end
+	return rtn
+
 end
 
 function table.forEach( t, func, ... )
