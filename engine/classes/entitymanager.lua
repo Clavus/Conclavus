@@ -22,6 +22,7 @@ function EntityManager:createEntity( class, ...)
 	if (_G[class] and _G[class]:isSubclassOf(Entity)) then
 		ent = _G[class](...)
 	end
+	
 	if (ent ~= nil and ent:isInstanceOf(_G[class])) then
 		table.insert(self._entities, ent)
 		--print("Created entity, new list:\n"..table.toString(self._entities,"self._entities",true))
@@ -53,6 +54,7 @@ function EntityManager:preDraw()
 	if (self._update_drawlist) then
 		self._drawlist = { _first = {}, _final = {} }
 		local layername
+		
 		for k, ent in pairs( self._entities ) do
 			layername = ent:getDrawLayer()
 			if (layername == DRAW_LAYER.BOTTOM) then

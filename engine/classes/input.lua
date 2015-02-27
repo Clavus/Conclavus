@@ -51,8 +51,7 @@ void	InputController:removeActionPressCallback(id)
 void	InputController:removeActionReleaseCallback(id)
 ]]--
 
-function InputController:initialize()
-	
+function InputController:initialize()	
 	self._keysdown = {}
 	self._keyspressed = {}
 	self._keysreleased = {}
@@ -62,16 +61,14 @@ function InputController:initialize()
 	self._gamepaddown = {}
 	self._gamepadpressed = {}
 	self._gamepadreleased = {}
-	self._gamepadaxis = {}	
-	
+	self._gamepadaxis = {}		
 	self._keypresscalls = {}
 	self._keyreleasecalls = {}
 	self._mousepresscalls = {}
 	self._mousereleasecalls = {}
 	self._gamepadpresscalls = {}
 	self._gamepadreleasecalls = {}
-	self._gamepadaxiscalls = {}
-	
+	self._gamepadaxiscalls = {}	
 	self._actions = {}	
 	self._actionbinds = { 
 							actions = {},
@@ -81,15 +78,13 @@ function InputController:initialize()
 						}
 	self._actiondown = {}
 	self._actionpressed = {}
-	self._actionreleased = {}
-	
+	self._actionreleased = {}	
 	self._actionpresscalls = {}
 	self._actionreleasecalls = {}
 	
 end
 
 function InputController:clear()
-
 	self._keyspressed = {}
 	self._keysreleased = {}
 	self._mousepressed = {}
@@ -98,58 +93,44 @@ function InputController:clear()
 	self._gamepadreleased = {}
 	self._actionpressed = {}
 	self._actionreleased = {}
-	
 end
 
 --------------------------------------------------
 -------------- Handling actions ------------------
 --------------------------------------------------
 
-function InputController:registerAction( action )
-	
+function InputController:registerAction( action )	
 	assert(not table.hasValue( self._actions, action ), "Action '"..action.."' is already registered!")
-	table.insert( self._actions, action )
-	
+	table.insert( self._actions, action )	
 end
 
-function InputController:bindActionToKey( action, key )
-	
+function InputController:bindActionToKey( action, key )	
 	assert(table.hasValue( self._actions, action ), "Action '"..action.."' is unknown! Be sure to register actions first.")
 	self._actionbinds.actions[action] = self._actionbinds.actions[action] or { mouse = {}, keys = {}, gamepad = {} }
 	self._actionbinds.keys[key] = self._actionbinds.keys[key] or {}
-	
 	table.insert( self._actionbinds.actions[action].keys, key )
 	table.insert( self._actionbinds.keys[key], action )
-	
 end
 
-function InputController:bindActionToMouse( action, btn )
-	
+function InputController:bindActionToMouse( action, btn )	
 	assert(table.hasValue( self._actions, action ), "Action '"..action.."' is unknown! Be sure to register actions first.")
 	self._actionbinds.actions[action] = self._actionbinds.actions[action] or { mouse = {}, keys = {}, gamepad = {} }
-	self._actionbinds.mouse[btn] = self._actionbinds.mouse[btn] or {}
-	
+	self._actionbinds.mouse[btn] = self._actionbinds.mouse[btn] or {}	
 	table.insert( self._actionbinds.actions[action].mouse, btn )
-	table.insert( self._actionbinds.mouse[btn], action )
-	
+	table.insert( self._actionbinds.mouse[btn], action )	
 end
 
-function InputController:bindActionToGamepad( action, btn )
-	
+function InputController:bindActionToGamepad( action, btn )	
 	assert(table.hasValue( self._actions, action ), "Action '"..action.."' is unknown! Be sure to register actions first.")
 	self._actionbinds.actions[action] = self._actionbinds.actions[action] or { mouse = {}, keys = {}, gamepad = {} }
-	self._actionbinds.gamepad[btn] = self._actionbinds.gamepad[btn] or {}
-	
+	self._actionbinds.gamepad[btn] = self._actionbinds.gamepad[btn] or {}	
 	table.insert( self._actionbinds.actions[action].mouse, btn )
-	table.insert( self._actionbinds.gamepad[btn], action )
-	
+	table.insert( self._actionbinds.gamepad[btn], action )	
 end
 
 function InputController:unbindActionFromKey( action, key  )
-	
 	assert(table.hasValue( self._actions, action ), "Action '"..action.."' is unknown!")
-	if (self._actionbinds.actions[action] == nil or #self._actionbinds.actions[action].keys == 0) then return end
-	
+	if (self._actionbinds.actions[action] == nil or #self._actionbinds.actions[action].keys == 0) then return end	
 	if (key ~= nil) then
 		table.removeByValue( self._actionbinds.actions[action].keys, key )
 		table.removeByValue( self._actionbinds.keys[key], action )
@@ -160,14 +141,11 @@ function InputController:unbindActionFromKey( action, key  )
 			table.removeByValue( self._actionbinds.keys[k], action )
 		end
 	end
-
 end
 
-function InputController:unbindActionFromMouse( action, btn )
-	
+function InputController:unbindActionFromMouse( action, btn )	
 	assert(table.hasValue( self._actions, action ), "Action '"..action.."' is unknown!")
-	if (self._actionbinds.actions[action] == nil or #self._actionbinds.actions[action].mouse == 0) then return end
-	
+	if (self._actionbinds.actions[action] == nil or #self._actionbinds.actions[action].mouse == 0) then return end	
 	if (btn ~= nil) then
 		table.removeByValue( self._actionbinds.actions[action].mouse, btn )
 		table.removeByValue( self._actionbinds.mouse[btn], action )
@@ -177,15 +155,12 @@ function InputController:unbindActionFromMouse( action, btn )
 		for k, v in ipairs( self._actionbinds.mouse ) do
 			table.removeByValue( self._actionbinds.mouse[k], action )
 		end
-	end
-	
+	end	
 end
 
-function InputController:unbindActionFromGamepad(  action, btn )
-	
+function InputController:unbindActionFromGamepad(  action, btn )	
 	assert(table.hasValue( self._actions, action ), "Action '"..action.."' is unknown!")
 	if (self._actionbinds.actions[action] == nil or #self._actionbinds.actions[action].gamepad == 0) then return end
-	
 	if (btn ~= nil) then
 		table.removeByValue( self._actionbinds.actions[action].gamepad, btn )
 		table.removeByValue( self._actionbinds.gamepad[btn], action )
@@ -196,59 +171,47 @@ function InputController:unbindActionFromGamepad(  action, btn )
 			table.removeByValue( self._actionbinds.gamepad[k], action )
 		end
 	end
-	
 end
 
 ----------------------------------------------------
 -------------- Handling raw input ------------------
 ----------------------------------------------------
 
-local function inputPressed(input_object, input_type, input, tab_press, tab_down, tab_calls, tab_binds, joystick)
-	
+local function inputPressed(input_object, input_type, input, tab_press, tab_down, tab_calls, tab_binds, joystick)	
 	tab_press[input] = true
-	tab_down[input] = { time = currentTime() }
-	
+	tab_down[input] = { time = currentTime() }	
 	if (tab_calls[input]) then
 		for k, v in pairs(tab_calls[input]) do
 			if (input_type == "gamepad") then v(joystick, input)
 			else v(input) end
 		end
-	end
-	
+	end	
 	-- handle actions
 	local actions = tab_binds[input]
 	if (actions == nil) then return end
-	
-	print("Pressed "..input..", actions: "..table.toString(actions, "actions", false))
+	--print("Pressed "..input..", actions: "..table.toString(actions, "actions", false))
 	
 	for k, action in ipairs( actions ) do
 		input_object._actionpressed[action] = true
 		input_object._actiondown[action] = { time = currentTime() }
-		
 		if (input_object._actionpresscalls[action]) then
 			for k, v in pairs(input_object._actionpresscalls[action]) do
 				if (input_type == "gamepad") then v(input_type, input, joystick)
 				else v(input_type, input) end
 			end
 		end
-	
 	end
-	
 end
 
 local function inputReleased(input_object, input_type, input, tab_released, tab_down, tab_calls, tab_binds, joystick)
-	
 	tab_released[input] = true
-	
 	if (tab_calls[input] and tab_down[input]) then
 		for k, v in pairs(tab_calls[input]) do
 			if (input_type == "gamepad") then v(joystick, input, currentTime() - tab_down[input].time)
 			else v(input, currentTime() - tab_down[input].time) end
 		end
 	end
-	
 	tab_down[input] = nil
-	
 	-- handle actions
 	local actions = tab_binds[input]
 	if (actions == nil) then return end
@@ -256,7 +219,6 @@ local function inputReleased(input_object, input_type, input, tab_released, tab_
 	for k, action in ipairs( actions ) do
 		input_object._actionreleased[action] = true
 		input_object._actiondown[action] = nil
-		
 		if (input_object._actionreleasecalls[action] and input_object._actiondown[action]) then
 			for k, v in pairs(input_object._actionreleasecalls[action]) do
 				if (input_type == "gamepad") then v(input_type, input, currentTime() - input_object._actiondown[input].time, joystick)
@@ -264,10 +226,8 @@ local function inputReleased(input_object, input_type, input, tab_released, tab_
 				
 			end
 		end
-		
 		input_object._actiondown[action] = nil
 	end
-	
 end
 
 
@@ -305,7 +265,6 @@ function InputController:handle_gamepadaxis( joystick, axis, value )
 	local id = joystick:getID()
 	self._gamepadaxis[id] = self._gamepadaxis[id] or {}
 	self._gamepadaxis[id][axis] = value
-	
 	if (self._gamepadaxiscalls[axis]) then
 		for k, v in pairs(self._gamepadaxiscalls[axis]) do
 			v(joystick, axis, value)
@@ -314,23 +273,19 @@ function InputController:handle_gamepadaxis( joystick, axis, value )
 end
 
 function InputController:handle_gamepadadded(joystick)
-	
 	local id = joystick:getID()
 	self._gamepadpressed[id] = {}
 	self._gamepadreleased[id] = {}
 	self._gamepaddown[id] = {}
 	self._gamepadaxis[id] = {}
-	
 end
 
 function InputController:handle_gamepadremoved(joystick)
-	
 	local id = joystick:getID()
 	self._gamepadpressed[id] = nil
 	self._gamepadreleased[id] = nil
 	self._gamepaddown[id] = nil
 	self._gamepadaxis[id] = nil
-	
 end
 
 -------------------------------------------------
@@ -408,189 +363,143 @@ end
 -- keys
 
 function InputController:addKeyPressCallback(id, key, func)
-
 	if not self._keypresscalls[key] then
 		self._keypresscalls[key] = {}
 	end
-
 	self._keypresscalls[key][id] = func
-	
 end
 
 function InputController:removeKeyPressCallback(id)
-	
 	for k, v in pairs(self._keypresscalls) do
 		if (v[id]) then
 			self._keypresscalls[k][id] = nil
 		end
 	end
-	
 end
 
 function InputController:addKeyReleaseCallback(id, key, func)
-
 	if not self._keyreleasecalls[key] then
 		self._keyreleasecalls[key] = {}
 	end
-
 	self._keyreleasecalls[key][id] = func
-	
 end
 
 function InputController:removeKeyReleaseCallback(id)
-
 	for k, v in pairs(self._keyreleasecalls) do
 		if (v[id]) then
 			self._keyreleasecalls[k][id] = nil
 		end
 	end
-	
 end
 
 -- mouse
 
 function InputController:addMousePressCallback(id, button, func)
-
 	if not self._mousepresscalls[button] then
 		self._mousepresscalls[button] = {}
 	end
-
 	self._mousepresscalls[button][id] = func
-	
 end
 
 function InputController:removeMousePressCallback(id)
-	
 	for k, v in pairs(self._mousepresscalls) do
 		if (v[id]) then
 			self._mousepresscalls[k][id] = nil
 		end
 	end
-
 end
 
 function InputController:addMouseReleaseCallback(id, button, func)
-
 	if not self._mousereleasecalls[button] then
 		self._mousereleasecalls[button] = {}
 	end
-
 	self._mousereleasecalls[button][id] = func
-	
 end
 
 function InputController:removeMouseReleaseCallback(id)
-
 	for k, v in pairs(self._mousereleasecalls) do
 		if (v[id]) then
 			self._mousereleasecalls[k][id] = nil
 		end
 	end
-	
 end
 
 -- gamepad
-
 function InputController:addGamepadPressCallback(id, button, func)
-
 	if not self._gamepadpresscalls[button] then
 		self._gamepadpresscalls[button] = {}
 	end
-
 	self._gamepadpresscalls[button][id] = func
-	
 end
 
 function InputController:removeGamepadPressCallback(id)
-	
 	for k, v in pairs(self._gamepadpresscalls) do
 		if (v[id]) then
 			self._gamepadpresscalls[k][id] = nil
 		end
 	end
-
 end
 
 function InputController:addGamepadReleaseCallback(id, button, func)
-
 	if not self._gamepadreleasecalls[button] then
 		self._gamepadreleasecalls[button] = {}
 	end
-
 	self._gamepadreleasecalls[button][id] = func
-	
 end
 
 function InputController:removeGamepadReleaseCallback(id)
-
 	for k, v in pairs(self._gamepadreleasecalls) do
 		if (v[id]) then
 			self._gamepadreleasecalls[k][id] = nil
 		end
 	end
-	
 end
 
 function InputController:addGamepadAxisCallback(id, axis, func)
-	
 	if not self._gamepadaxiscalls[axis] then
 		self._gamepadaxiscalls[axis] = {}
 	end
-	
 	self._gamepadaxiscalls[axis][id] = func
-	
 end
 
 function InputController:removeGamepadAxisCallback(id)
-
 	for ax, v in pairs(self._gamepadaxiscalls) do
 		if (v[id]) then
 			self._gamepadaxiscalls[ax][id] = nil
 		end
 	end
-	
 end
 
 -- bound actions
 
 function InputController:addActionPressCallback(id, action, func)
-
 	if not self._actionpresscalls[action] then
 		self._actionpresscalls[action] = {}
 	end
-
 	self._actionpresscalls[action][id] = func
-	
 end
 
 function InputController:removeActionPressCallback(id)
-	
 	for k, v in pairs(self._actionpresscalls) do
 		if (v[id]) then
 			self._actionpresscalls[k][id] = nil
 		end
 	end
-	
 end
 
 function InputController:addActionReleaseCallback(id, action, func)
-
 	if not self._actionreleasecalls[action] then
 		self._actionreleasecalls[action] = {}
 	end
-
 	self._keyreleasecalls[action][id] = func
-	
 end
 
 function InputController:removeActionReleaseCallback(id)
-
 	for k, v in pairs(self._actionreleasecalls) do
 		if (v[id]) then
 			self._actionreleasecalls[k][id] = nil
 		end
 	end
-	
 end
 
 return InputController

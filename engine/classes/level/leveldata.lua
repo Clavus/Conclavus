@@ -7,13 +7,10 @@ function LevelData:initialize()
 	self.level_height = 100
 	self.level_tilewidth = 32
 	self.level_tileheight = 32
-	
 	self.properties = {}
-	
 	self.physics = {
 		pixels_per_meter = 20
 	}
-	
 	-- Example formats for the below tables
 	self.layers = {
 		--[[
@@ -101,15 +98,11 @@ function LevelData:initialize()
 end
 
 function LevelData:getLayers()
-	
 	return self.layers
-	
 end
 
 function LevelData:getObjects()
-	
 	return self.objects
-	
 end
 
 return LevelData

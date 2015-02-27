@@ -2,30 +2,24 @@
 local Color = class('Color')
 
 function Color:initialize( r, g, b, a )
-
 	self.r = r or 255
 	self.g = g or 255
 	self.b = b or 255
 	self.a = a or 255
-	
 end
 
 function Color:copy()
-
 	return Color( self.r, self.g, self.b, self.a )
-
 end
 
  local RGBtoHSV = function(r, g, b, a)
-	
 	r, g, b = r / 255, g / 255, b / 255
 	local max, min = math.max(r, g, b), math.min(r, g, b)
 	local h, s, v
 	v = max
-
 	local d = max - min
 	if max == 0 then s = 0 else s = d / max end
-
+	
 	if max == min then
 		h = 0 -- achromatic
 	else
@@ -39,24 +33,19 @@ end
 		end
 		h = h / 6
 	end
-
 	return h * 255, s * 255, v * 255, a
-	
  end
  
 local HSVtoRGB = function(h, s, v, a)
-	
 	local h, s, v = h / 255, s / 255, v / 255
 	local r, g, b
-
 	local i = math.floor(h * 6)
 	local f = h * 6 - i
 	local p = v * (1 - s)
 	local q = v * (1 - f * s)
 	local t = v * (1 - (1 - f) * s)
-
+	
 	i = i % 6
-
 	if i == 0 then r, g, b = v, t, p
 	elseif i == 1 then r, g, b = q, v, p
 	elseif i == 2 then r, g, b = p, v, t
@@ -64,96 +53,71 @@ local HSVtoRGB = function(h, s, v, a)
 	elseif i == 4 then r, g, b = t, p, v
 	elseif i == 5 then r, g, b = v, p, q
 	end
-
 	return r * 255, g * 255, b * 255, a
-	
  end
 
 function Color:toHex()
 	
 	local hexadecimal = "" --'0X'
- 
 	for key, value in pairs({self.r, self.g, self.b}) do
 		local hex = ''
- 
 		while(value > 0)do
 			local index = math.fmod(value, 16) + 1
 			value = math.floor(value / 16)
 			hex = string.sub('0123456789ABCDEF', index, index) .. hex			
 		end
- 
+		
 		if(string.len(hex) == 0)then 
 			hex = '00'
 		elseif(string.len(hex) == 1)then
 			hex = '0' .. hex
 		end
- 
 		hexadecimal = hexadecimal .. hex
 	end
- 
 	return hexadecimal
-	
 end
 
 function Color:toHexNumber()
-	
 	return self.r * 0x10000 + self.g * 0x100 + self.b
-	
 end
 
 function Color:getTable()
-	
 	return { self.r, self.g, self.b, self.a }
-	
 end
 
 function Color:unpack()
-	
 	return self.r, self.g, self.b, self.a
-	
 end
 
 function Color:negative()
-	
 	self.r = 255 - self.r
 	self.g = 255 - self.g
 	self.b = 255 - self.b
 	return self
-	
 end
 
 function Color:invert()
-	
 	local h, s, v = Color:getHSV()
 	self.r, self.g, self.b = Color.HSVtoRGB( 255 - h, s, v )
 	return self
-	
 end
 
 function Color:getHSV()
-
 	return RGBtoHSV( self.r, self.g, self.b, self.a )
-
 end
 
 function Color:__concat( a )
-	
 	return tostring(self)..tostring(a)
-	
 end
 
 function Color:__tostring()
-
 	return "Color( "..self.r..", "..self.g..", "..self.b..", "..self.a.." )"
-	
 end
 
 -- credits to ivan from Love2D forum
 Color.static.fromHexNumber = function( rgb )
-
   -- clamp between 0x000000 and 0xffffff
   rgb = rgb % 0x1000000 -- 0xffffff + 1
-
   -- extract each color
   local b = rgb % 0x100 -- 0xff + 1 or 256
   local g = (rgb - b) % 0x10000 -- 0xffff + 1
@@ -161,34 +125,26 @@ Color.static.fromHexNumber = function( rgb )
   -- shift right
   g = g / 0x100 -- 0xff + 1 or 256
   r = r / 0x10000 -- 0xffff + 1
-
   return r, g, b
-	
 end
 
 Color.static.fromHex = function( hex )
-
 	hex = hex:gsub("#","")
 	assert(string.len(hex) == 6, "Invalid hexadecimal color value!")
 	--return Color(tonumber("0x"..hex:sub(1,2)), tonumber("0x"..hex:sub(3,4)), tonumber("0x"..hex:sub(5,6)))
 	return Color.fromHexNumber( tonumber(hex) )
-	
 end
 
 Color.static.fromHSV = function(h, s, v, a)
-	
 	return Color(HSVtoRGB(h, s, v, a))
-	
 end
 
 Color.static.lerp = function( color1, color2, frac )
-
 	local new_r = color1.r + (color2.r - color1.r) * frac
 	local new_g = color1.g + (color2.g - color1.g) * frac
 	local new_b = color1.b + (color2.b - color1.b) * frac
 	local new_a = color1.a + (color2.a - color1.a) * frac
 	return Color(new_r, new_g, new_b, new_a)
-
 end
 
 -- HTML colors: http://www.w3schools.com/html/html_colornames.asp --
@@ -342,10 +298,8 @@ colors.Yellow = { 255, 255, 0 }
 colors.YellowGreen = { 154, 205, 50 }
 
 Color.static.get = function( name )
-
 	assert(colors[name] ~= nil, "Color does not exist in this list, use the HTML color table!")
 	return Color(unpack(colors[name]))
-
 end
 
 return Color

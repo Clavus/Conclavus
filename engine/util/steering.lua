@@ -11,22 +11,17 @@ local steering = {}
 -- dt 				= Time step
 -- return x, y = Future position at the end of the time step
 function steering.futurePosition(x, y, lvx, lvy, damping, gx, gy, dt)
-	
 	-- integrate gravity
 	local fpx = lvx + gx*dt
 	local fpy = lvy + gy*dt
-	
 	-- apply damping
 	local d = 1 - dt*damping
-	
 	if d < 0 then
 		d = 0
 	elseif d > 1 then
 		d = 1
 	end
-	
 	return fpx*d + x, fpy*d + y
-	
 end
 
 --- Returns the future angle assuming no external forces are acting on the body
@@ -35,19 +30,15 @@ end
 -- damping 		= Angular damping
 -- dt 				= Time step
 -- return num = Future angle at the end of the time step
-function steering.futureAngle(a, av, damping, dt)
-	
+function steering.futureAngle(a, av, damping, dt)	
   -- apply damping
-  local d = 1 - dt*damping
-	
+  local d = 1 - dt*damping	
   if d < 0 then
     d = 0
   elseif d > 1 then
     d = 1
-  end
-	
-  return av*d + a
-	
+  end	
+  return av*d + a	
 end
 
 --- Compensates for the effects of gravity
@@ -55,10 +46,8 @@ end
 -- gx, gy 			= Gravity
 -- dt 					= Time step
 -- return x, y	= Target linear velocity at the beginning of the time step
-function steering.compensateGravity(lvx, lvy, gx, gy, dt)
-	
-  return lvx - gx*dt, lvy - gy*dt
-	
+function steering.compensateGravity(lvx, lvy, gx, gy, dt)	
+  return lvx - gx*dt, lvy - gy*dt	
 end
 
 --- Compensates for the effects of linear damping
@@ -67,20 +56,16 @@ end
 -- maxLV 				= Maximum linear velocity
 -- dt 					= Time step
 -- return x, y	= Target linear velocity at the beginning of the time step
-function steering.compensateLinearDamping(lvx, lvy, damping, maxLV, dt)
-	
-  local d = 1 - dt*damping
-	
+function steering.compensateLinearDamping(lvx, lvy, damping, maxLV, dt)	
+  local d = 1 - dt*damping	
   if d <= 0 then
     local lv = math.sqrt(lvx*lvx + lvy*lvy)
     local nx, ny = lvx/lv, lvy/lv
     return nx*maxLV, ny*maxLV
   elseif d > 1 then
     d = 1
-  end
-	
-  return lvx/d, lvy/d
-	
+  end	
+  return lvx/d, lvy/d	
 end
 
 --- Compensates for the effects of angular damping
@@ -89,10 +74,8 @@ end
 -- maxAV 			= Maximum angular velocity
 -- dt 				= Time step
 -- return num = Target angular velocity at the beginning of the time step
-function steering.compensateAngularDamping(av, damping, maxAV, dt)
-	
-  local d = 1 - dt*damping
-	
+function steering.compensateAngularDamping(av, damping, maxAV, dt)	
+  local d = 1 - dt*damping	
   if d <= 0 then
     if av < 0 then
       return -maxAV
@@ -101,10 +84,8 @@ function steering.compensateAngularDamping(av, damping, maxAV, dt)
     end
   elseif d > 1 then
     d = 1
-  end
-	
-  return av/d
-	
+  end	
+  return av/d	
 end
 
 --- Returns the force required to reach a given linear velocity
@@ -114,10 +95,8 @@ end
 -- mass 			= Mass
 -- dt 				= Time step
 -- return num	= Force
-function steering.force(ivx, ivy, fvx, fvy, mass, dt)
-	
-  return (fvx - ivx)/dt*mass, (fvy - ivy)/dt*mass
-	
+function steering.force(ivx, ivy, fvx, fvy, mass, dt)	
+  return (fvx - ivx)/dt*mass, (fvy - ivy)/dt*mass	
 end
 
 --- Returns the torque required to reach a given angular velocity
@@ -129,10 +108,8 @@ end
 -- dt 				= Time step
 -- return num = Torque
 function steering.torque(iv, fv, mass, dt)
-	
   local inertia = mass*iv
-  return (fv - iv)/dt*inertia
-	
+  return (fv - iv)/dt*inertia	
 end
 
 --- Returns the time required to accelerate to a given linear velocity
@@ -142,13 +119,11 @@ end
 -- mass 			= Mass
 -- force 			= Maximum force
 -- return num = Time
-function steering.accelerationTime(ivx, ivy, fvx, fvy, mass, force)
-	
+function steering.accelerationTime(ivx, ivy, fvx, fvy, mass, force)	
   -- change in velocity
   local dx, dy = fvx - ivx, fvy - ivy
   local d = math.sqrt(dx*dx + dy*dy)
-  return d*mass/force
-	
+  return d*mass/force	
 end
 
 --- Returns the time required to accelerate to a given angular velocity
@@ -159,11 +134,9 @@ end
 -- mass 			= Mass
 -- force 			= Maximum torque
 -- return num = Time
-function steering.angularAccelerationTime(iv, fv, mass, torque)
-	
+function steering.angularAccelerationTime(iv, fv, mass, torque)	
   local inertia = mass*iv
-  return (fv - iv)*inertia/torque
-	
+  return (fv - iv)*inertia/torque	
 end
 
 return steering

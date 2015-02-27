@@ -16,29 +16,23 @@ desc = {
 ]]--
 
 function FiniteStateMachine:initialize( desc, start_state )
-	
 	assert(start_state ~= nil, "Starting state of FSM cannot be nil!")
 	self._description = desc
-	self._state = start_state
-	
+	self._state = start_state	
 end
 
-function FiniteStateMachine:triggerEvent( event )
-	
+function FiniteStateMachine:triggerEvent( event )	
 	local links = self._description.links[self._state]
 	if (links == nil) then return end
 	if (links[event]) then
 		self._state = links[event]
 		return true
 	end
-	return false
-	
+	return false	
 end
 
 function FiniteStateMachine:getState()
-
 	return self._state	
-	
 end
 
 return FiniteStateMachine

@@ -6,20 +6,14 @@ function play:init()
 
 	-- Create GUI
 	gui = GUI()
-	
 	-- Create level with physics world
-	
 	level = Level(LevelData())
-	
 	love.physics.setMeter(level:getPixelsPerMeter())
-	
 	physics = Box2DPhysicsSystem( true )
 	physics:initDefaultCollisionCallbacks()
 	level:addPhysicsSystem( physics )
-	
 	world = physics:getWorld()
 	world:setGravity(0, 300)
-	
 	-- Set up example
 	player = level:createEntity("SpaceShip")
 	player:setPos( 0, 0 )
@@ -46,7 +40,6 @@ function play:init()
 	
 	-- Spawn objects part of the level data
 	level:spawnObjects()
-	
 	-- Particle system test
 	level:createEntity("ParticleSystem", "Black Hole")
 	
@@ -61,35 +54,28 @@ function play:leave()
 end
 
 function play:update( dt )
-	
 	level:update( dt )
 	gui:update( dt )
-	
-	
 end
 
 local red = Color.get("Red")
 local white = Color.get("White")
 
 function play:draw()
-
 	level:draw()
 	gui:draw()
 	
 	level:getCamera():draw( function()
-		
 		love.graphics.setColor( red:unpack() )
 		love.graphics.line( 0, 0, 10, 0 )
 		love.graphics.line( 0, 0, 0, 10 )
 		love.graphics.setColor( white:unpack() )
-		
 	end)
 	
 	local mx, my = screen.getMousePosition()
 	local mwx, mwy = level:getCamera():getMouseWorldPos()
 	love.graphics.setColor( white:unpack() )
 	love.graphics.print( "["..math.round(mwx)..", "..math.round(mwy).."]", mx + 8, my )
-	
 end
 
 
