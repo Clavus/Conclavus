@@ -425,6 +425,7 @@ function InputController:removeMouseReleaseCallback(id)
 end
 
 -- gamepad
+
 function InputController:addGamepadPressCallback(id, button, func)
 	if not self._gamepadpresscalls[button] then
 		self._gamepadpresscalls[button] = {}

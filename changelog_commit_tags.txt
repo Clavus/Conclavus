@@ -1,0 +1,23 @@
+Tags
+
+Each commit can have multiple changelog entries in the following format: tag message. Each entry is divided by ;, so a single commit with multiple entries 
+will be something like: tag1 message1; tag2 message2; tag3 message3. A message is the text that will be printed on the changelog. A tag is a special code 
+that helps divide changelog entries as well as control the versioning system. Available tags are:
+
+addi:			adds the message to the changelog under the Additions section
+addp:			adds the message to the changelog under the Additions section and increases PATCH by 1
+docn:			adds the message to the documentation needed list
+doca:			matches the message to previous documentation needed messages, unmatched messages will generate a WARNING on the top of the changelog
+done:			removes a todo element from the todo list, the number passed (done #23, for instance) has to match an existing number in the todo list
+fixi:			adds the message to the changelog under the Fixes section
+fixp:			adds the message to the changelog under the Fixes section and increases PATCH by 1
+remi:			adds the message to the changelog under the Removed section
+remp:			adds the message to the changelog under the Removed section and increases PATCH by 1
+reni:			adds the message to the changelog under the Renamed section
+renp:			adds the message to the changelog under the Renamed section and increases PATCH by 1
+updi:			adds the message to the changelog under the Updates section
+updp:			adds the message to the changelog under the Updates section and increases PATCH by 1
+release_patch: 	adds the message to the changelog as a minor release and increases PATCH by 1
+release_minor: 	adds the message to the changelog as a minor release and increases MINOR by 1
+release_major: 	adds the message to the changelog as a major release and increases MAJOR by 1
+todo: 			adds the message to the changelog under the TODO section with a random number as its identifier (to be matched with done)
