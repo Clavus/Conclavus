@@ -1,5 +1,5 @@
 ------------------------
--- Constant variable definitions
+-- Constant definitions
 -- @module constants
 
 --- some pre-defined folder locations
