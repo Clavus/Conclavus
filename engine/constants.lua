@@ -1,37 +1,45 @@
+------------------------
+-- Constant variable definitions
+-- @module constants
 
--- folder locations
-FOLDER = {}
-FOLDER.ASSETS = "game/assets/"
-FOLDER.PARTICLESYSTEMS = "game/assets/particlesystems/"
+--- some pre-defined folder locations
+FOLDER = {
+	ASSETS = "game/assets/", -- default asset folder location
+	PARTICLESYSTEMS = "game/assets/particlesystems/", -- default particle system asset folder location
+}
 
--- input constants
-MOUSE = {}
-MOUSE.LEFT = "l"
-MOUSE.RIGHT = "r"
-MOUSE.MIDDLE = "m"
-MOUSE.WHEELDOWN = "wd"
-MOUSE.WHEELUP = "wu"
-MOUSE.BUTTON4 = "x1"
-MOUSE.BUTTON5 = "x2"
+--- mouse input constants
+MOUSE = {
+	LEFT = "l", -- mouse left button
+	RIGHT = "r", -- mouse right button
+	MIDDLE = "m", -- mouse middle button
+	WHEELDOWN = "wd", -- mouse wheel down
+	WHEELUP = "wu", -- mouse wheel up
+	BUTTON4 = "x1", -- mouse 4
+	BUTTON5 = "x2", -- mouse 5
+}
 
--- draw layer order
-DRAW_LAYER = {}
-DRAW_LAYER.TOP = -1
-DRAW_LAYER.BOTTOM = 99999
+--- pre-defined draw layer ordering
+DRAW_LAYER = {
+	TOP = -1, -- top layer
+	BOTTOM = 99999, -- bottom layer
+}
 
--- draw layer types
-LAYER_TYPE = {}
-LAYER_TYPE.NONE = 0
-LAYER_TYPE.IMAGES = 1
-LAYER_TYPE.BATCH = 2
-LAYER_TYPE.BACKGROUND = 3
-LAYER_TYPE.CUSTOM = 4
+--- draw layer types
+LAYER_TYPE = {
+	NONE = 0,
+	IMAGES = 1,
+	BATCH = 2,
+	BACKGROUND = 3,
+	CUSTOM = 4,
+}
 
--- screen scaling types
-SCREEN_SCALE = {}
-SCREEN_SCALE.CENTER = 0
-SCREEN_SCALE.STRETCH = 1
-SCREEN_SCALE.FIT_LETTERBOX = 2
-SCREEN_SCALE.FIT_CLIPEDGES = 3
-SCREEN_SCALE.FIT_HEIGHT = 4
-SCREEN_SCALE.FIT_WIDTH = 5
+--- screen scaling types
+SCREEN_SCALE = {
+	CENTER = 0,
+	STRETCH = 1,
+	FIT_LETTERBOX = 2,
+	FIT_CLIPEDGES = 3,
+	FIT_HEIGHT = 4,
+	FIT_WIDTH = 5,
+}

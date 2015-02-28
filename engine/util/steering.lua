@@ -3,7 +3,7 @@
 -- http://www.love2d.org/forums/viewtopic.php?f=5&t=78537#p175033
 local steering = {}
 
---- Returns the future position assuming no external forces are acting on the body
+-- Returns the future position assuming no external forces are acting on the body
 -- x, y 			= Current position at the beginning of the time step
 -- lvx, lvy 	= Current linear velocity at the beginning of the time step
 -- damping 		= Linear damping
@@ -24,7 +24,7 @@ function steering.futurePosition(x, y, lvx, lvy, damping, gx, gy, dt)
 	return fpx*d + x, fpy*d + y
 end
 
---- Returns the future angle assuming no external forces are acting on the body
+-- Returns the future angle assuming no external forces are acting on the body
 -- x, y 			= Current angle at the beginning of the time step
 -- lvx, lvy 	= Current angular velocity at the beginning of the time step
 -- damping 		= Angular damping
@@ -41,7 +41,7 @@ function steering.futureAngle(a, av, damping, dt)
   return av*d + a	
 end
 
---- Compensates for the effects of gravity
+-- Compensates for the effects of gravity
 -- lvx, lvy 		= Desired linear velocity at the end of the time step
 -- gx, gy 			= Gravity
 -- dt 					= Time step
@@ -50,7 +50,7 @@ function steering.compensateGravity(lvx, lvy, gx, gy, dt)
   return lvx - gx*dt, lvy - gy*dt	
 end
 
---- Compensates for the effects of linear damping
+-- Compensates for the effects of linear damping
 -- lvx, lvy 		= Desired linear velocity at the end of the time step
 -- damping 			= Linear damping
 -- maxLV 				= Maximum linear velocity
@@ -68,7 +68,7 @@ function steering.compensateLinearDamping(lvx, lvy, damping, maxLV, dt)
   return lvx/d, lvy/d	
 end
 
---- Compensates for the effects of angular damping
+-- Compensates for the effects of angular damping
 -- av 				= Desired angular velocity at the end of the time step
 -- damping 		= Linear damping
 -- maxAV 			= Maximum angular velocity
@@ -88,8 +88,8 @@ function steering.compensateAngularDamping(av, damping, maxAV, dt)
   return av/d	
 end
 
---- Returns the force required to reach a given linear velocity
---- force = ( change in velocity / time ) * mass
+-- Returns the force required to reach a given linear velocity
+-- force = ( change in velocity / time ) * mass
 -- ivx, ivy 	= Initial linear velocity at the beginning of the time step
 -- fvx, fvy 	= Final linear velocity at the end of the time step
 -- mass 			= Mass
@@ -99,9 +99,9 @@ function steering.force(ivx, ivy, fvx, fvy, mass, dt)
   return (fvx - ivx)/dt*mass, (fvy - ivy)/dt*mass	
 end
 
---- Returns the torque required to reach a given angular velocity
---- inertia = mass * initial velocity
---- torque = ( change in velocity / time ) * inertia
+-- Returns the torque required to reach a given angular velocity
+-- inertia = mass * initial velocity
+-- torque = ( change in velocity / time ) * inertia
 -- iv 				= Initial angular velocity at the beginning of the time step
 -- fv 				= Final angular velocity at the end of the time step
 -- mass 			= Mass
@@ -112,8 +112,8 @@ function steering.torque(iv, fv, mass, dt)
   return (fv - iv)/dt*inertia	
 end
 
---- Returns the time required to accelerate to a given linear velocity
---- time = change in velocity * mass / force
+-- Returns the time required to accelerate to a given linear velocity
+-- time = change in velocity * mass / force
 -- ivx, ivy 	= Initial linear velocity
 -- fvx, fvy 	= Final linear velocity
 -- mass 			= Mass
@@ -126,9 +126,9 @@ function steering.accelerationTime(ivx, ivy, fvx, fvy, mass, force)
   return d*mass/force	
 end
 
---- Returns the time required to accelerate to a given angular velocity
---- inertia = mass * initial velocity
---- time = change in velocity * inertia / torque
+-- Returns the time required to accelerate to a given angular velocity
+-- inertia = mass * initial velocity
+-- time = change in velocity * inertia / torque
 -- iv 				= Initial angular velocity
 -- fv 				= Final angular velocity
 -- mass 			= Mass

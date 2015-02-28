@@ -156,17 +156,17 @@ function table.isSequential(t)
 	return true
 end
 
---[[---------------------------------------------------------
-   Name: table.toString( table,name,nice )
-   Desc: Convert a simple table to a string
-		table = the table you want to convert (table)
-		name  = the name of the table (string)
-		nice  = whether to add line breaks and indents (bool)
-		maxdepth = (optional) max depth to print table
-		maxseq = (optional) summarizes sequential tables bigger 
-				 than this number instead of printing them out 
-				 completely
------------------------------------------------------------]]
+--[[
+	Name: table.toString( table,name,nice )
+	Desc: Convert a simple table to a string
+	table = the table you want to convert (table)
+	name  = the name of the table (string)
+	nice  = whether to add line breaks and indents (bool)
+	maxdepth = (optional) max depth to print table
+	maxseq = (optional) summarizes sequential tables bigger 
+			 than this number instead of printing them out 
+			 completely
+]]
 function table.toString( t, n, nice, maxdepth, maxseq )
 	local nl,tab  = "",  ""
 	if nice then nl,tab = "\n", "\t" end
