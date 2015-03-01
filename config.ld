@@ -1,7 +1,9 @@
 project = 'Conclavus'
-file = { '../Conclavus', exclude = { '../Conclavus/engine/lib' } }
+file = { '.', exclude = { 'engine/lib' } }
 readme = 'readme.md'
 format = 'markdown'
+style = '.'
+template = '.'
 not_luadoc = true
 backtick_references = true
 alias("p","param")
