@@ -18,16 +18,6 @@ function print( ... )
 	_prntcnt = _prntcnt + 1
 end
 
-------------------------
--- Print text only to debug only if key is being held down
--- @param str The text to print
--- @param key The key to press
-function keyprint( str, key )
-	-- only print if the key is held down. Useful for stopping printing output
-	if not input:keyIsDown(key) then return end
-	print( str )
-end
-
 game = {}
 require("engine.engine_includes")
 require("game.game_includes")

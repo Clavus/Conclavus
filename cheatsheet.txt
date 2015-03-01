@@ -103,7 +103,7 @@ num	Vector:cross( vec )
 vec	Vector:projectOn( vec )
 vec	Vector:mirrorOn( vec )
 vec	Vector:normalize()		-- modifies self
-vec	Vector:getNormalized() / getNormal()
+vec	Vector:getNormal()
 vec	Vector:trim( maxLength )	-- modifies self
 vec	Vector:getTrimmed( maxLength )
 vec	Vector:rotate( r ) 		-- modifies self
