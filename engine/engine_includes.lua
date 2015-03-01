@@ -33,7 +33,7 @@ local toload = {
 	
 	-- Mixins
 	{ CollisionResolver = 	"engine/classes/mixins/collisionresolver" },
-	{ PhysicsActor = 				"engine/classes/mixins/physicsactor" },
+	{ PhysicsBody = 				"engine/classes/mixins/physicsbody" },
 	{ Positional =					"engine/classes/mixins/positional" },
 	{ Rotatable =						"engine/classes/mixins/rotatable" },
 	{ Scalable =						"engine/classes/mixins/scalable" },

@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Conclavus</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Mixins</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../mixins/physicsbody.html">physicsbody</a></li>
+  <li><a href="../mixins/positional.html">positional</a></li>
+  <li><strong>rotational</strong></li>
+</ul>
+<h2>Utility</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../utility/global.html">global</a></li>
+  <li><a href="../utility/angle.html">angle</a></li>
+  <li><a href="../utility/steering.html">steering</a></li>
+  <li><a href="../utility/vector.html">vector</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/vector2d.html">vector2d</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/constants.html">constants</a></li>
+  <li><a href="../modules/main.html">main</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../topics/readme.md.html">readme</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Mixin <code>rotational</code></h1>
+<p>Rotatable <a href="https://github.com/kikito/middleclass/wiki/Mixins">mixin</a>.</p>
+<p>
+ Apply to classes that have a rotation.</p>
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">local MyClass = class(&quot;MyClass&quot;)
+ MyClass:include( Rotational )</pre>
+    </ul>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Rotatable:setAngle">Rotatable:setAngle (r)</a></td>
+	<td class="summary">Set the object's angle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Rotatable:getAngle">Rotatable:getAngle ()</a></td>
+	<td class="summary">Gets the object's angle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Rotatable:rotate">Rotatable:rotate (r)</a></td>
+	<td class="summary">Rotate this object relatively to its current angle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Rotatable:moveForward">Rotatable:moveForward (d)</a></td>
+	<td class="summary">Move this object forward (according to its current angle) by a given distance.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Rotatable:getDirection">Rotatable:getDirection ()</a></td>
+	<td class="summary">Get the normal angle of the object's current angle.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Rotatable:setAngle"></a>
+    <strong>Rotatable:setAngle (r)</strong>
+    </dt>
+    <dd>
+    Set the object's angle.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">r</span>
+            <span class="types"><span class="type">number</span></span>
+         angle (radians)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">Rotatable</span></span>
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Rotatable:getAngle"></a>
+    <strong>Rotatable:getAngle ()</strong>
+    </dt>
+    <dd>
+    Gets the object's angle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        r angle
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Rotatable:rotate"></a>
+    <strong>Rotatable:rotate (r)</strong>
+    </dt>
+    <dd>
+    Rotate this object relatively to its current angle.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">r</span>
+            <span class="types"><span class="type">number</span></span>
+         angle (radians)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">Rotatable</span></span>
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Rotatable:moveForward"></a>
+    <strong>Rotatable:moveForward (d)</strong>
+    </dt>
+    <dd>
+    Move this object forward (according to its current angle) by a given distance.
+ Requires you to have a class:move( x, y ) function. For example, by including the Positional mixin.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         distance
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">Rotatable</span></span>
+        self
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../mixins/positional.html#">positional</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Rotatable:getDirection"></a>
+    <strong>Rotatable:getDirection ()</strong>
+    </dt>
+    <dd>
+    Get the normal angle of the object's current angle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">Vector</span></span>
+        normal vector
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2015-03-01 18:10:04 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
+

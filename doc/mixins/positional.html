@@ -36,22 +36,22 @@
 </ul>
 
 
+<h2>Mixins</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../mixins/physicsbody.html">physicsbody</a></li>
+  <li><strong>positional</strong></li>
+  <li><a href="../mixins/rotational.html">rotational</a></li>
+</ul>
 <h2>Utility</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../utility/global.html">global</a></li>
-  <li><strong>angle</strong></li>
+  <li><a href="../utility/angle.html">angle</a></li>
   <li><a href="../utility/steering.html">steering</a></li>
   <li><a href="../utility/vector.html">vector</a></li>
 </ul>
 <h2>Classes</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../classes/vector2d.html">vector2d</a></li>
-</ul>
-<h2>Mixins</h2>
-<ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><a href="../mixins/physicsbody.html">physicsbody</a></li>
-  <li><a href="../mixins/positional.html">positional</a></li>
-  <li><a href="../mixins/rotational.html">rotational</a></li>
 </ul>
 <h2>Modules</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
@@ -67,22 +67,30 @@
 
 <div id="content">
 
-<h1>Util <code>angle</code></h1>
-<p>Angle functions</p>
+<h1>Mixin <code>positional</code></h1>
+<p>Positional <a href="https://github.com/kikito/middleclass/wiki/Mixins">mixin</a>.</p>
 <p>
-
-</p>
+ Apply to classes that have a x, y position in the world.</p>
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">local MyClass = class(&quot;MyClass&quot;)
+ MyClass:include( Positional )</pre>
+    </ul>
 
 
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#forward">forward (r)</a></td>
-	<td class="summary">Get forward vector of the given angle.</td>
+	<td class="name" nowrap><a href="#Positional:setPos">Positional:setPos (x, y)</a></td>
+	<td class="summary">Set the object's position.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#rotate">rotate (r, rot)</a></td>
-	<td class="summary">Rotates angle by given radians, normalizes angle after (between 0 and 2*pi).</td>
+	<td class="name" nowrap><a href="#Positional:getPos">Positional:getPos ()</a></td>
+	<td class="summary">Gets the object's position.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Positional:move">Positional:move (x, y)</a></td>
+	<td class="summary">Move this object relative to its current position.</td>
 	</tr>
 </table>
 
@@ -94,26 +102,30 @@
 
     <dl class="function">
     <dt>
-    <a name = "forward"></a>
-    <strong>forward (r)</strong>
+    <a name = "Positional:setPos"></a>
+    <strong>Positional:setPos (x, y)</strong>
     </dt>
     <dd>
-    Get forward vector of the given angle.
+    Set the object's position.
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">r</span>
+        <li><span class="parameter">x</span>
             <span class="types"><span class="type">number</span></span>
-         angle (radians)
+         x-coordinate.
+        </li>
+        <li><span class="parameter">y</span>
+            <span class="types"><span class="type">number</span></span>
+         y-coordinate.
         </li>
     </ul>
 
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><span class="type">Vector</span></span>
-        forward vector
+           <span class="types"><span class="type">Positional</span></span>
+        self
     </ol>
 
 
@@ -121,30 +133,53 @@
 
 </dd>
     <dt>
-    <a name = "rotate"></a>
-    <strong>rotate (r, rot)</strong>
+    <a name = "Positional:getPos"></a>
+    <strong>Positional:getPos ()</strong>
     </dt>
     <dd>
-    Rotates angle by given radians, normalizes angle after (between 0 and 2*pi).
+    Gets the object's position.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        x</li>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        y</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Positional:move"></a>
+    <strong>Positional:move (x, y)</strong>
+    </dt>
+    <dd>
+    Move this object relative to its current position.
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">r</span>
+        <li><span class="parameter">x</span>
             <span class="types"><span class="type">number</span></span>
-         angle
+         relative x
         </li>
-        <li><span class="parameter">rot</span>
+        <li><span class="parameter">y</span>
             <span class="types"><span class="type">number</span></span>
-         radians to rotate by
+         relative y
         </li>
     </ul>
 
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><span class="type">Vector</span></span>
-        forward vector
+           <span class="types"><span class="type">Positional</span></span>
+        self
     </ol>
 
 

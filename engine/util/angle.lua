@@ -13,7 +13,7 @@ function angle.forward( r )
 	return Vector( math.cos(r), math.sin(r) )
 end
 
---- Rotates angle by given radians, normalizes angle after (crops between 0 and 2*pi).
+--- Rotates angle by given radians, normalizes angle after (between 0 and 2*pi).
 -- @number r angle
 -- @number rot radians to rotate by
 -- @treturn Vector forward vector

@@ -1,10 +1,10 @@
 
 local Wall = class("Wall", Entity)
-Wall:include(PhysicsActor)
+Wall:include(PhysicsBody)
 
 function Wall:initialize( world )
 	Entity.initialize(self)
-	PhysicsActor.initialize(self, world, "static" )
+	PhysicsBody.initialize(self, world, "static" )
 end
 
 function Wall:buildFromSquare(w, h)
