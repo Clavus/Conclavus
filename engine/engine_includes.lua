@@ -23,7 +23,7 @@ local toload = {
 	
 	-- Utility libraries
 	{ screen =					"engine/util/screen" },
-	{ vector = 					"engine/util/vector" },
+	{ vector2d = 					"engine/util/vector2d" },
 	{ angle = 					"engine/util/angle" },
 	{ util = 						"engine/util/util" },
 	{ easing = 					"engine/util/easing" },
@@ -39,7 +39,7 @@ local toload = {
 	{ Scalable =						"engine/classes/mixins/scalable" },
 	
 	-- Classes
-	{ Vector = 							"engine/classes/vector2d" },
+	{ Vector = 							"engine/classes/vector" },
 	{ Color = 							"engine/classes/color" },
 	{ Sprite = 							"engine/classes/sprite/sprite" },
 	{ SpriteData = 					"engine/classes/sprite/spritedata" },
