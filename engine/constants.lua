@@ -1,14 +1,15 @@
 ------------------------
--- Constant definitions
--- @module constants
+-- Constant definitions.
+-- @other constants
 
---- some pre-defined folder locations
+--- Some pre-defined folder locations.
 FOLDER = {
 	ASSETS = "game/assets/", -- default asset folder location
 	PARTICLESYSTEMS = "game/assets/particlesystems/", -- default particle system asset folder location
 }
 
---- mouse input constants
+--- Mouse input constants.
+-- @see InputController
 MOUSE = {
 	LEFT = "l", -- mouse left button
 	RIGHT = "r", -- mouse right button
@@ -19,13 +20,13 @@ MOUSE = {
 	BUTTON5 = "x2", -- mouse 5
 }
 
---- pre-defined draw layer ordering
+--- Pre-defined draw layer ordering.
 DRAW_LAYER = {
 	TOP = -1, -- top layer
 	BOTTOM = 99999, -- bottom layer
 }
 
---- draw layer types
+--- Draw layer types.
 LAYER_TYPE = {
 	NONE = 0,
 	IMAGES = 1,
@@ -34,7 +35,7 @@ LAYER_TYPE = {
 	CUSTOM = 4,
 }
 
---- screen scaling types
+--- Screen scaling types.
 SCREEN_SCALE = {
 	CENTER = 0,
 	STRETCH = 1,

@@ -1,3 +1,7 @@
+------------------------
+-- FiniteStateMachine class.
+-- For doing some behaviour logic.
+-- @cl FiniteStateMachine
 
 local FiniteStateMachine = class("FiniteStateMachine")
 

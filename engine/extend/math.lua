@@ -1,3 +1,6 @@
+------------------------
+-- Extensions to the math module.
+-- @extend math
 
 -- cache functions
 local sqrt, pi, random, floor, abs = math.sqrt, math.pi, math.random, math.floor, math.abs

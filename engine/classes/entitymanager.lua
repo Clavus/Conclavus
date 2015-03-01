@@ -1,3 +1,7 @@
+------------------------
+-- EntityManager class.
+-- Handles all entities in the level and keeps em happy.
+-- @cl EntityManager
 
 local EntityManager = class("EntityManager")
 

@@ -1,3 +1,6 @@
+------------------------
+-- Extensions to the package module.
+-- @extend package
 
 local loaded_packages = {}
 

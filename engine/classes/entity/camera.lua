@@ -1,3 +1,7 @@
+------------------------
+-- Camera class. Derived from @{Entity}.
+-- The game camera managed by the @{Level} instance.
+-- @cl Camera
 
 local Camera = class("Camera", Entity)
 Camera:include( Rotatable )

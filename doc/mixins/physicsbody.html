@@ -38,37 +38,66 @@
 
 <h2>Mixins</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><strong>physicsbody</strong></li>
-  <li><a href="../mixins/positional.html">positional</a></li>
-  <li><a href="../mixins/rotational.html">rotational</a></li>
-</ul>
-<h2>Utility</h2>
-<ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><a href="../utility/global.html">global</a></li>
-  <li><a href="../utility/angle.html">angle</a></li>
-  <li><a href="../utility/steering.html">steering</a></li>
-  <li><a href="../utility/vector.html">vector</a></li>
+  <li><a href="../mixins/CollisionResolver.html">CollisionResolver</a></li>
+  <li><strong>PhysicsBody</strong></li>
+  <li><a href="../mixins/Positional.html">Positional</a></li>
+  <li><a href="../mixins/Rotational.html">Rotational</a></li>
+  <li><a href="../mixins/Scalable.html">Scalable</a></li>
 </ul>
 <h2>Classes</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><a href="../classes/vector2d.html">vector2d</a></li>
+  <li><a href="../classes/Color.html">Color</a></li>
+  <li><a href="../classes/Camera.html">Camera</a></li>
+  <li><a href="../classes/Entity.html">Entity</a></li>
+  <li><a href="../classes/Trigger.html">Trigger</a></li>
+  <li><a href="../classes/Wall.html">Wall</a></li>
+  <li><a href="../classes/EntityManager.html">EntityManager</a></li>
+  <li><a href="../classes/FiniteStateMachine.html">FiniteStateMachine</a></li>
+  <li><a href="../classes/GUI.html">GUI</a></li>
+  <li><a href="../classes/InputController.html">InputController</a></li>
+  <li><a href="../classes/CustomLevelData.html">CustomLevelData</a></li>
+  <li><a href="../classes/Level.html">Level</a></li>
+  <li><a href="../classes/LevelData.html">LevelData</a></li>
+  <li><a href="../classes/TiledLevelData.html">TiledLevelData</a></li>
+  <li><a href="../classes/Box2DPhysicsSystem.html">Box2DPhysicsSystem</a></li>
+  <li><a href="../classes/PhysicsSystem.html">PhysicsSystem</a></li>
+  <li><a href="../classes/Sprite.html">Sprite</a></li>
+  <li><a href="../classes/SpriteData.html">SpriteData</a></li>
+  <li><a href="../classes/StateAnimatedSprite.html">StateAnimatedSprite</a></li>
+  <li><a href="../classes/Vector.html">Vector</a></li>
 </ul>
-<h2>Modules</h2>
+<h2>Utility</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><a href="../modules/constants.html">constants</a></li>
-  <li><a href="../modules/main.html">main</a></li>
+  <li><a href="../utility/angle.html">angle</a></li>
+  <li><a href="../utility/resource.html">resource</a></li>
+  <li><a href="../utility/screen.html">screen</a></li>
+  <li><a href="../utility/steering.html">steering</a></li>
+  <li><a href="../utility/vector2d.html">vector2d</a></li>
+</ul>
+<h2>Extensions</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../extensions/debug.html">debug</a></li>
+  <li><a href="../extensions/math.html">math</a></li>
+  <li><a href="../extensions/package.html">package</a></li>
+  <li><a href="../extensions/string.html">string</a></li>
+  <li><a href="../extensions/table.html">table</a></li>
+</ul>
+<h2>Other</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../other/constants.html">constants</a></li>
+  <li><a href="../other/global.html">global</a></li>
 </ul>
 <h2>Topics</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><a href="../topics/readme.md.html">readme</a></li>
+  <li><a href="../topics/01-intro.md.html">01-intro</a></li>
 </ul>
 
 </div>
 
 <div id="content">
 
-<h1>Mixin <code>physicsbody</code></h1>
-<p>Physics body <a href="https://github.com/kikito/middleclass/wiki/Mixins">mixin</a>.</p>
+<h1>Mixin <code>PhysicsBody</code></h1>
+<p>PhysicsBody <a href="https://github.com/kikito/middleclass/wiki/Mixins">mixin</a>.</p>
 <p>
  Apply to classes to give them physics body, along with relevant positional and rotational functions.</p>
     <h3>Usage:</h3>
@@ -81,43 +110,43 @@
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#PhysicsBody:getBody">PhysicsBody:getBody ()</a></td>
+	<td class="name" nowrap><a href="#getBody">getBody ()</a></td>
 	<td class="summary">Get the <a href="https://www.love2d.org/wiki/Body">LÖVE physics body</a>.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#PhysicsBody:setPos">PhysicsBody:setPos (x, y)</a></td>
+	<td class="name" nowrap><a href="#setPos">setPos (x, y)</a></td>
 	<td class="summary">Set the body's position.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#PhysicsBody:getPos">PhysicsBody:getPos ()</a></td>
+	<td class="name" nowrap><a href="#getPos">getPos ()</a></td>
 	<td class="summary">Gets the body's position.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#PhysicsBody:move">PhysicsBody:move (x, y)</a></td>
+	<td class="name" nowrap><a href="#move">move (x, y)</a></td>
 	<td class="summary">Move this body relative to its current position.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#PhysicsBody:setAngle">PhysicsBody:setAngle (r)</a></td>
+	<td class="name" nowrap><a href="#setAngle">setAngle (r)</a></td>
 	<td class="summary">Set the body's angle.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#PhysicsBody:getAngle">PhysicsBody:getAngle ()</a></td>
+	<td class="name" nowrap><a href="#getAngle">getAngle ()</a></td>
 	<td class="summary">Gets the body's angle.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#PhysicsBody:rotate">PhysicsBody:rotate (r)</a></td>
+	<td class="name" nowrap><a href="#rotate">rotate (r)</a></td>
 	<td class="summary">Rotate this body relatively to its current angle.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#PhysicsBody:moveForward">PhysicsBody:moveForward (d)</a></td>
+	<td class="name" nowrap><a href="#moveForward">moveForward (d)</a></td>
 	<td class="summary">Move this body forward (according to its current angle) by a given distance.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#PhysicsBody:getDirection">PhysicsBody:getDirection ()</a></td>
+	<td class="name" nowrap><a href="#getDirection">getDirection ()</a></td>
 	<td class="summary">Get the normal angle of the body's current angle.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#PhysicsBody:onRemove">PhysicsBody:onRemove ()</a></td>
+	<td class="name" nowrap><a href="#onRemove">onRemove ()</a></td>
 	<td class="summary">Called when the actor is removed.</td>
 	</tr>
 </table>
@@ -130,8 +159,8 @@
 
     <dl class="function">
     <dt>
-    <a name = "PhysicsBody:getBody"></a>
-    <strong>PhysicsBody:getBody ()</strong>
+    <a name = "getBody"></a>
+    <strong>getBody ()</strong>
     </dt>
     <dd>
     Get the <a href="https://www.love2d.org/wiki/Body">LÖVE physics body</a>.
@@ -150,8 +179,8 @@
 
 </dd>
     <dt>
-    <a name = "PhysicsBody:setPos"></a>
-    <strong>PhysicsBody:setPos (x, y)</strong>
+    <a name = "setPos"></a>
+    <strong>setPos (x, y)</strong>
     </dt>
     <dd>
     Set the body's position.
@@ -181,8 +210,8 @@
 
 </dd>
     <dt>
-    <a name = "PhysicsBody:getPos"></a>
-    <strong>PhysicsBody:getPos ()</strong>
+    <a name = "getPos"></a>
+    <strong>getPos ()</strong>
     </dt>
     <dd>
     Gets the body's position.
@@ -204,8 +233,8 @@
 
 </dd>
     <dt>
-    <a name = "PhysicsBody:move"></a>
-    <strong>PhysicsBody:move (x, y)</strong>
+    <a name = "move"></a>
+    <strong>move (x, y)</strong>
     </dt>
     <dd>
     Move this body relative to its current position.
@@ -235,8 +264,8 @@
 
 </dd>
     <dt>
-    <a name = "PhysicsBody:setAngle"></a>
-    <strong>PhysicsBody:setAngle (r)</strong>
+    <a name = "setAngle"></a>
+    <strong>setAngle (r)</strong>
     </dt>
     <dd>
     Set the body's angle.
@@ -262,8 +291,8 @@
 
 </dd>
     <dt>
-    <a name = "PhysicsBody:getAngle"></a>
-    <strong>PhysicsBody:getAngle ()</strong>
+    <a name = "getAngle"></a>
+    <strong>getAngle ()</strong>
     </dt>
     <dd>
     Gets the body's angle.
@@ -282,8 +311,8 @@
 
 </dd>
     <dt>
-    <a name = "PhysicsBody:rotate"></a>
-    <strong>PhysicsBody:rotate (r)</strong>
+    <a name = "rotate"></a>
+    <strong>rotate (r)</strong>
     </dt>
     <dd>
     Rotate this body relatively to its current angle.
@@ -309,8 +338,8 @@
 
 </dd>
     <dt>
-    <a name = "PhysicsBody:moveForward"></a>
-    <strong>PhysicsBody:moveForward (d)</strong>
+    <a name = "moveForward"></a>
+    <strong>moveForward (d)</strong>
     </dt>
     <dd>
     Move this body forward (according to its current angle) by a given distance.
@@ -336,8 +365,8 @@
 
 </dd>
     <dt>
-    <a name = "PhysicsBody:getDirection"></a>
-    <strong>PhysicsBody:getDirection ()</strong>
+    <a name = "getDirection"></a>
+    <strong>getDirection ()</strong>
     </dt>
     <dd>
     Get the normal angle of the body's current angle.
@@ -356,8 +385,8 @@
 
 </dd>
     <dt>
-    <a name = "PhysicsBody:onRemove"></a>
-    <strong>PhysicsBody:onRemove ()</strong>
+    <a name = "onRemove"></a>
+    <strong>onRemove ()</strong>
     </dt>
     <dd>
     Called when the actor is removed.
@@ -376,7 +405,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
-<i style="float:right;">Last updated 2015-03-01 18:10:04 </i>
+<i style="float:right;">Last updated 2015-03-01 23:48:51 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

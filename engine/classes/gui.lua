@@ -1,3 +1,7 @@
+------------------------
+-- GUI class.
+-- For quickly sticking things on your screen.
+-- @cl GUI
 
 local GUI = class("GUI")
 GUI:include( Positional )

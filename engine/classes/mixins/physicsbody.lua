@@ -1,7 +1,7 @@
 ------------------------
--- Physics body [mixin](https://github.com/kikito/middleclass/wiki/Mixins). 
+-- PhysicsBody [mixin](https://github.com/kikito/middleclass/wiki/Mixins). 
 -- Apply to classes to give them physics body, along with relevant positional and rotational functions.
--- @mixin physicsbody
+-- @mixin PhysicsBody
 -- @usage local MyClass = class("MyClass")
 -- MyClass:include( PhysicsBody )
 

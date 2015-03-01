@@ -1,3 +1,7 @@
+------------------------
+-- Wall class. Derived from @{Entity}.
+-- A static wall in your environment.
+-- @cl Wall
 
 local Wall = class("Wall", Entity)
 Wall:include(PhysicsBody)

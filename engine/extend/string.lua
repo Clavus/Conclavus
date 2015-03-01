@@ -1,3 +1,6 @@
+------------------------
+-- Extensions to the string module.
+-- @extend string
 
 function string.split(str, sep)
 	if not sep then

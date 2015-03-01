@@ -1,3 +1,7 @@
+------------------------
+-- Scalable [mixin](https://github.com/kikito/middleclass/wiki/Mixins). 
+-- Apply to classes that can be scaled.
+-- @mixin Scalable
 
 local Scalable = {}
 

@@ -1,3 +1,6 @@
+------------------------
+-- Extensions to the debug module.
+-- @extend debug
 
 local clock = os.clock
 local lg = love.graphics

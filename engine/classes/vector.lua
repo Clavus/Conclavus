@@ -1,7 +1,7 @@
 ------------------------
--- 2D vector class.
+-- Vector class.
 -- More managable than the @{vector2d} utility library in some cases.
--- @cl vector
+-- @cl Vector
 -- @usage local vec1 = Vector(1, 3)
 -- local vec2 = Vector({ 1, 3 })
 -- local vec3 = Vector({ x = 1, y = 3 })

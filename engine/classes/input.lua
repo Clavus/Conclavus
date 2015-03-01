@@ -1,3 +1,6 @@
+------------------------
+-- Input controller. Allows you to check for various input, add callbacks to certain input, bind input to actions, etc.
+-- @cl InputController
 
 local InputController = class("InputController")
 

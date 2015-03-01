@@ -1,6 +1,6 @@
 ------------------------
--- Additional global functions
--- @util global
+-- Additional global functions.
+-- @other global
 
 --- Print text only to debug only if key is being held down.
 -- Useful for debugging parts of code that run every frame without drowning the console window.

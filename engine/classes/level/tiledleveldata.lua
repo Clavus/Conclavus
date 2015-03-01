@@ -1,3 +1,7 @@
+------------------------
+-- TiledLevelData class.
+-- Build an level environment from Tiled data.
+-- @cl TiledLevelData
 
 local TiledLevelData = class('TiledLevelData', LevelData)
 

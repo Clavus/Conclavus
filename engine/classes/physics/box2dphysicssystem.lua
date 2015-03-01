@@ -1,4 +1,7 @@
-
+------------------------
+-- Box2DPhysicsSystem class.
+-- Manages a physics Box2D physics [World](https://www.love2d.org/wiki/World). 
+-- @cl Box2DPhysicsSystem
 
 local Box2DPhysicsSystem = class("Box2DPhysicsSystem", PhysicsSystem)
 

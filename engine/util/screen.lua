@@ -1,3 +1,6 @@
+------------------------
+-- Screen functions.
+-- @util screen
 
 local screen = {}
 screen.settings = {}

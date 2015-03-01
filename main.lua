@@ -1,9 +1,3 @@
-------------------------
--- Main LÖVE file
--- @module main
--- @author Joeri van der Velden
--- @license See LICENSE.md
--- @copyright 2015 - Joeri van der Velden
 
 local start = os.clock()
 local _curTime, _prntcnt = 0, 0

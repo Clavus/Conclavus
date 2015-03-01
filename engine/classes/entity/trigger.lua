@@ -1,3 +1,7 @@
+------------------------
+-- Trigger class. Derived from @{Wall}, but turns the physics bodies into sensors.
+-- A trigger that calls the game.handleTrigger upon contact with another physics object.
+-- @cl Trigger
 
 local Trigger = class("Trigger", Wall)
 Trigger:include(CollisionResolver)

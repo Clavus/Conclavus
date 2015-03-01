@@ -1,3 +1,7 @@
+------------------------
+-- StateAnimatedSprite class.
+-- Contains multiple @{Sprite|sprites} that are drawn based on the current state.
+-- @cl StateAnimatedSprite
 
 local StateAnimatedSprite = class("StateAnimatedSprite")
 

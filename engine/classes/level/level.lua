@@ -1,3 +1,7 @@
+------------------------
+-- Level class.
+-- Manages your game scene.
+-- @cl Level
 
 local Level = class('Level')
 

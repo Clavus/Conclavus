@@ -1,3 +1,6 @@
+------------------------
+-- Extensions to the table module.
+-- @extend table
 
 -- copies base table, but not nested tables
 function table.copy(t)

@@ -1,7 +1,7 @@
 ------------------------
 -- Positional [mixin](https://github.com/kikito/middleclass/wiki/Mixins). 
 -- Apply to classes that have a x, y position in the world.
--- @mixin positional
+-- @mixin Positional
 -- @usage local MyClass = class("MyClass")
 -- MyClass:include( Positional )
 

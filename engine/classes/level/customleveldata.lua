@@ -1,3 +1,7 @@
+------------------------
+-- CustomLevelData class.
+-- Custom level data, pass layers, objects and tilesets as parameters.
+-- @cl CustomLevelData
 
 local CustomLevelData = class('CustomLevelData', LevelData)
 

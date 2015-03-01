@@ -1,3 +1,7 @@
+------------------------
+-- Entity class.
+-- Should be the base class of pretty much all your game objects.
+-- @cl Entity
 
 local Entity = class("Entity")
 Entity:include( Positional )

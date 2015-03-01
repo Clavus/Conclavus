@@ -1,3 +1,7 @@
+------------------------
+-- Color class.
+-- For bringing color to your life.
+-- @cl Color
 
 local Color = class('Color')
 

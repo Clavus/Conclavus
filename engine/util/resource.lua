@@ -1,3 +1,6 @@
+------------------------
+-- Resource loading functions.
+-- @util resource
 
 local resource = {}
 

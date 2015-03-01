@@ -1,7 +1,7 @@
 ------------------------
 -- Rotatable [mixin](https://github.com/kikito/middleclass/wiki/Mixins). 
 -- Apply to classes that have a rotation.
--- @mixin rotational
+-- @mixin Rotational
 -- @usage local MyClass = class("MyClass")
 -- MyClass:include( Rotational )
 
@@ -37,7 +37,7 @@ end
 -- Requires you to have a class:move( x, y ) function. For example, by including the Positional mixin.
 -- @number d distance
 -- @treturn Rotatable self
--- @see positional
+-- @see Positional
 function Rotatable:moveForward( d )
 	assert(self.move ~= nil, "Function requires :move(x,y) function")
 	local dx, dy = angle.forward( self._angle ):multiplyBy( d ):unpack()

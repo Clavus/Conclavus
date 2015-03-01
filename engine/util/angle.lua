@@ -1,5 +1,5 @@
 ------------------------
--- Angle functions
+-- Angle functions.
 -- @util angle
 
 local angle = {}
