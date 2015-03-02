@@ -73,7 +73,7 @@ end
 -- @treturn PhysicsBody self
 function PhysicsBody:moveForward( d )
 	local px, py = self:getPos()
-	local dx, dy = angle.forward( self:getAngle() ):multiplyBy( d ):unpack()
+	local dx, dy = angle.forward( self:getAngle() ):multiply( d ):unpack()
 	self:setPos( px + dx, py + dy )
 	return self
 end

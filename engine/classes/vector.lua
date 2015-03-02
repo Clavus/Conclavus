@@ -211,7 +211,7 @@ end
 -- @treturn Vector self
 -- @usage local mulVec = Vector(1,3) * Vector(2,1) * 3 
 -- -- mulVec is Vector(6, 9)
-function Vector:multiplyBy( s )
+function Vector:multiply( s )
 	if type(s) == "number" then
 		self.x = self.x * s
 		self.y = self.y * s
@@ -223,7 +223,7 @@ function Vector:multiplyBy( s )
 end
 
 function Vector:__mul( s )
-	return self:copy():multiplyBy( s )
+	return self:copy():multiply( s )
 end
 
 --- Divide this vector by a scalar or other vector. Used by the / operator.
@@ -231,7 +231,7 @@ end
 -- @treturn Vector self
 -- @usage local divVec = Vector(6,9) / Vector(2,1) / 3 
 -- -- divVec is Vector(1, 3)
-function Vector:divideBy( s )
+function Vector:divide( s )
 	if (type(s) == "number") then
 		self.x = self.x / s
 		self.y = self.y / s	
@@ -243,7 +243,7 @@ function Vector:divideBy( s )
 end
 
 function Vector:__div( s )
-	return self:copy():divideBy( s )
+	return self:copy():divide( s )
 end
 
 --- Add this vector to another vector. Used by the + operator.
