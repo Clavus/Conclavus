@@ -306,4 +306,9 @@ Color.static.get = function( name )
 	return Color(unpack(colors[name]))
 end
 
+Color.static.getRGB = function( name )
+	assert(colors[name] ~= nil, "Color does not exist in this list, use the HTML color table!")
+	return unpack(colors[name])
+end
+
 return Color
