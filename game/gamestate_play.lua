@@ -1,5 +1,5 @@
 
-local play = gamestate.new("play")
+local play = gamestate.new()
 local gui, level, player, world, physics
 
 function play:init()
@@ -54,6 +54,10 @@ function play:leave()
 end
 
 function play:update( dt )
+	if (input:keyIsPressed("t")) then
+		game.openMenu()
+	end
+	
 	level:update( dt )
 	gui:update( dt )
 end
