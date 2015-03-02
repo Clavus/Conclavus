@@ -3,6 +3,10 @@
 	-- Copyright (c) 2012-2014 Kenny Shields --
 --]]------------------------------------------------
 
+-- get the current require path
+local path = string.sub(..., 1, string.len(...) - string.len(".objects.numberbox"))
+local loveframes = require(path .. ".libraries.common")
+
 -- numberbox object
 local newobject = loveframes.NewObject("numberbox", "loveframes_object_numberbox", true)
 

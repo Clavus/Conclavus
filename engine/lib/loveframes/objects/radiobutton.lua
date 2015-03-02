@@ -4,11 +4,11 @@
 --]]------------------------------------------------
 
 -- get the current require path
-local path = string.sub(..., 1, string.len(...) - string.len(".objects.checkbox"))
+local path = string.sub(..., 1, string.len(...) - string.len(".objects.radiobutton"))
 local loveframes = require(path .. ".libraries.common")
 
--- checkbox object
-local newobject = loveframes.NewObject("checkbox", "loveframes_object_checkbox", true)
+-- radiobutton object
+local newobject = loveframes.NewObject("radiobutton", "loveframes_object_radiobutton", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
@@ -16,7 +16,7 @@ local newobject = loveframes.NewObject("checkbox", "loveframes_object_checkbox",
 --]]---------------------------------------------------------
 function newobject:initialize()
 
-	self.type = "checkbox"
+	self.type = "radiobutton"
 	self.width = 0
 	self.height = 0
 	self.boxwidth = 20
@@ -28,8 +28,9 @@ function newobject:initialize()
 	self.down = true
 	self.enabled = true
 	self.internals = {}
-	self.OnChanged = nil
-	
+	self.OnChanged = function () end
+	self.group = {}
+
 end
 
 --[[---------------------------------------------------------
@@ -132,7 +133,7 @@ function newobject:draw()
 	local defaultskin = loveframes.config["DEFAULTSKIN"]
 	local selfskin = self.skin
 	local skin = skins[selfskin] or skins[skinindex]
-	local drawfunc = skin.DrawCheckBox or skins[defaultskin].DrawCheckBox
+	local drawfunc = skin.DrawRadioButton or skins[defaultskin].DrawRadioButton
 	local draw = self.Draw
 	local internals = self.internals
 	local drawcount = loveframes.drawcount
@@ -190,33 +191,18 @@ end
 --]]---------------------------------------------------------
 function newobject:mousereleased(x, y, button)
 	
-	local state = loveframes.state
-	local selfstate = self.state
-	
-	if state ~= selfstate then
+	if loveframes.state ~= self.state then
 		return
 	end
 	
-	local visible = self.visible
-	
-	if not visible then
+	if not self.visible then
 		return
 	end
 	
-	local hover = self.hover
-	local down = self.down
-	local enabled = self.enabled
-	local checked = self.checked
-	local onchanged = self.OnChanged
-	
-	if hover and down and enabled and button == "l" then
-		if checked then
-			self.checked = false
-		else
-			self.checked = true
-		end
-		if onchanged then
-			onchanged(self, self.checked)
+	if self.hover and self.down and self.enabled and button == "l" then
+		if not self.checked then
+			-- a radio button can only be unchecked by checking another radio button
+			self:SetChecked(true)
 		end
 	end
 		
@@ -240,9 +226,9 @@ function newobject:SetText(text)
 		end
 		local directives = skin.directives
 		if directives then
-			local default_color = directives.checkbox_text_default_color
-			local default_shadowcolor = directives.checkbox_text_default_shadowcolor
-			local default_font = directives.checkbox_text_default_font
+			local default_color = directives.radiobutton_text_default_color
+			local default_shadowcolor = directives.radiobutton_text_default_shadowcolor
+			local default_font = directives.radiobutton_text_default_font
 			if default_color then
 				textobject.defaultcolor = default_color
 			end
@@ -352,14 +338,19 @@ end
 	- func: SetChecked(bool)
 	- desc: sets whether the object is checked or not
 --]]---------------------------------------------------------
-function newobject:SetChecked(bool)
+function newobject:SetChecked(checked)
 
-	local onchanged = self.OnChanged
-	
-	self.checked = bool
-	
-	if onchanged then
-		onchanged(self)
+	if self.checked ~= checked then
+		self.checked = checked
+		self:OnChanged(checked)
+	end
+
+	if checked then
+		for _, button in pairs(self.group) do
+			if button ~= self and button.checked then
+				button:SetChecked(false)
+			end
+		end
 	end
 	
 	return self
@@ -373,6 +364,28 @@ end
 function newobject:GetChecked()
 
 	return self.checked
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetGroup()
+	- desc: set the object's group. only one radio button in a 
+					group is checked at a time.
+--]]---------------------------------------------------------
+function newobject:SetGroup(group)
+	
+	self.group = group
+	self.group[self] = self
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetGroup()
+	- desc: gets the object's group
+--]]---------------------------------------------------------
+function newobject:GetGroup(group)
+
+	return self.group
 	
 end
 

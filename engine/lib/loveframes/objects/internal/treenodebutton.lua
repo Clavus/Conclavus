@@ -4,37 +4,37 @@
 --]]------------------------------------------------
 
 -- get the current require path
-local path = string.sub(..., 1, string.len(...) - string.len(".objects.internal.linenumberspanel"))
+local path = string.sub(..., 1, string.len(...) - string.len(".objects.internal.treenodebutton"))
 local loveframes = require(path .. ".libraries.common")
 
--- linenumberspanel class
-local newobject = loveframes.NewObject("linenumberspanel", "loveframes_object_linenumberspanel", true)
+-- button object
+local newobject = loveframes.NewObject("treenodebutton", "loveframes_object_treenodebutton", true)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function newobject:initialize(parent)
+function newobject:initialize()
 	
-	self.parent = parent
-	self.type = "linenumberspanel"
-	self.width = 5
-	self.height = 5
-	self.offsety = 0
-	self.staticx = 0
-	self.staticy = 0
+	self.type = "treenodebutton"
+	self.width = 16
+	self.height = 16
 	self.internal = true
-	
-	-- apply template properties to the object
-	loveframes.templates.ApplyToObject(self)
 	
 end
 
 --[[---------------------------------------------------------
 	- func: update(deltatime)
-	- desc: updates the element
+	- desc: updates the object
 --]]---------------------------------------------------------
 function newobject:update(dt)
+	
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
 	
 	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -45,28 +45,17 @@ function newobject:update(dt)
 		end
 	end
 	
+	self:CheckHover()
+	
 	local parent = self.parent
 	local base = loveframes.base
 	local update = self.Update
-	local height = self.parent.height
-	local parentinternals = parent.internals
-	
-	self.height = height
-	self.offsety = self.parent.offsety - self.parent.textoffsety
 	
 	-- move to parent if there is a parent
 	if parent ~= base then
 		self.x = self.parent.x + self.staticx
 		self.y = self.parent.y + self.staticy
 	end
-	
-	if parentinternals[1] ~= self then
-		self:Remove()
-		table.insert(parentinternals, 1, self)
-		return
-	end
-	
-	self:CheckHover()
 	
 	if update then
 		update(self, dt)
@@ -80,43 +69,36 @@ end
 --]]---------------------------------------------------------
 function newobject:draw()
 	
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	
 	if not visible then
 		return
 	end
-	
-	local x = self.x
-	local y = self.y
-	local width = self.width
-	local height = self.height
-	local stencilfunc = function() love.graphics.rectangle("fill", x, y, width, height) end
+
 	local skins = loveframes.skins.available
 	local skinindex = loveframes.config["ACTIVESKIN"]
 	local defaultskin = loveframes.config["DEFAULTSKIN"]
 	local selfskin = self.skin
 	local skin = skins[selfskin] or skins[skinindex]
-	local drawfunc = skin.DrawLineNumbersPanel or skins[defaultskin].DrawLineNumbersPanel
+	local drawfunc = skin.DrawTreeNodeButton or skins[defaultskin].DrawTreeNodeButton
 	local draw = self.Draw
 	local drawcount = loveframes.drawcount
-	local stencilfunc = function() love.graphics.rectangle("fill", self.parent.x, self.parent.y, self.width, self.height) end
-	
-	if self.parent.hbar then
-		stencilfunc = function() love.graphics.rectangle("fill", self.parent.x, self.parent.y, self.width, self.parent.height - 16) end
-	end
 	
 	-- set the object's draw order
 	self:SetDrawOrder()
-	
-	love.graphics.setStencil(stencilfunc)
-	
+		
 	if draw then
 		draw(self)
 	else
 		drawfunc(self)
 	end
-	
-	love.graphics.setStencil()
 	
 end
 
@@ -126,6 +108,13 @@ end
 --]]---------------------------------------------------------
 function newobject:mousepressed(x, y, button)
 
+	local state = loveframes.state
+	local selfstate = self.state
+	
+	if state ~= selfstate then
+		return
+	end
+	
 	local visible = self.visible
 	
 	if not visible then
@@ -135,34 +124,21 @@ function newobject:mousepressed(x, y, button)
 	local hover = self.hover
 	
 	if hover and button == "l" then
-		local baseparent = self:GetBaseParent()
-		if baseparent and baseparent.type == "frame" then
-			baseparent:MakeTop()
+		local bool = not self.parent.open
+		if bool then
+			local onopen = self.parent.OnOpen
+			if onopen then
+				onopen(self.parent)
+			end
+		else
+			local onclose = self.parent.OnClose
+			if onclose then
+				onclose(self.parent)
+			end
 		end
+		self.parent:SetOpen(bool)
+		print("!")
+		print(self.parent.level)
 	end
-	
-end
-
---[[---------------------------------------------------------
-	- func: mousereleased(x, y, button)
-	- desc: called when the player releases a mouse button
---]]---------------------------------------------------------
-function newobject:mousereleased(x, y, button)
-
-	local visible = self.visible
-	
-	if not visible then
-		return
-	end
-	
-end
-
---[[---------------------------------------------------------
-	- func: GetOffsetY()
-	- desc: gets the object's y offset
---]]---------------------------------------------------------
-function newobject:GetOffsetY()
-
-	return self.offsety
 	
 end

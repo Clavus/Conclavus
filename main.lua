@@ -29,7 +29,6 @@ function love.load( arg )
 	input = InputController()
 	screen.init( love.window.getMode() )
 	lovebird.init()
-	loveframes.load()
 	game.load()
 	-------------------------------------------------------
 	print("-- Initializing ".._gameTitle.." --")

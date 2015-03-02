@@ -3,6 +3,10 @@
 	-- Copyright (c) 2012-2014 Kenny Shields --
 --]]------------------------------------------------
 
+-- get the current require path
+local path = string.sub(..., 1, string.len(...) - string.len(".objects.tabs"))
+local loveframes = require(path .. ".libraries.common")
+
 -- tabs object
 local newobject = loveframes.NewObject("tabs", "loveframes_object_tabs", true)
 
@@ -239,17 +243,16 @@ function newobject:mousepressed(x, y, button)
 		local visible = internals[numinternals]:GetVisible()
 		if col and visible then
 			local bwidth = self:GetWidthOfButtons()
-			if (self.offsetx + bwidth) < self.width then
-				self.offsetx = bwidth - self.width
+			local scrollamount = self.mousewheelscrollamount
+			local dtscrolling = self.dtscrolling
+			if dtscrolling then
+				local dt = love.timer.getDelta()
+				self.offsetx = self.offsetx - scrollamount * dt
 			else
-				local scrollamount = self.mousewheelscrollamount
-				local dtscrolling = self.dtscrolling
-				if dtscrolling then
-					local dt = love.timer.getDelta()
-					self.offsetx = self.offsetx - scrollamount * dt
-				else
-					self.offsetx = self.offsetx - scrollamount
-				end
+				self.offsetx = self.offsetx - scrollamount
+			end
+			if ((self.offsetx + bwidth) + self.width) < self.width then
+				self.offsetx = -(bwidth + 10)
 			end
 		end
 	end
@@ -330,7 +333,7 @@ function newobject:AddTab(name, object, tip, image, onopened, onclosed)
 		object:SetSize(self.width - padding * 2, (self.height - tabheight) - padding * 2)
 	end
 	
-	return self
+	return tab
 	
 end
 

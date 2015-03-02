@@ -3,6 +3,10 @@
 	-- Copyright (c) 2012-2014 Kenny Shields --
 --]]------------------------------------------------
 
+-- get the current require path
+local path = string.sub(..., 1, string.len(...) - string.len(".objects.textinput"))
+local loveframes = require(path .. ".libraries.common")
+
 -- textinput object
 local newobject = loveframes.NewObject("textinput", "loveframes_object_textinput", true)
 
@@ -62,6 +66,7 @@ function newobject:initialize()
 	self.internal = false
 	self.autoscroll = false
 	self.masked = false
+	self.trackindicator = true
 	self.OnEnter = nil
 	self.OnTextChanged = nil
 	self.OnFocusGained = nil
@@ -159,7 +164,7 @@ function newobject:update(dt)
 		if vbar then
 			self.itemwidth = twidth + 16 + textoffsetx * 2
 		else
-			self.itemwidth = twidth
+			self.itemwidth = twidth + (textoffsetx * 2)
 		end
 		if panel then
 			local panelwidth = panel.width
@@ -337,6 +342,7 @@ function newobject:mousepressed(x, y, button)
 	
 	local hover = self.hover
 	local internals = self.internals
+	local alt = love.keyboard.isDown("lalt", "ralt")
 	local vbar = self.vbar
 	local hbar = self.hbar
 	local scrollamount = self.mousewheelscrollamount
@@ -355,7 +361,13 @@ function newobject:mousepressed(x, y, button)
 			if not alltextselected then
 				local lastclicktime = self.lastclicktime
 				if (time > lastclicktime) and time < (lastclicktime + 0.25) then
-					self.alltextselected = true
+					if not self.multiline then
+						if self.lines[1] ~= "" then
+							self.alltextselected = true
+						end
+					else
+						self.alltextselected = true
+					end
 				end
 			else
 				self.alltextselected = false
@@ -371,26 +383,36 @@ function newobject:mousepressed(x, y, button)
 				baseparent:MakeTop()
 			end
 		elseif button == "wu" then
-			if vbar and not hbar then
-				local vbar = self:GetVerticalScrollBody().internals[1].internals[1]
-				vbar:Scroll(-scrollamount)
-			elseif vbar and hbar then
-				local vbar = self:GetVerticalScrollBody().internals[1].internals[1]
-				vbar:Scroll(-scrollamount)
-			elseif not vbar and hbar then
-				local hbar = self:GetHorizontalScrollBody().internals[1].internals[1]
-				hbar:Scroll(-scrollamount)
+			if not alt then
+				if focus then
+					self.line = math.max(self.line - scrollamount, 1)
+				elseif vbar then
+					local vbar = self:GetVerticalScrollBody().internals[1].internals[1]
+					vbar:Scroll(-scrollamount)
+				end
+			else
+				if focus then
+					self:MoveIndicator(-scrollamount)
+				elseif hbar then
+					local hbar = self:GetHorizontalScrollBody().internals[1].internals[1]
+					hbar:Scroll(-scrollamount)
+				end
 			end
 		elseif button == "wd" then
-			if vbar and not hbar then
-				local vbar = self:GetVerticalScrollBody().internals[1].internals[1]
-				vbar:Scroll(scrollamount)
-			elseif vbar and hbar then
-				local vbar = self:GetVerticalScrollBody().internals[1].internals[1]
-				vbar:Scroll(scrollamount)
-			elseif not vbar and hbar then
-				local hbar = self:GetHorizontalScrollBody().internals[1].internals[1]
-				hbar:Scroll(scrollamount)
+			if not alt then
+				if focus then
+					self.line = math.min(self.line + scrollamount, #self.lines)
+				elseif vbar then
+					local vbar = self:GetVerticalScrollBody().internals[1].internals[1]
+					vbar:Scroll(scrollamount)
+				end
+			else
+				if focus then
+					self:MoveIndicator(scrollamount)
+				elseif hbar then
+					local hbar = self:GetHorizontalScrollBody().internals[1].internals[1]
+					hbar:Scroll(scrollamount)
+				end
 			end
 		end
 	else
@@ -463,7 +485,13 @@ function newobject:keypressed(key, isrepeat)
 	
 	if (loveframes.util.IsCtrlDown()) and focus then
 		if key == "a" then
-			self.alltextselected = true
+			if not self.multiline then
+				if self.lines[1] ~= "" then
+					self.alltextselected = true
+				end
+			else
+				self.alltextselected = true
+			end
 		elseif key == "c" and alltextselected then
 			local text = self:GetText()
 			local oncopy = self.OnCopy
@@ -579,7 +607,7 @@ function newobject:RunKey(key, istext)
 				if indicatornum == 0 then
 					if line > 1 then
 						self.line = line - 1
-						local numchars = #lines[self.line]
+						local numchars = string.len(lines[self.line])
 						self:MoveIndicator(numchars)
 					end
 				else
@@ -597,14 +625,14 @@ function newobject:RunKey(key, istext)
 			if not multiline then
 				self:MoveIndicator(1)
 				local indicatorx = self.indicatorx
-				if indicatorx >= (x + swidth) and indicatornum ~= #text then
+				if indicatorx >= (x + swidth) and indicatornum ~= string.len(text) then
 					local width = font:getWidth(text:sub(indicatornum, indicatornum))
 					self.offsetx = offsetx + width
-				elseif indicatornum == #text and offsetx ~= ((font:getWidth(text)) - swidth + 10) and font:getWidth(text) + textoffsetx > swidth then
+				elseif indicatornum == string.len(text) and offsetx ~= ((font:getWidth(text)) - swidth + 10) and font:getWidth(text) + textoffsetx > swidth then
 					self.offsetx = ((font:getWidth(text)) - swidth + 10)
 				end
 			else
-				if indicatornum == #text then
+				if indicatornum == string.len(text) then
 					if line < numlines then
 						self.line = line + 1
 						self:MoveIndicator(0, true)
@@ -615,7 +643,7 @@ function newobject:RunKey(key, istext)
 			end
 			if alltextselected then
 				self.line = #lines
-				self.indicatornum = lines[#lines]:len()
+				self.indicatornum = string.len(lines[#lines])
 				self.alltextselected = false
 			end
 			return
@@ -623,8 +651,8 @@ function newobject:RunKey(key, istext)
 			if multiline then
 				if line > 1 then
 					self.line = line - 1
-					if indicatornum > #lines[self.line] then
-						self.indicatornum = #lines[self.line]
+					if indicatornum > string.len(lines[self.line]) then
+						self.indicatornum = string.len(lines[self.line])
 					end
 				end
 			end
@@ -633,8 +661,8 @@ function newobject:RunKey(key, istext)
 			if multiline then
 				if line < #lines then
 					self.line = line + 1
-					if indicatornum > #lines[self.line] then
-						self.indicatornum = #lines[self.line]
+					if indicatornum > string.len(lines[self.line]) then
+						self.indicatornum = string.len(lines[self.line])
 					end
 				end
 			end
@@ -664,12 +692,12 @@ function newobject:RunKey(key, istext)
 						local oldtext = lines[line]
 						table.remove(lines, line)
 						self.line = line - 1
-						if #oldtext > 0 then
-							newindicatornum = #lines[self.line]
+						if string.len(oldtext) > 0 then
+							newindicatornum = string.len(lines[self.line])
 							lines[self.line] = lines[self.line] .. oldtext
 							self:MoveIndicator(newindicatornum)
 						else
-							self:MoveIndicator(#lines[self.line])
+							self:MoveIndicator(string.len(lines[self.line]))
 						end
 					end
 				end
@@ -677,9 +705,9 @@ function newobject:RunKey(key, istext)
 				local cwidth = 0
 				if masked then
 					local maskchar = self.maskchar
-					cwidth = font:getWidth(text:sub(#text):gsub(".", maskchar))
+					cwidth = font:getWidth(text:sub(string.len(text)):gsub(".", maskchar))
 				else
-					cwidth = font:getWidth(text:sub(#text))
+					cwidth = font:getWidth(text:sub(string.len(text)))
 				end
 				if self.offsetx > 0 then
 					self.offsetx = self.offsetx - cwidth
@@ -697,13 +725,13 @@ function newobject:RunKey(key, istext)
 				self.alltextselected = false
 				indicatornum = self.indicatornum
 			else
-				if text ~= "" and indicatornum < #text then
+				if text ~= "" and indicatornum < string.len(text) then
 					text = self:RemoveFromText(indicatornum + 1)
 					lines[line] = text
-				elseif indicatornum == #text and line < #lines then
+				elseif indicatornum == string.len(text) and line < #lines then
 					local oldtext = lines[line + 1]
-					if #oldtext > 0 then
-						newindicatornum = #lines[self.line]
+					if string.len(oldtext) > 0 then
+						newindicatornum = string.len(lines[self.line])
 						lines[self.line] = lines[self.line] .. oldtext
 					end
 					table.remove(lines, line + 1)
@@ -727,8 +755,8 @@ function newobject:RunKey(key, istext)
 				if indicatornum == 0 then
 					newtext = self.lines[line]
 					self.lines[line] = ""
-				elseif indicatornum > 0 and indicatornum < #self.lines[line] then
-					newtext = self.lines[line]:sub(indicatornum + 1, #self.lines[line])
+				elseif indicatornum > 0 and indicatornum < string.len(self.lines[line]) then
+					newtext = self.lines[line]:sub(indicatornum + 1, string.len(self.lines[line]))
 					self.lines[line] = self.lines[line]:sub(1, indicatornum)
 				end
 				if line ~= #lines then
@@ -739,15 +767,25 @@ function newobject:RunKey(key, istext)
 					self.line = line + 1
 				end
 				self.indicatornum = 0
+				local hbody = self:GetHorizontalScrollBody()
+				if hbody then
+					hbody:GetScrollBar():Scroll(-hbody:GetWidth())
+				end
 			end
 		elseif key == "tab" then
+			if alltextselected then
+				return
+			end
 			ckey = key
 			self.lines[self.line] = self:AddIntoText(self.tabreplacement, self.indicatornum)
-			self:MoveIndicator(#self.tabreplacement)
+			self:MoveIndicator(string.len(self.tabreplacement))
 		end
 	else
+		if not editable then
+			return
+		end
 		-- do not continue if the text limit has been reached or exceeded
-		if #text >= self.limit and self.limit ~= 0 and not alltextselected then
+		if string.len(text) >= self.limit and self.limit ~= 0 and not alltextselected then
 			return
 		end
 		-- check for unusable characters
@@ -782,11 +820,11 @@ function newobject:RunKey(key, istext)
 			lines = self.lines
 			line = self.line
 		end
-		if indicatornum ~= 0 and indicatornum ~= #text then
+		if indicatornum ~= 0 and indicatornum ~= string.len(text) then
 			text = self:AddIntoText(key, indicatornum)
 			lines[line] = text
 			self:MoveIndicator(1)
-		elseif indicatornum == #text then
+		elseif indicatornum == string.len(text) then
 			text = text .. key
 			lines[line] = text
 			self:MoveIndicator(1)
@@ -845,8 +883,8 @@ function newobject:MoveIndicator(num, exact)
 		self.indicatornum = num
 	end
 	
-	if self.indicatornum > #text then
-		self.indicatornum = #text
+	if self.indicatornum > string.len(text) then
+		self.indicatornum = string.len(text)
 	elseif self.indicatornum < 0 then
 		self.indicatornum = 0
 	end
@@ -893,6 +931,10 @@ function newobject:UpdateIndicator()
 	
 	if alltextselected then
 		self.showindicator = false
+	else
+		if love.keyboard.isDown("up", "down", "left", "right") then
+			self.showindicator = true
+		end
 	end
 	
 	local width = 0
@@ -913,6 +955,55 @@ function newobject:UpdateIndicator()
 	else
 		self.indicatorx = textx + width
 		self.indicatory	= texty
+	end
+	
+	-- indicator should be visible, so correcting scrolls
+	if self.focus and self.trackindicator then
+		local indicatorRelativeX = width + self.textoffsetx - self.offsetx
+		local leftlimit, rightlimit = 1, self:GetWidth() - 1
+		if self.linenumberspanel then
+			rightlimit = rightlimit - self:GetLineNumbersPanel().width
+		end
+		if self.vbar then
+			rightlimit = rightlimit - self:GetVerticalScrollBody().width
+		end
+		if not (indicatorRelativeX > leftlimit and indicatorRelativeX < rightlimit) then 
+			local hbody = self:GetHorizontalScrollBody()
+			if hbody then
+				local twidth = 0
+				for k, v in ipairs(lines) do
+					local linewidth = 0
+					if self.masked then
+						linewidth = font:getWidth(v:gsub(".", self.maskchar))
+					else
+						linewidth = font:getWidth(v)
+					end
+					if linewidth > twidth then
+						twidth = linewidth
+					end
+				end
+				local correction = self:GetWidth() / 8
+				if indicatorRelativeX < leftlimit then
+					correction = correction * -1
+				end
+				hbody:GetScrollBar():ScrollTo((width + correction) / twidth)
+			end
+		end
+		local indicatorRelativeY = (line - 1) * theight + self.textoffsety - self.offsety
+		local uplimit, downlimit = theight, self:GetHeight() - theight
+		if self.hbar then
+			downlimit = downlimit - self:GetHorizontalScrollBody().height
+		end
+		if not (indicatorRelativeY > uplimit and indicatorRelativeY < downlimit) then 
+			local vbody = self:GetVerticalScrollBody()
+			if vbody then
+				local correction = self:GetHeight() / 8 / theight
+				if indicatorRelativeY < uplimit then
+					correction = correction * -1
+				end
+				vbody:GetScrollBar():ScrollTo((line - 1 + correction)/#lines)
+			end
+		end
 	end
 	
 	return self
@@ -1003,7 +1094,7 @@ function newobject:GetTextCollisions(x, y)
 			end
 			local line = self.line
 			local curline = lines[line]
-			for i=1, #curline do
+			for i=1, string.len(curline) do
 				local char = text:sub(i, i)
 				local width = 0
 				if masked then
@@ -1023,7 +1114,7 @@ function newobject:GetTextCollisions(x, y)
 					self:MoveIndicator(i - 1, true)
 					break
 				else
-					self.indicatornum = #curline
+					self.indicatornum = string.len(curline)
 				end
 				
 				if x < tx then
@@ -1031,16 +1122,16 @@ function newobject:GetTextCollisions(x, y)
 				end
 				
 				if x > (tx + width) then
-					self:MoveIndicator(#curline, true)
+					self:MoveIndicator(string.len(curline), true)
 				end
 			end
 			
-			if #curline == 0 then
+			if string.len(curline) == 0 then
 				self.indicatornum = 0
 			end
 		end
 	else
-		for i=1, #text do
+		for i=1, string.len(text) do
 			local char = text:sub(i, i)
 			local width = 0
 			if masked then
@@ -1062,7 +1153,7 @@ function newobject:GetTextCollisions(x, y)
 				self:MoveIndicator(0, true)
 			end
 			if x > (tx + width) then
-				self:MoveIndicator(#text, true)
+				self:MoveIndicator(string.len(text), true)
 			end
 		end
 	end
@@ -1292,13 +1383,13 @@ function newobject:SetText(text)
 			self.lines = {""}
 		end
 		self.line = #self.lines
-		self.indicatornum = #self.lines[#self.lines]
+		self.indicatornum = string.len(self.lines[#self.lines])
 	else
 		text = text:gsub(string.char(92) .. string.char(110), "")
 		text = text:gsub(string.char(10), "")
 		self.lines = {text}
 		self.line = 1
-		self.indicatornum = #text
+		self.indicatornum = string.len(text)
 	end
 	
 	return self
@@ -1922,7 +2013,14 @@ end
 --]]---------------------------------------------------------
 function newobject:SelectAll()
 
-	self.alltextselected = true
+	if not self.multiline then
+		if self.lines[1] ~= "" then
+			self.alltextselected = true
+		end
+	else
+		self.alltextselected = true
+	end
+
 	return self
 	
 end
@@ -1998,5 +2096,44 @@ end
 function newobject:GetPlaceholderText()
 
 	return self.placeholder
+	
+end
+
+--[[---------------------------------------------------------
+	- func: ClearLine(line)
+	- desc: clears the specified line
+--]]---------------------------------------------------------
+function newobject:ClearLine(line)
+	
+	if self.lines[line] then
+		self.lines[line] = ""
+	end
+	
+	return self
+	
+end
+
+--[[---------------------------------------------------------
+	- func: SetTrackingEnabled(bool)
+	- desc: sets whether or not the object should
+			automatically scroll to the position of its
+			indicator
+--]]---------------------------------------------------------
+function newobject:SetTrackingEnabled(bool)
+
+	self.trackindicator = bool
+	return self
+	
+end
+
+--[[---------------------------------------------------------
+	- func: GetTrackingEnabled()
+	- desc: gets whether or not the object should
+			automatically scroll to the position of its
+			indicator
+--]]---------------------------------------------------------
+function newobject:GetTrackingEnabled()
+
+	return self.trackindicator
 	
 end

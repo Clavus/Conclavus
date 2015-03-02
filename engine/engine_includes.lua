@@ -10,15 +10,12 @@ require("engine/extend/debug")
 
 -- Loading order of elements is important!
 local toload = {
-	-- Libraries from others
-	{ lovebird =				"engine/lib/lovebird/lovebird" },
+	-- Base libraries
 	{ class = 					"engine/lib/middleclass/middleclass" },
 	{ timer = 					"engine/lib/hump/timer" },
 	{ signal = 					"engine/lib/hump/signal" },
 	{ gamestate = 			"engine/lib/hump/gamestate" },
 	{ mlib = 						"engine/lib/mlib/mlib" },
-	{ tlib =						"engine/lib/tlib/tlib" },
-	{ loveframes =			"engine/lib/loveframes/loveframes" },
 	{ noise =						"engine/lib/lovenoise/lovenoise" },
 	
 	-- Utility libraries
@@ -30,6 +27,11 @@ local toload = {
 	{ resource = 				"engine/util/resource" },
 	{ graphics = 				"engine/util/graphics" },
 	{ steering = 				"engine/util/steering" },
+	
+	-- Other libraries
+	{ lovebird =				"engine/lib/lovebird/lovebird" },
+	{ loveframes =			"engine/lib/loveframes/loveframes" },
+	{ tlib =						"engine/lib/tlib/tlib" },
 	
 	-- Mixins
 	{ CollisionResolver = 	"engine/classes/mixins/collisionresolver" },
