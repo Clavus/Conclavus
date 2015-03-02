@@ -15,7 +15,7 @@ local function __NULL__() end
 
  -- default gamestate produces error on every callback
 local state_init = setmetatable({leave = __NULL__},
-		{__index = function() error("Gamestate not initialized. Use Gamestate.switch()") end})
+		{__index = function() error("Gamestate not initialized. Use gamestate.switch()") end})
 local stack = {state_init}
 
 local GS = {}
@@ -23,6 +23,7 @@ function GS.new(name) return { name = (name or "undefined") } end -- constructor
 
 function GS.switch(to, ...)
 	assert(to, "Missing argument: Gamestate to switch to")
+	assert(to ~= GS, "Can't call switch with colon operator")
 	local pre = stack[#stack]
 	;(pre.leave or __NULL__)(pre)
 	;(to.init or __NULL__)(to)
@@ -36,6 +37,7 @@ end
 
 function GS.push(to, ...)
 	assert(to, "Missing argument: Gamestate to switch to")
+	assert(to ~= GS, "Can't call push with colon operator")
 	local pre = stack[#stack]
 	;(to.init or __NULL__)(to)
 	to.init = nil
@@ -46,14 +48,15 @@ function GS.push(to, ...)
 	return (to.enter or __NULL__)(to, pre, ...)
 end
 
-function GS.pop()
+function GS.pop(...)
 	assert(#stack > 1, "No more states to pop!")
 	local pre = stack[#stack]
 	stack[#stack] = nil
 	
 	--print("Gamestate popped back to "..stack[#stack].name)
 	
-	return (pre.leave or __NULL__)(pre)
+	;(pre.leave or __NULL__)(pre)
+	return (to.resume or __NULL__)(to, pre, ...)
 end
 
 function GS.current()
