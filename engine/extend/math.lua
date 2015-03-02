@@ -3,6 +3,7 @@
 -- @extend math
 
 -- cache functions
+local math = math
 local sqrt, pi, random, floor, abs = math.sqrt, math.pi, math.random, math.floor, math.abs
 
 function math.distance( x1, y1, x2, y2 )
@@ -56,26 +57,4 @@ function math.smooth(a, b, frac) -- same as math.lerp but with cosine interpolat
 	return a + (b - a) * m
 end
 
-function math.normalizeAngle( a )
-	while (a <= -pi) do
-		a = a + pi*2
-	end
-	while (a > pi) do
-		a = a - pi*2
-	end
-	return a
-end
-
-function math.angleDifference( a, b )
-	local diff = math.normalizeAngle( a - b )
-	if ( diff < pi ) then
-		return diff
-	end
-	return diff - pi
-end
-
-function math.approachAngle( cur, target, inc )
-	local diff = math.angleDifference( target, cur )
-	return math.approach( cur, cur + diff, inc )
-end
 

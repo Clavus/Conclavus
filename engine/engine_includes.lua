@@ -20,7 +20,7 @@ local toload = {
 	
 	-- Utility libraries
 	{ screen =					"engine/util/screen" },
-	{ vector2d = 					"engine/util/vector2d" },
+	{ vector2d = 				"engine/util/vector2d" },
 	{ angle = 					"engine/util/angle" },
 	{ util = 						"engine/util/util" },
 	{ easing = 					"engine/util/easing" },
