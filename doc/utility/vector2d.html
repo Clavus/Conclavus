@@ -1,0 +1,842 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Conclavus</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Utility</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../utility/angle.html">angle</a></li>
+  <li><a href="../utility/resource.html">resource</a></li>
+  <li><a href="../utility/screen.html">screen</a></li>
+  <li><a href="../utility/steering.html">steering</a></li>
+  <li><strong>vector2d</strong></li>
+</ul>
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/Color.html">Color</a></li>
+  <li><a href="../classes/Camera.html">Camera</a></li>
+  <li><a href="../classes/Entity.html">Entity</a></li>
+  <li><a href="../classes/Trigger.html">Trigger</a></li>
+  <li><a href="../classes/Wall.html">Wall</a></li>
+  <li><a href="../classes/EntityManager.html">EntityManager</a></li>
+  <li><a href="../classes/FiniteStateMachine.html">FiniteStateMachine</a></li>
+  <li><a href="../classes/GUI.html">GUI</a></li>
+  <li><a href="../classes/InputController.html">InputController</a></li>
+  <li><a href="../classes/CustomLevelData.html">CustomLevelData</a></li>
+  <li><a href="../classes/Level.html">Level</a></li>
+  <li><a href="../classes/LevelData.html">LevelData</a></li>
+  <li><a href="../classes/TiledLevelData.html">TiledLevelData</a></li>
+  <li><a href="../classes/Box2DPhysicsSystem.html">Box2DPhysicsSystem</a></li>
+  <li><a href="../classes/PhysicsSystem.html">PhysicsSystem</a></li>
+  <li><a href="../classes/Sprite.html">Sprite</a></li>
+  <li><a href="../classes/SpriteData.html">SpriteData</a></li>
+  <li><a href="../classes/StateAnimatedSprite.html">StateAnimatedSprite</a></li>
+  <li><a href="../classes/Vector.html">Vector</a></li>
+</ul>
+<h2>Mixins</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../mixins/CollisionResolver.html">CollisionResolver</a></li>
+  <li><a href="../mixins/PhysicsBody.html">PhysicsBody</a></li>
+  <li><a href="../mixins/Positional.html">Positional</a></li>
+  <li><a href="../mixins/Rotational.html">Rotational</a></li>
+  <li><a href="../mixins/Scalable.html">Scalable</a></li>
+</ul>
+<h2>Extensions</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../extensions/debug.html">debug</a></li>
+  <li><a href="../extensions/math.html">math</a></li>
+  <li><a href="../extensions/package.html">package</a></li>
+  <li><a href="../extensions/string.html">string</a></li>
+  <li><a href="../extensions/table.html">table</a></li>
+</ul>
+<h2>Other</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../other/constants.html">constants</a></li>
+  <li><a href="../other/global.html">global</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../topics/01-intro.md.html">01-intro</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Util <code>vector2d</code></h1>
+<p>Vector functions.</p>
+<p>
+
+</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#distance">distance (x1, y1, x2, y2)</a></td>
+	<td class="summary">Get distance from one vector(x1, y1) to other vector(x2, y2).</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#distance2">distance2 (x1, y1, x2, y2)</a></td>
+	<td class="summary">Get distance^2 from one vector(x1, y1) to other vector(x2, y2).</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#length">length (x, y)</a></td>
+	<td class="summary">Get the length of this vector.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#length2">length2 (x, y)</a></td>
+	<td class="summary">Get the length^2 of this vector.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#angle">angle (x, y)</a></td>
+	<td class="summary">Get the angle (in radians) of the vector.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#snap">snap (x, y, gx, gy)</a></td>
+	<td class="summary">Snap this vector to the given grid.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#approach">approach (x1, y1, x2, y2, step)</a></td>
+	<td class="summary">Step from one vector towards another vector with the given step.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#perpendicular">perpendicular (x, y)</a></td>
+	<td class="summary">Returns a vector perpendicular to this one.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#dot">dot (x1, y1, x2, y2)</a></td>
+	<td class="summary">Returns dot product of the two vectors.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#cross">cross (x1, y1, x2, y2)</a></td>
+	<td class="summary">Returns cross product of the two vectors.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#projectOn">projectOn (x1, y1, x2, y2)</a></td>
+	<td class="summary">Project first vector onto the other.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#mirrorOn">mirrorOn (x1, y1, x2, y2)</a></td>
+	<td class="summary">Mirror first vector respective to the other.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#normal">normal (x, y)</a></td>
+	<td class="summary">Get normalized vector.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#trim">trim (x, y, maxLength)</a></td>
+	<td class="summary">Trim vector length.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#rotate">rotate (x, y, r)</a></td>
+	<td class="summary">Rotate vector by the given angle.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "distance"></a>
+    <strong>distance (x1, y1, x2, y2)</strong>
+    </dt>
+    <dd>
+    Get distance from one vector(x1, y1) to other vector(x2, y2).
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x1</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y1</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">x2</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y2</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        distance
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "distance2"></a>
+    <strong>distance2 (x1, y1, x2, y2)</strong>
+    </dt>
+    <dd>
+    Get distance^2 from one vector(x1, y1) to other vector(x2, y2).
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x1</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y1</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">x2</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y2</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        distance squared
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "length"></a>
+    <strong>length (x, y)</strong>
+    </dt>
+    <dd>
+    Get the length of this vector.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        length
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "length2"></a>
+    <strong>length2 (x, y)</strong>
+    </dt>
+    <dd>
+    Get the length^2 of this vector.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        length squared
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "angle"></a>
+    <strong>angle (x, y)</strong>
+    </dt>
+    <dd>
+    Get the angle (in radians) of the vector.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        angle
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "snap"></a>
+    <strong>snap (x, y, gx, gy)</strong>
+    </dt>
+    <dd>
+    Snap this vector to the given grid.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">gx</span>
+            <span class="types"><span class="type">number</span></span>
+         grid size x
+        </li>
+        <li><span class="parameter">gy</span>
+            <span class="types"><span class="type">number</span></span>
+         grid size y
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        x snapped x coordinate</li>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        y snapped y coordinate</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "approach"></a>
+    <strong>approach (x1, y1, x2, y2, step)</strong>
+    </dt>
+    <dd>
+    Step from one vector towards another vector with the given step.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x1</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y1</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">x2</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y2</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">step</span>
+            <span class="types"><span class="type">number</span></span>
+         size (distance to cover towards other vector)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        x new x coordinate</li>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        y new y coordinate</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "perpendicular"></a>
+    <strong>perpendicular (x, y)</strong>
+    </dt>
+    <dd>
+    Returns a vector perpendicular to this one.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        x perpendicular x coordinate</li>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        y perpendicular y coordinate</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "dot"></a>
+    <strong>dot (x1, y1, x2, y2)</strong>
+    </dt>
+    <dd>
+    Returns dot product of the two vectors.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x1</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y1</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">x2</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y2</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        dot dot product
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "cross"></a>
+    <strong>cross (x1, y1, x2, y2)</strong>
+    </dt>
+    <dd>
+    Returns cross product of the two vectors.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x1</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y1</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">x2</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y2</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        cross cross product
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "projectOn"></a>
+    <strong>projectOn (x1, y1, x2, y2)</strong>
+    </dt>
+    <dd>
+    Project first vector onto the other.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x1</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y1</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">x2</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y2</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        x projected vector x coordinate</li>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        y projected vector y coordinate</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mirrorOn"></a>
+    <strong>mirrorOn (x1, y1, x2, y2)</strong>
+    </dt>
+    <dd>
+    Mirror first vector respective to the other.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x1</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y1</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">x2</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y2</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        x mirrored vector x coordinate</li>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        y mirrored vector y coordinate</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "normal"></a>
+    <strong>normal (x, y)</strong>
+    </dt>
+    <dd>
+    Get normalized vector.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        x normalized vector x coordinate</li>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        y normalized vector y coordinate</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "trim"></a>
+    <strong>trim (x, y, maxLength)</strong>
+    </dt>
+    <dd>
+    Trim vector length.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">maxLength</span>
+            <span class="types"><span class="type">number</span></span>
+         trim length
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        x trimmed vector x coordinate</li>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        y trimmed vector y coordinate</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "rotate"></a>
+    <strong>rotate (x, y, r)</strong>
+    </dt>
+    <dd>
+    Rotate vector by the given angle.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">y</span>
+            <span class="types"><span class="type">number</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">r</span>
+            <span class="types"><span class="type">number</span></span>
+         angle (radians) to rotate by
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        x rotated vector x coordinate</li>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        y rotated vector y coordinate</li>
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2015-03-03 03:10:42 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
+

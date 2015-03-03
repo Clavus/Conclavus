@@ -1,0 +1,952 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Conclavus</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Class_Vector">Class Vector </a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/Color.html">Color</a></li>
+  <li><a href="../classes/Camera.html">Camera</a></li>
+  <li><a href="../classes/Entity.html">Entity</a></li>
+  <li><a href="../classes/Trigger.html">Trigger</a></li>
+  <li><a href="../classes/Wall.html">Wall</a></li>
+  <li><a href="../classes/EntityManager.html">EntityManager</a></li>
+  <li><a href="../classes/FiniteStateMachine.html">FiniteStateMachine</a></li>
+  <li><a href="../classes/GUI.html">GUI</a></li>
+  <li><a href="../classes/InputController.html">InputController</a></li>
+  <li><a href="../classes/CustomLevelData.html">CustomLevelData</a></li>
+  <li><a href="../classes/Level.html">Level</a></li>
+  <li><a href="../classes/LevelData.html">LevelData</a></li>
+  <li><a href="../classes/TiledLevelData.html">TiledLevelData</a></li>
+  <li><a href="../classes/Box2DPhysicsSystem.html">Box2DPhysicsSystem</a></li>
+  <li><a href="../classes/PhysicsSystem.html">PhysicsSystem</a></li>
+  <li><a href="../classes/Sprite.html">Sprite</a></li>
+  <li><a href="../classes/SpriteData.html">SpriteData</a></li>
+  <li><a href="../classes/StateAnimatedSprite.html">StateAnimatedSprite</a></li>
+  <li><strong>Vector</strong></li>
+</ul>
+<h2>Mixins</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../mixins/CollisionResolver.html">CollisionResolver</a></li>
+  <li><a href="../mixins/PhysicsBody.html">PhysicsBody</a></li>
+  <li><a href="../mixins/Positional.html">Positional</a></li>
+  <li><a href="../mixins/Rotational.html">Rotational</a></li>
+  <li><a href="../mixins/Scalable.html">Scalable</a></li>
+</ul>
+<h2>Utility</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../utility/angle.html">angle</a></li>
+  <li><a href="../utility/resource.html">resource</a></li>
+  <li><a href="../utility/screen.html">screen</a></li>
+  <li><a href="../utility/steering.html">steering</a></li>
+  <li><a href="../utility/vector2d.html">vector2d</a></li>
+</ul>
+<h2>Extensions</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../extensions/debug.html">debug</a></li>
+  <li><a href="../extensions/math.html">math</a></li>
+  <li><a href="../extensions/package.html">package</a></li>
+  <li><a href="../extensions/string.html">string</a></li>
+  <li><a href="../extensions/table.html">table</a></li>
+</ul>
+<h2>Other</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../other/constants.html">constants</a></li>
+  <li><a href="../other/global.html">global</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../topics/01-intro.md.html">01-intro</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Cl <code>Vector</code></h1>
+<p>Vector class.</p>
+<p> More managable than the <a href="../utility/vector2d.html#">vector2d</a> utility library in some cases.</p>
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"> local vec1 = Vector(1, 3)
+ local vec2 = Vector({ 1, 3 })
+ local vec3 = Vector({ x = 1, y = 3 })
+ -- All of these create the same vector with x = 1 and y = 3.
+ -- Advantage over util library: easy to chain and use operators with!
+ local newVec = Vector(1,2):rotateBy( math.pi ):snap( 0.5, 0.5 ) + Vector( 1, 1 )
+ -- Also supports unary operations, equality checks, and string concatenation
+ local minVec = -Vector(1,1)
+ local isTrue = Vector(1,1) == Vector(1,1)
+ local isFalse = Vector(1,1) == Vector(1,2)
+ local str = &quot;Zero vector: &quot;..Vector(0,0)</pre>
+    </ul>
+
+
+<h2><a href="#Class_Vector">Class Vector </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Vector:unpack">Vector:unpack ()</a></td>
+	<td class="summary">Unpacks vector, returns x and y.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:copy">Vector:copy ()</a></td>
+	<td class="summary">Copies this vector.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:distance">Vector:distance (vec)</a></td>
+	<td class="summary">Get distance to other vector.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:distance2">Vector:distance2 (vec)</a></td>
+	<td class="summary">Get distance^2 to other vector.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:length">Vector:length ()</a></td>
+	<td class="summary">Get the length of this vector.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:length2">Vector:length2 ()</a></td>
+	<td class="summary">Get the length^2 of this vector.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:angle">Vector:angle ()</a></td>
+	<td class="summary">Get the angle (in radians) of the vector.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:snap">Vector:snap (gx, gy)</a></td>
+	<td class="summary">Snap this vector to the given grid.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:approach">Vector:approach (vector, step)</a></td>
+	<td class="summary">Approach another vector at the given step.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:round">Vector:round ([decimals=0])</a></td>
+	<td class="summary">Rounds this vector off.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:perpendicular">Vector:perpendicular ()</a></td>
+	<td class="summary">Gets perpendicular vector respective to this vector.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:dot">Vector:dot (vector)</a></td>
+	<td class="summary">Get dot product of this vector with the other vector.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:cross">Vector:cross (vector)</a></td>
+	<td class="summary">Get cross product of this vector with the other vector.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:projectOn">Vector:projectOn (vector)</a></td>
+	<td class="summary">Project this vector onto the other.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:mirrorOn">Vector:mirrorOn (vector)</a></td>
+	<td class="summary">Mirror this vector respective to the other.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:normalize">Vector:normalize ()</a></td>
+	<td class="summary">Normalize this vector.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:getNormal">Vector:getNormal ()</a></td>
+	<td class="summary">Get normal vector of this vector.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:trim">Vector:trim (maxLength)</a></td>
+	<td class="summary">Trim this vector to the given length.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:getTrimmed">Vector:getTrimmed (maxLength)</a></td>
+	<td class="summary">Get trimmed vector of this vector.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:rotate">Vector:rotate (r)</a></td>
+	<td class="summary">Rotate vector by the given angle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:getRotated">Vector:getRotated (r)</a></td>
+	<td class="summary">Get rotated vector of this vector.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:multiply">Vector:multiply (s)</a></td>
+	<td class="summary">Multiply this vector by a scalar or other vector.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:divide">Vector:divide (s)</a></td>
+	<td class="summary">Divide this vector by a scalar or other vector.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:add">Vector:add (v)</a></td>
+	<td class="summary">Add this vector to another vector.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector:subtract">Vector:subtract (v)</a></td>
+	<td class="summary">Subtract another vector from this vector.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Class_Vector"></a>Class Vector </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Vector:unpack"></a>
+    <strong>Vector:unpack ()</strong>
+    </dt>
+    <dd>
+    Unpacks vector, returns x and y.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        x</li>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        y</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Vector:copy"></a>
+    <strong>Vector:copy ()</strong>
+    </dt>
+    <dd>
+    Copies this vector.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+        vector
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Vector:distance"></a>
+    <strong>Vector:distance (vec)</strong>
+    </dt>
+    <dd>
+    Get distance to other vector.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">vec</span>
+            <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+         other vector
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        distance
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../utility/vector2d.html#distance">vector2d.distance</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Vector:distance2"></a>
+    <strong>Vector:distance2 (vec)</strong>
+    </dt>
+    <dd>
+    Get distance^2 to other vector.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">vec</span>
+            <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+         other vector
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        distance squared
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../utility/vector2d.html#distance2">vector2d.distance2</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Vector:length"></a>
+    <strong>Vector:length ()</strong>
+    </dt>
+    <dd>
+    Get the length of this vector.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        length
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../utility/vector2d.html#length">vector2d.length</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Vector:length2"></a>
+    <strong>Vector:length2 ()</strong>
+    </dt>
+    <dd>
+    Get the length^2 of this vector.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        length squared
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../utility/vector2d.html#length2">vector2d.length2</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Vector:angle"></a>
+    <strong>Vector:angle ()</strong>
+    </dt>
+    <dd>
+    Get the angle (in radians) of the vector.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        angle
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../utility/vector2d.html#angle">vector2d.angle</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Vector:snap"></a>
+    <strong>Vector:snap (gx, gy)</strong>
+    </dt>
+    <dd>
+    Snap this vector to the given grid.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">gx</span>
+            <span class="types"><span class="type">number</span></span>
+         grid size x
+        </li>
+        <li><span class="parameter">gy</span>
+            <span class="types"><span class="type">number</span></span>
+         grid size y
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+        self
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../utility/vector2d.html#snap">vector2d.snap</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Vector:approach"></a>
+    <strong>Vector:approach (vector, step)</strong>
+    </dt>
+    <dd>
+    Approach another vector at the given step.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">vector</span>
+            <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+         other vector
+        </li>
+        <li><span class="parameter">step</span>
+            <span class="types"><span class="type">number</span></span>
+         step size (distance to cover towards other vector)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+        self
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../utility/vector2d.html#approach">vector2d.approach</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Vector:round"></a>
+    <strong>Vector:round ([decimals=0])</strong>
+    </dt>
+    <dd>
+    Rounds this vector off.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">decimals</span>
+            <span class="types"><span class="type">number</span></span>
+         number of decimals to round to
+         (<em>default</em> 0)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Vector:perpendicular"></a>
+    <strong>Vector:perpendicular ()</strong>
+    </dt>
+    <dd>
+    Gets perpendicular vector respective to this vector.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+        vector new perpendicular vector
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../utility/vector2d.html#perpendicular">vector2d.perpendicular</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Vector:dot"></a>
+    <strong>Vector:dot (vector)</strong>
+    </dt>
+    <dd>
+    Get dot product of this vector with the other vector.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">vector</span>
+            <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+         other vector
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../utility/vector2d.html#dot">vector2d.dot</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Vector:cross"></a>
+    <strong>Vector:cross (vector)</strong>
+    </dt>
+    <dd>
+    Get cross product of this vector with the other vector.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">vector</span>
+            <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+         other vector
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../utility/vector2d.html#cross">vector2d.cross</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Vector:projectOn"></a>
+    <strong>Vector:projectOn (vector)</strong>
+    </dt>
+    <dd>
+    Project this vector onto the other.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">vector</span>
+            <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+         other vector
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+        projected vector
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../utility/vector2d.html#projectOn">vector2d.projectOn</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Vector:mirrorOn"></a>
+    <strong>Vector:mirrorOn (vector)</strong>
+    </dt>
+    <dd>
+    Mirror this vector respective to the other.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">vector</span>
+            <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+         other vector
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+        mirrored vector
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../utility/vector2d.html#mirrorOn">vector2d.mirrorOn</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Vector:normalize"></a>
+    <strong>Vector:normalize ()</strong>
+    </dt>
+    <dd>
+    Normalize this vector.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+        self
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../utility/vector2d.html#normal">vector2d.normal</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Vector:getNormal"></a>
+    <strong>Vector:getNormal ()</strong>
+    </dt>
+    <dd>
+    Get normal vector of this vector.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+        normalized vector
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../utility/vector2d.html#normal">vector2d.normal</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Vector:trim"></a>
+    <strong>Vector:trim (maxLength)</strong>
+    </dt>
+    <dd>
+    Trim this vector to the given length.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">maxLength</span>
+            <span class="types"><span class="type">number</span></span>
+         trim length
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+        self
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../utility/vector2d.html#trim">vector2d.trim</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Vector:getTrimmed"></a>
+    <strong>Vector:getTrimmed (maxLength)</strong>
+    </dt>
+    <dd>
+    Get trimmed vector of this vector.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">maxLength</span>
+            <span class="types"><span class="type">number</span></span>
+         trim length
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+        trimmed vector
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../utility/vector2d.html#trim">vector2d.trim</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Vector:rotate"></a>
+    <strong>Vector:rotate (r)</strong>
+    </dt>
+    <dd>
+    Rotate vector by the given angle.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">r</span>
+            <span class="types"><span class="type">number</span></span>
+         angle (radians) to rotate by
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+        self
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../utility/vector2d.html#rotate">vector2d.rotate</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Vector:getRotated"></a>
+    <strong>Vector:getRotated (r)</strong>
+    </dt>
+    <dd>
+    Get rotated vector of this vector.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">r</span>
+            <span class="types"><span class="type">number</span></span>
+         angle (radians) to rotate by
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+        rotated vector
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../utility/vector2d.html#rotate">vector2d.rotate</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "Vector:multiply"></a>
+    <strong>Vector:multiply (s)</strong>
+    </dt>
+    <dd>
+    Multiply this vector by a scalar or other vector.  Used by the * operator.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">s</span>
+            <span class="types"><span class="type">number</span>, <a class="type" href="../classes/Vector.html#Vector">Vector</a> or <a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         scalar or vector or table in format { [x], [y] } or { x = [x], y = [y] }
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+        self
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> mulVec = Vector(<span class="number">1</span>,<span class="number">3</span>) * Vector(<span class="number">2</span>,<span class="number">1</span>) * <span class="number">3</span>
+ -- mulVec is Vector(<span class="number">6</span>, <span class="number">9</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "Vector:divide"></a>
+    <strong>Vector:divide (s)</strong>
+    </dt>
+    <dd>
+    Divide this vector by a scalar or other vector.  Used by the / operator.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">s</span>
+            <span class="types"><span class="type">number</span>, <a class="type" href="../classes/Vector.html#Vector">Vector</a> or <a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         scalar or vector or table in format { [x], [y] } or { x = [x], y = [y] }
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+        self
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> divVec = Vector(<span class="number">6</span>,<span class="number">9</span>) / Vector(<span class="number">2</span>,<span class="number">1</span>) / <span class="number">3</span>
+ -- divVec is Vector(<span class="number">1</span>, <span class="number">3</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "Vector:add"></a>
+    <strong>Vector:add (v)</strong>
+    </dt>
+    <dd>
+    Add this vector to another vector.  Used by the + operator.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">v</span>
+            <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a> or <a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         vector or table in format { [x], [y] } or { x = [x], y = [y] }
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+        self
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> addVec = Vector(<span class="number">12</span>, <span class="number">1</span>) + Vector(<span class="number">3</span>, <span class="number">2</span>)
+ -- addVec is Vector(<span class="number">15</span>, <span class="number">3</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "Vector:subtract"></a>
+    <strong>Vector:subtract (v)</strong>
+    </dt>
+    <dd>
+    Subtract another vector from this vector.  Used by the - operator.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">v</span>
+            <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a> or <a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         vector or table in format { [x], [y] } or { x = [x], y = [y] }
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/Vector.html#Vector">Vector</a></span>
+        self
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> subVec = Vector(<span class="number">15</span>, <span class="number">3</span>) - Vector(<span class="number">3</span>, <span class="number">2</span>)
+ -- subVec is Vector(<span class="number">12</span>, <span class="number">1</span>)</pre>
+    </ul>
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2015-03-03 03:10:42 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
+
