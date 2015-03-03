@@ -1,0 +1,449 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Conclavus</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Extensions</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../extensions/debug.html">debug</a></li>
+  <li><strong>math</strong></li>
+  <li><a href="../extensions/package.html">package</a></li>
+  <li><a href="../extensions/string.html">string</a></li>
+  <li><a href="../extensions/table.html">table</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/Color.html">Color</a></li>
+  <li><a href="../classes/Camera.html">Camera</a></li>
+  <li><a href="../classes/Entity.html">Entity</a></li>
+  <li><a href="../classes/Trigger.html">Trigger</a></li>
+  <li><a href="../classes/Wall.html">Wall</a></li>
+  <li><a href="../classes/EntityManager.html">EntityManager</a></li>
+  <li><a href="../classes/FiniteStateMachine.html">FiniteStateMachine</a></li>
+  <li><a href="../classes/GUI.html">GUI</a></li>
+  <li><a href="../classes/InputController.html">InputController</a></li>
+  <li><a href="../classes/CustomLevelData.html">CustomLevelData</a></li>
+  <li><a href="../classes/Level.html">Level</a></li>
+  <li><a href="../classes/LevelData.html">LevelData</a></li>
+  <li><a href="../classes/TiledLevelData.html">TiledLevelData</a></li>
+  <li><a href="../classes/Box2DPhysicsSystem.html">Box2DPhysicsSystem</a></li>
+  <li><a href="../classes/PhysicsSystem.html">PhysicsSystem</a></li>
+  <li><a href="../classes/Sprite.html">Sprite</a></li>
+  <li><a href="../classes/SpriteData.html">SpriteData</a></li>
+  <li><a href="../classes/StateAnimatedSprite.html">StateAnimatedSprite</a></li>
+  <li><a href="../classes/Vector.html">Vector</a></li>
+</ul>
+<h2>Mixins</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../mixins/CollisionResolver.html">CollisionResolver</a></li>
+  <li><a href="../mixins/PhysicsBody.html">PhysicsBody</a></li>
+  <li><a href="../mixins/Positional.html">Positional</a></li>
+  <li><a href="../mixins/Rotational.html">Rotational</a></li>
+  <li><a href="../mixins/Scalable.html">Scalable</a></li>
+</ul>
+<h2>Utility</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../utility/angle.html">angle</a></li>
+  <li><a href="../utility/resource.html">resource</a></li>
+  <li><a href="../utility/screen.html">screen</a></li>
+  <li><a href="../utility/steering.html">steering</a></li>
+  <li><a href="../utility/vector2d.html">vector2d</a></li>
+</ul>
+<h2>Other</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../other/constants.html">constants</a></li>
+  <li><a href="../other/global.html">global</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../topics/01-intro.md.html">01-intro</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Extend <code>math</code></h1>
+<p>Extensions to the <a href="http://www.lua.org/manual/5.1/manual.html#5.6">math module</a>.</p>
+<p>
+
+</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#deg2rad">deg2rad (deg)</a></td>
+	<td class="summary">Converts degrees to radians.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#rad2deg">rad2deg (rad)</a></td>
+	<td class="summary">Converts radians to degrees.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#clamp">clamp (num, low, high)</a></td>
+	<td class="summary">Clamps a number between a minimum and maximum.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#randomRange">randomRange (low, high)</a></td>
+	<td class="summary">Returns a random (rational) number between the given minimum and maximum.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#sign">sign (x)</a></td>
+	<td class="summary">Returns the sign of the number.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#round">round (i[, decimals=0])</a></td>
+	<td class="summary">Rounds a number to the nearest given amount of decimals.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#approach">approach (cur, target, inc)</a></td>
+	<td class="summary">Approach target number from current number with a given increment.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#lerp">lerp (a, b, frac)</a></td>
+	<td class="summary">Lerp between two numbers with a given fraction.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#smooth">smooth (a, b, frac)</a></td>
+	<td class="summary">Lerp using cosine interprolation between two numbers with a given fraction.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "deg2rad"></a>
+    <strong>deg2rad (deg)</strong>
+    </dt>
+    <dd>
+    Converts degrees to radians.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">deg</span>
+            <span class="types"><span class="type">number</span></span>
+         angle in degrees
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        angle in radians
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "rad2deg"></a>
+    <strong>rad2deg (rad)</strong>
+    </dt>
+    <dd>
+    Converts radians to degrees.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">rad</span>
+            <span class="types"><span class="type">number</span></span>
+         angle in radians
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        angle in degrees
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "clamp"></a>
+    <strong>clamp (num, low, high)</strong>
+    </dt>
+    <dd>
+    Clamps a number between a minimum and maximum.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">num</span>
+            <span class="types"><span class="type">number</span></span>
+         input number
+        </li>
+        <li><span class="parameter">low</span>
+            <span class="types"><span class="type">number</span></span>
+         minimum
+        </li>
+        <li><span class="parameter">high</span>
+            <span class="types"><span class="type">number</span></span>
+         maximum
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        clamped number
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "randomRange"></a>
+    <strong>randomRange (low, high)</strong>
+    </dt>
+    <dd>
+    Returns a random (rational) number between the given minimum and maximum.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">low</span>
+            <span class="types"><span class="type">number</span></span>
+         minimum
+        </li>
+        <li><span class="parameter">high</span>
+            <span class="types"><span class="type">number</span></span>
+         maximum
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        random number
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "sign"></a>
+    <strong>sign (x)</strong>
+    </dt>
+    <dd>
+    Returns the sign of the number.  Meaning it returns -1 if the number &lt; 0, otherwise returns 1.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+            <span class="types"><span class="type">number</span></span>
+         input number
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        sign number (-1 or 1)
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "round"></a>
+    <strong>round (i[, decimals=0])</strong>
+    </dt>
+    <dd>
+    Rounds a number to the nearest given amount of decimals.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">i</span>
+            <span class="types"><span class="type">number</span></span>
+         input number
+        </li>
+        <li><span class="parameter">decimals</span>
+            <span class="types"><span class="type">number</span></span>
+         amount of decimals
+         (<em>default</em> 0)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        rounded number
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "approach"></a>
+    <strong>approach (cur, target, inc)</strong>
+    </dt>
+    <dd>
+    Approach target number from current number with a given increment.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">cur</span>
+            <span class="types"><span class="type">number</span></span>
+         input number
+        </li>
+        <li><span class="parameter">target</span>
+            <span class="types"><span class="type">number</span></span>
+         target number
+        </li>
+        <li><span class="parameter">inc</span>
+            <span class="types"><span class="type">number</span></span>
+         increment
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "lerp"></a>
+    <strong>lerp (a, b, frac)</strong>
+    </dt>
+    <dd>
+    Lerp between two numbers with a given fraction.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">a</span>
+            <span class="types"><span class="type">number</span></span>
+         first number
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         second number
+        </li>
+        <li><span class="parameter">frac</span>
+            <span class="types"><span class="type">number</span></span>
+         fraction
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "smooth"></a>
+    <strong>smooth (a, b, frac)</strong>
+    </dt>
+    <dd>
+    Lerp using cosine interprolation between two numbers with a given fraction.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">a</span>
+            <span class="types"><span class="type">number</span></span>
+         first number
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         second number
+        </li>
+        <li><span class="parameter">frac</span>
+            <span class="types"><span class="type">number</span></span>
+         fraction
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2015-03-03 03:57:44 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
+

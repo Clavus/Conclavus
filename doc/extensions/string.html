@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Conclavus</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Extensions</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../extensions/debug.html">debug</a></li>
+  <li><a href="../extensions/math.html">math</a></li>
+  <li><a href="../extensions/package.html">package</a></li>
+  <li><strong>string</strong></li>
+  <li><a href="../extensions/table.html">table</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/Color.html">Color</a></li>
+  <li><a href="../classes/Camera.html">Camera</a></li>
+  <li><a href="../classes/Entity.html">Entity</a></li>
+  <li><a href="../classes/Trigger.html">Trigger</a></li>
+  <li><a href="../classes/Wall.html">Wall</a></li>
+  <li><a href="../classes/EntityManager.html">EntityManager</a></li>
+  <li><a href="../classes/FiniteStateMachine.html">FiniteStateMachine</a></li>
+  <li><a href="../classes/GUI.html">GUI</a></li>
+  <li><a href="../classes/InputController.html">InputController</a></li>
+  <li><a href="../classes/CustomLevelData.html">CustomLevelData</a></li>
+  <li><a href="../classes/Level.html">Level</a></li>
+  <li><a href="../classes/LevelData.html">LevelData</a></li>
+  <li><a href="../classes/TiledLevelData.html">TiledLevelData</a></li>
+  <li><a href="../classes/Box2DPhysicsSystem.html">Box2DPhysicsSystem</a></li>
+  <li><a href="../classes/PhysicsSystem.html">PhysicsSystem</a></li>
+  <li><a href="../classes/Sprite.html">Sprite</a></li>
+  <li><a href="../classes/SpriteData.html">SpriteData</a></li>
+  <li><a href="../classes/StateAnimatedSprite.html">StateAnimatedSprite</a></li>
+  <li><a href="../classes/Vector.html">Vector</a></li>
+</ul>
+<h2>Mixins</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../mixins/CollisionResolver.html">CollisionResolver</a></li>
+  <li><a href="../mixins/PhysicsBody.html">PhysicsBody</a></li>
+  <li><a href="../mixins/Positional.html">Positional</a></li>
+  <li><a href="../mixins/Rotational.html">Rotational</a></li>
+  <li><a href="../mixins/Scalable.html">Scalable</a></li>
+</ul>
+<h2>Utility</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../utility/angle.html">angle</a></li>
+  <li><a href="../utility/resource.html">resource</a></li>
+  <li><a href="../utility/screen.html">screen</a></li>
+  <li><a href="../utility/steering.html">steering</a></li>
+  <li><a href="../utility/vector2d.html">vector2d</a></li>
+</ul>
+<h2>Other</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../other/constants.html">constants</a></li>
+  <li><a href="../other/global.html">global</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../topics/01-intro.md.html">01-intro</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Extend <code>string</code></h1>
+<p>Extensions to the <a href="http://www.lua.org/manual/5.1/manual.html#5.4">string module</a>.</p>
+<p>
+ Credit to rxi's <a href="https://github.com/rxi/lume/">lume</a> lib for some of these functions.</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#split">split (str, sep)</a></td>
+	<td class="summary">Split a string using a given seperator.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#trim">trim (str[, chars])</a></td>
+	<td class="summary">Trims the whitespace from the start and end of the string.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#simpleFormat">simpleFormat (input, ...)</a></td>
+	<td class="summary">Returns a formatted string.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#fill">fill (input, size, pos)</a></td>
+	<td class="summary">Append or prepend characters to fill up a string to a specified length.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "split"></a>
+    <strong>split (str, sep)</strong>
+    </dt>
+    <dd>
+    Split a string using a given seperator.
+ If seperator is not provided, it will split the string into seperate words.
+ Consecutive delimiters are not grouped together and will delimit empty strings.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">str</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         input string
+        </li>
+        <li><span class="parameter">sep</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         seperator
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        table of strings
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="global">string</span>.split(<span class="string">"One two three"</span>) <span class="comment">-- Returns {"One", "two", "three"}
+</span><span class="global">string</span>.split(<span class="string">"a,b,,c"</span>, <span class="string">","</span>) -- Returns {<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">""</span>, <span class="string">"c"</span>}</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "trim"></a>
+    <strong>trim (str[, chars])</strong>
+    </dt>
+    <dd>
+    Trims the whitespace from the start and end of the string.
+ If specific string is provided, the characters in that string are trimmed from the string instead of whitespace.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">str</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         input string
+        </li>
+        <li><span class="parameter">chars</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         string containing characters to be trimmed
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        trimmed string
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "simpleFormat"></a>
+    <strong>simpleFormat (input, ...)</strong>
+    </dt>
+    <dd>
+    Returns a formatted string.
+ Alternative to Lua's string.format. The values of the keys in the provided table can be inserted into the string
+ using the form '{key}' in the input string. Numerical keys can also be used.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">input</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         string
+        </li>
+        <li><span class="parameter">...</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a> or <a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         elements to format into the input string
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="global">string</span>.simpleFormat(<span class="string">"{b} hi {a}"</span>, {a = <span class="string">"mark"</span>, b = <span class="string">"Oh"</span>}) <span class="comment">-- Returns "Oh hi mark"
+</span><span class="global">string</span>.simpleFormat(<span class="string">"Hello {1}!"</span>, <span class="string">"world"</span>) -- Returns <span class="string">"Hello world!"</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "fill"></a>
+    <strong>fill (input, size, pos)</strong>
+    </dt>
+    <dd>
+    Append or prepend characters to fill up a string to a specified length.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">input</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         string
+        </li>
+        <li><span class="parameter">size</span>
+            <span class="types"><span class="type">number</span></span>
+         desired length of resulting string
+        </li>
+        <li><span class="parameter">pos</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         either "before" or "after"
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        resulting string
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="global">string</span>.fill(<span class="string">"12"</span>, <span class="number">5</span>, <span class="string">"before"</span>, <span class="string">"0"</span>) <span class="comment">-- Returns "00012"
+</span><span class="global">string</span>.fill(<span class="string">"BLAM"</span>, <span class="number">10</span>, <span class="string">"after"</span>, <span class="string">"O"</span>) -- Returns <span class="string">"BLAMOOOOOO"</span></pre>
+    </ul>
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2015-03-03 03:57:44 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
+
