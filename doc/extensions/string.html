@@ -30,6 +30,10 @@
   <li><a href="../index.html">Index</a></li>
 </ul>
 
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
 
 
 <h2>Extensions</h2>
@@ -93,24 +97,189 @@
 <div id="content">
 
 <h1>Extend <code>string</code></h1>
-<p>Extensions to the string module.</p>
+<p>Extensions to the <a href="http://www.lua.org/manual/5.1/manual.html#5.4">string module</a>.</p>
 <p>
+ Credit to rxi's <a href="https://github.com/rxi/lume/">lume</a> lib for some of these functions.</p>
 
-</p>
 
-
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#split">split (str, sep)</a></td>
+	<td class="summary">Split a string using a given seperator.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#trim">trim (str[, chars])</a></td>
+	<td class="summary">Trims the whitespace from the start and end of the string.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#simpleFormat">simpleFormat (input, ...)</a></td>
+	<td class="summary">Returns a formatted string.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#fill">fill (input, size, pos)</a></td>
+	<td class="summary">Append or prepend characters to fill up a string to a specified length.</td>
+	</tr>
+</table>
 
 <br/>
 <br/>
 
 
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "split"></a>
+    <strong>split (str, sep)</strong>
+    </dt>
+    <dd>
+    Split a string using a given seperator.
+ If seperator is not provided, it will split the string into seperate words.
+ Consecutive delimiters are not grouped together and will delimit empty strings.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">str</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         input string
+        </li>
+        <li><span class="parameter">sep</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         seperator
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        table of strings
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="global">string</span>.split(<span class="string">"One two three"</span>) <span class="comment">-- Returns {"One", "two", "three"}
+</span><span class="global">string</span>.split(<span class="string">"a,b,,c"</span>, <span class="string">","</span>) -- Returns {<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">""</span>, <span class="string">"c"</span>}</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "trim"></a>
+    <strong>trim (str[, chars])</strong>
+    </dt>
+    <dd>
+    Trims the whitespace from the start and end of the string.
+ If specific string is provided, the characters in that string are trimmed from the string instead of whitespace.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">str</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         input string
+        </li>
+        <li><span class="parameter">chars</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         string containing characters to be trimmed
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        trimmed string
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "simpleFormat"></a>
+    <strong>simpleFormat (input, ...)</strong>
+    </dt>
+    <dd>
+    Returns a formatted string.
+ Alternative to Lua's string.format. The values of the keys in the provided table can be inserted into the string
+ using the form '{key}' in the input string. Numerical keys can also be used.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">input</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         string
+        </li>
+        <li><span class="parameter">...</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a> or <a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         elements to format into the input string
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="global">string</span>.simpleFormat(<span class="string">"{b} hi {a}"</span>, {a = <span class="string">"mark"</span>, b = <span class="string">"Oh"</span>}) <span class="comment">-- Returns "Oh hi mark"
+</span><span class="global">string</span>.simpleFormat(<span class="string">"Hello {1}!"</span>, <span class="string">"world"</span>) -- Returns <span class="string">"Hello world!"</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "fill"></a>
+    <strong>fill (input, size, pos)</strong>
+    </dt>
+    <dd>
+    Append or prepend characters to fill up a string to a specified length.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">input</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         string
+        </li>
+        <li><span class="parameter">size</span>
+            <span class="types"><span class="type">number</span></span>
+         desired length of resulting string
+        </li>
+        <li><span class="parameter">pos</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         either "before" or "after"
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        resulting string
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="global">string</span>.fill(<span class="string">"12"</span>, <span class="number">5</span>, <span class="string">"before"</span>, <span class="string">"0"</span>) <span class="comment">-- Returns "00012"
+</span><span class="global">string</span>.fill(<span class="string">"BLAM"</span>, <span class="number">10</span>, <span class="string">"after"</span>, <span class="string">"O"</span>) -- Returns <span class="string">"BLAMOOOOOO"</span></pre>
+    </ul>
+
+</dd>
+</dl>
 
 
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
-<i style="float:right;">Last updated 2015-03-02 16:43:22 </i>
+<i style="float:right;">Last updated 2015-03-03 03:10:42 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
