@@ -3,6 +3,7 @@
 -- Apply to classes that can be scaled.
 -- @mixin Scalable
 
+--- @type Scalable
 local Scalable = {}
 
 function Scalable:initialize()

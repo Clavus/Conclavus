@@ -1,3 +1,6 @@
+------------------------
+-- Graphics functions.
+-- @util graphics
 
 local graphics = {}
 local lg = love.graphics

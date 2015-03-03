@@ -1,3 +1,11 @@
+------------------------
+-- Easing functions.
+-- Visualization (taken from [jQuery](http://jqueryui.com/resources/demos/effect/easing.html), naming not directly applicable):
+-- ![easing_visualization](http://i.imgur.com/TYfB5QG.png)
+-- More visualizing tools for these easing functions can be found [here](http://gizma.com/easing/) and [here](http://matthewlein.com/ceaser/).
+-- Credit to [Robert Penner](https://github.com/EmmanuelOga/easing).
+-- @util easing
+
 --[[ 
 http://www.robertpenner.com/easing/
 
@@ -22,7 +30,7 @@ TERMS OF USE - EASING EQUATIONS
 
 Open source under the BSD License.
 
-Copyright © 2001 Robert Penner
+Copyright  2001 Robert Penner
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -42,20 +50,44 @@ local sqrt = math.sqrt
 local abs = math.abs
 local asin  = math.asin
 
+--- Linear easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function linear(t, b, c, d)
 	return c * t / d + b
 end
 
+--- Quadratic easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function inQuad(t, b, c, d)
 	t = t / d
 	return c * pow(t, 2) + b
 end
 
+--- Quadratic easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function outQuad(t, b, c, d)
 	t = t / d
 	return -c * t * (t - 2) + b
 end
 
+--- Quadratic easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function inOutQuad(t, b, c, d)
 	t = t / d * 2
 	if t < 1 then
@@ -65,6 +97,12 @@ local function inOutQuad(t, b, c, d)
 	end
 end
 
+--- Quadratic easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function outInQuad(t, b, c, d)
 	if t < d / 2 then
 		return outQuad (t * 2, b, c / 2, d)
@@ -73,16 +111,34 @@ local function outInQuad(t, b, c, d)
 	end
 end
 
+--- Cubic easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function inCubic (t, b, c, d)
 	t = t / d
 	return c * pow(t, 3) + b
 end
 
+--- Cubic easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function outCubic(t, b, c, d)
 	t = t / d - 1
 	return c * (pow(t, 3) + 1) + b
 end
 
+--- Cubic easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function inOutCubic(t, b, c, d)
 	t = t / d * 2
 	if t < 1 then
@@ -93,6 +149,12 @@ local function inOutCubic(t, b, c, d)
 	end
 end
 
+--- Cubic easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function outInCubic(t, b, c, d)
 	if t < d / 2 then
 		return outCubic(t * 2, b, c / 2, d)
@@ -101,16 +163,34 @@ local function outInCubic(t, b, c, d)
 	end
 end
 
+--- Quartic easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function inQuart(t, b, c, d)
 	t = t / d
 	return c * pow(t, 4) + b
 end
 
+--- Quartic easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function outQuart(t, b, c, d)
 	t = t / d - 1
 	return -c * (pow(t, 4) - 1) + b
 end
 
+--- Quartic easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function inOutQuart(t, b, c, d)
 	t = t / d * 2
 	if t < 1 then
@@ -121,6 +201,12 @@ local function inOutQuart(t, b, c, d)
 	end
 end
 
+--- Quartic easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function outInQuart(t, b, c, d)
 	if t < d / 2 then
 		return outQuart(t * 2, b, c / 2, d)
@@ -129,16 +215,34 @@ local function outInQuart(t, b, c, d)
 	end
 end
 
+--- Quintic easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function inQuint(t, b, c, d)
 	t = t / d
 	return c * pow(t, 5) + b
 end
 
+--- Quintic easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function outQuint(t, b, c, d)
 	t = t / d - 1
 	return c * (pow(t, 5) + 1) + b
 end
 
+--- Quintic easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function inOutQuint(t, b, c, d)
 	t = t / d * 2
 	if t < 1 then
@@ -149,6 +253,12 @@ local function inOutQuint(t, b, c, d)
 	end
 end
 
+--- Quintic easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function outInQuint(t, b, c, d)
 	if t < d / 2 then
 		return outQuint(t * 2, b, c / 2, d)
@@ -157,18 +267,42 @@ local function outInQuint(t, b, c, d)
 	end
 end
 
+--- Sinusoidal easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function inSine(t, b, c, d)
 	return -c * cos(t / d * (pi / 2)) + c + b
 end
 
+--- Sinusoidal easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function outSine(t, b, c, d)
 	return c * sin(t / d * (pi / 2)) + b
 end
 
+--- Sinusoidal easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function inOutSine(t, b, c, d)
 	return -c / 2 * (cos(pi * t / d) - 1) + b
 end
 
+--- Sinusoidal easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function outInSine(t, b, c, d)
 	if t < d / 2 then
 		return outSine(t * 2, b, c / 2, d)
@@ -177,6 +311,12 @@ local function outInSine(t, b, c, d)
 	end
 end
 
+--- Exponential easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function inExpo(t, b, c, d)
 	if t == 0 then
 		return b
@@ -185,6 +325,12 @@ local function inExpo(t, b, c, d)
 	end
 end
 
+--- Exponential easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function outExpo(t, b, c, d)
 	if t == d then
 		return b + c
@@ -193,6 +339,12 @@ local function outExpo(t, b, c, d)
 	end
 end
 
+--- Exponential easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function inOutExpo(t, b, c, d)
 	if t == 0 then return b end
 	if t == d then return b + c end
@@ -205,6 +357,12 @@ local function inOutExpo(t, b, c, d)
 	end
 end
 
+--- Exponential easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function outInExpo(t, b, c, d)
 	if t < d / 2 then
 		return outExpo(t * 2, b, c / 2, d)
@@ -213,16 +371,34 @@ local function outInExpo(t, b, c, d)
 	end
 end
 
+--- Circular easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function inCirc(t, b, c, d)
 	t = t / d
 	return(-c * (sqrt(1 - pow(t, 2)) - 1) + b)
 end
 
+--- Circular easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function outCirc(t, b, c, d)
 	t = t / d - 1
 	return(c * sqrt(1 - pow(t, 2)) + b)
 end
 
+--- Circular easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function inOutCirc(t, b, c, d)
 	t = t / d * 2
 	if t < 1 then
@@ -233,6 +409,12 @@ local function inOutCirc(t, b, c, d)
 	end
 end
 
+--- Circular easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function outInCirc(t, b, c, d)
 	if t < d / 2 then
 		return outCirc(t * 2, b, c / 2, d)
@@ -241,6 +423,14 @@ local function outInCirc(t, b, c, d)
 	end
 end
 
+--- Elastic easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @number a amplitude
+-- @number p period
+-- @treturn number result
 local function inElastic(t, b, c, d, a, p)
 	if t == 0 then return b end
 	t = t / d
@@ -259,6 +449,14 @@ local function inElastic(t, b, c, d, a, p)
 	return -(a * pow(2, 10 * t) * sin((t * d - s) * (2 * pi) / p)) + b
 end
 
+--- Elastic easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @number a amplitude
+-- @number p period
+-- @treturn number result
 local function outElastic(t, b, c, d, a, p)
 	if t == 0 then return b end
 	t = t / d
@@ -276,6 +474,14 @@ local function outElastic(t, b, c, d, a, p)
 	return a * pow(2, -10 * t) * sin((t * d - s) * (2 * pi) / p) + c + b
 end
 
+--- Elastic easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @number a amplitude
+-- @number p period
+-- @treturn number result
 local function inOutElastic(t, b, c, d, a, p)
 	if t == 0 then return b end
 
@@ -285,7 +491,9 @@ local function inOutElastic(t, b, c, d, a, p)
 
 	if not p then p = d * (0.3 * 1.5) end
 	if not a then a = 0 end
-
+	
+	local s
+	
 	if not a or a < abs(c) then
 		a = c
 		s = p / 4
@@ -302,6 +510,14 @@ local function inOutElastic(t, b, c, d, a, p)
 	end
 end
 
+--- Elastic easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @number a amplitude
+-- @number p period
+-- @treturn number result
 local function outInElastic(t, b, c, d, a, p)
 	if t < d / 2 then
 		return outElastic(t * 2, b, c / 2, d, a, p)
@@ -310,18 +526,39 @@ local function outInElastic(t, b, c, d, a, p)
 	end
 end
 
+--- Back easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @number[opt=1.70158] s factor
+-- @treturn number result
 local function inBack(t, b, c, d, s)
 	if not s then s = 1.70158 end
 	t = t / d
 	return c * t * t * ((s + 1) * t - s) + b
 end
 
+--- Back easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @number[opt=1.70158] s factor
+-- @treturn number result
 local function outBack(t, b, c, d, s)
 	if not s then s = 1.70158 end
 	t = t / d - 1
 	return c * (t * t * ((s + 1) * t + s) + 1) + b
 end
 
+--- Back easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @number[opt=1.70158] s factor
+-- @treturn number result
 local function inOutBack(t, b, c, d, s)
 	if not s then s = 1.70158 end
 	s = s * 1.525
@@ -334,6 +571,13 @@ local function inOutBack(t, b, c, d, s)
 	end
 end
 
+--- Back easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @number[opt=1.70158] s factor
+-- @treturn number result
 local function outInBack(t, b, c, d, s)
 	if t < d / 2 then
 		return outBack(t * 2, b, c / 2, d, s)
@@ -342,6 +586,12 @@ local function outInBack(t, b, c, d, s)
 	end
 end
 
+--- Bounce easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function outBounce(t, b, c, d)
 	t = t / d
 	if t < 1 / 2.75 then
@@ -358,10 +608,22 @@ local function outBounce(t, b, c, d)
 	end
 end
 
+--- Bounce easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function inBounce(t, b, c, d)
 	return c - outBounce(d - t, 0, c, d) + b
 end
 
+--- Bounce easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function inOutBounce(t, b, c, d)
 	if t < d / 2 then
 		return inBounce(t * 2, 0, c, d) * 0.5 + b
@@ -370,6 +632,12 @@ local function inOutBounce(t, b, c, d)
 	end
 end
 
+--- Bounce easing.
+-- @number t elapsed time
+-- @number b beginning number
+-- @number c desired change (ending - beginning)
+-- @number d duration of lerp
+-- @treturn number result
 local function outInBounce(t, b, c, d)
 	if t < d / 2 then
 		return outBounce(t * 2, b, c / 2, d)
@@ -378,6 +646,7 @@ local function outInBounce(t, b, c, d)
 	end
 end
 
+--- @export
 return {
 	linear = linear,
 	inQuad = inQuad,

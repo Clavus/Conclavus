@@ -5,6 +5,7 @@
 -- @usage local MyClass = class("MyClass")
 -- MyClass:include( Positional )
 
+--- @type Positional
 local Positional = {}
 
 function Positional:initialize()

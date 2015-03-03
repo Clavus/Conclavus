@@ -3,6 +3,7 @@
 -- Apply to classes to give them callbacks for physics collisions.
 -- @mixin CollisionResolver
 
+--- @type CollisionResolver
 local CollisionResolver = {}
 
 function CollisionResolver:beginContactWith( other, contact, myFixture, otherFixture, selfIsFirst )

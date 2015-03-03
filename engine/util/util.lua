@@ -1,3 +1,6 @@
+------------------------
+-- General utility functions.
+-- @util util
 
 local util = {}
 

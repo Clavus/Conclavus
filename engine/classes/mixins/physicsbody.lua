@@ -5,7 +5,7 @@
 -- @usage local MyClass = class("MyClass")
 -- MyClass:include( PhysicsBody )
 
--- @type PhysicsBody
+--- @type PhysicsBody
 local PhysicsBody = {}
 
 function PhysicsBody:initialize( world, btype )
