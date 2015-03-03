@@ -1,5 +1,5 @@
 ------------------------
--- Extensions to the debug module.
+-- Extensions to the [debug module](http://www.lua.org/manual/5.1/manual.html#5.9).
 -- @extend debug
 
 local clock = os.clock

@@ -1,5 +1,5 @@
 ------------------------
--- Extensions to the package module.
+-- Extensions to the [package module](http://www.lua.org/manual/5.1/manual.html#5.3).
 -- @extend package
 
 local loaded_packages = {}

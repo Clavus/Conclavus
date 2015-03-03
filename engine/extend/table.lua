@@ -1,5 +1,6 @@
 ------------------------
--- Extensions to the table module.
+-- Extensions to the [table module](http://www.lua.org/manual/5.1/manual.html#5.5)
+-- Credit to rxi's [lume](https://github.com/rxi/lume/) lib for some of these functions..
 -- @extend table
 
 -- copies base table, but not nested tables

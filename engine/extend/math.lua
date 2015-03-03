@@ -1,5 +1,5 @@
 ------------------------
--- Extensions to the math module.
+-- Extensions to the [math module](http://www.lua.org/manual/5.1/manual.html#5.6).
 -- @extend math
 
 -- cache functions
