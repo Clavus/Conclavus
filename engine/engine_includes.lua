@@ -55,7 +55,6 @@ local toload = {
 	{ GUI = 								"engine/classes/gui" },
 	{ FiniteStateMachine = 	"engine/classes/finitestatemachine" },
 	{ PhysicsSystem =				"engine/classes/physics/physicssystem" },
-	{ Box2DPhysicsSystem =	"engine/classes/physics/box2dphysicssystem" },
 	
 	-- Entity classes
 	{ Entity = 							"engine/classes/entity/entity" },

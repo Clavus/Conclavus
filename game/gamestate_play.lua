@@ -8,11 +8,7 @@ function play:init()
 	gui = GUI()
 	-- Create level with physics world
 	level = Level(LevelData())
-	love.physics.setMeter(level:getPixelsPerMeter())
-	physics = Box2DPhysicsSystem( true )
-	physics:initDefaultCollisionCallbacks()
-	level:addPhysicsSystem( physics )
-	world = physics:getWorld()
+	world = level:getPhysicsWorld()
 	world:setGravity(0, 300)
 	-- Set up example
 	player = level:createEntity("SpaceShip")

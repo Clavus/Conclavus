@@ -3,14 +3,22 @@
 -- Manages your game scene.
 -- @cl Level
 
+--- @type Level
 local Level = class('Level')
+
+local lg = love.graphics
 
 function Level:initialize( leveldata )
 	self._leveldata = leveldata
 	self._camera = Camera()
-	self._physics_systems = {}
-	self._pixels_per_meter = leveldata.physics.pixels_per_meter
 	self._entManager = EntityManager(self)
+	self._physics_system = nil
+	if (leveldata.physics.active) then
+		self._physics_system = PhysicsSystem()
+		self._pixels_per_meter = leveldata.physics.pixels_per_meter
+		love.physics.setMeter(self._pixels_per_meter)
+		self._physics_system:initDefaultCollisionCallbacks()
+	end
 end
 
 function Level:spawnObjects()
@@ -23,8 +31,8 @@ end
 
 function Level:update( dt )
 	self._camera:update(dt)
-	for k, sys in pairs(self._physics_systems) do
-		sys:update(dt)
+	if (self._physics_system) then
+		self._physics_system:update(dt)
 	end
 	self._entManager:update(dt)
 end
@@ -39,19 +47,19 @@ function Level:draw()
 	local cbw, cbh = self._camera:getBackgroundQuadWidth(), self._camera:getBackgroundQuadHeight()
 	
 	for k, layer in ipairs( self._leveldata:getLayers() ) do
-		love.graphics.setColor(255,255,255,255*layer.opacity)
+		lg.setColor(255,255,255,255*layer.opacity)
 		if (layer.type == LAYER_TYPE.IMAGES) then -- draw image layer (usually background objects)
 			for i, img in pairs(layer.images) do
 				if (img.quad) then
-					love.graphics.drawq(img.image, img.quad, img.x, img.y, img.angle, img.scale.x, img.scale.y, img.origin.x, img.origin.y )
+					lg.drawq(img.image, img.quad, img.x, img.y, img.angle, img.scale.x, img.scale.y, img.origin.x, img.origin.y )
 				else
-					love.graphics.draw(img.image, img.x, img.y, img.angle, img.scale.x, img.scale.y, img.origin.x, img.origin.y )
+					lg.draw(img.image, img.x, img.y, img.angle, img.scale.x, img.scale.y, img.origin.x, img.origin.y )
 				end
 			end
 			self._entManager:draw(layer.name) -- draw entities that are to be drawn on this layer
 		elseif (layer.type == LAYER_TYPE.BATCH) then -- draw spritebatch layer (usually for tiles)
 			for i, batch in pairs(layer.batches) do
-				love.graphics.draw(batch)
+				lg.draw(batch)
 			end
 			self._entManager:draw(layer.name) -- draw entities that are to be drawn on this layer
 		elseif (layer.type == LAYER_TYPE.BACKGROUND) then -- draw repeating background layer
@@ -59,7 +67,7 @@ function Level:draw()
 			self._camera:detach()
 			-- reconstruct quad if camera scale changes
 			if (layer.background_quad == nil or layer.background_cam_diagonal ~= self._camera:getDiagonal()) then
-				layer.background_quad = love.graphics.newQuad(0, 0, cbw, cbh, layer.background_view_w, layer.background_view_h)
+				layer.background_quad = lg.newQuad(0, 0, cbw, cbh, layer.background_view_w, layer.background_view_h)
 				background_cam_diagonal = self._camera:getDiagonal()
 			end
 			local image = layer.background_image
@@ -67,37 +75,37 @@ function Level:draw()
 			local x, y, w, h = quad:getViewport()
 			local scalar = layer.background_cam_scalar
 			local tx, ty = cw/2*csx, ch/2*csy
-			love.graphics.push()
-			love.graphics.translate( tx, ty )
-			love.graphics.rotate( ca )
-			love.graphics.translate( -tx, -ty )
+			lg.push()
+			lg.translate( tx, ty )
+			lg.rotate( ca )
+			lg.translate( -tx, -ty )
 			
 			quad:setViewport((cx + layer.x) * csx * layer.parallax, (cy + layer.y) * csy * layer.parallax, w, h)
-			love.graphics.drawq(image, quad, cw*csx, ch*csy, 0, 1, 1, cbw/2, cbh/2)
+			lg.drawq(image, quad, cw*csx, ch*csy, 0, 1, 1, cbw/2, cbh/2)
 			self._entManager:draw(layer.name) -- draw entities that are to be drawn on this layer
-			love.graphics.pop()
+			lg.pop()
 			self._camera:attach()
 		elseif (layer.type == LAYER_TYPE.CUSTOM) then
-			love.graphics.push()
-			love.graphics.translate(cx*(1-layer.parallax), cy*(1-layer.parallax))
+			lg.push()
+			lg.translate(cx*(1-layer.parallax), cy*(1-layer.parallax))
 			layer:drawFunc(self._camera)
-			love.graphics.pop()
+			lg.pop()
 		end
 		
 	end
 	
-	love.graphics.setColor(255,255,255,255)
+	lg.setColor(255,255,255,255)
 	self._entManager:postDraw()
 	self._camera:detach()
 end
 
-function Level:addPhysicsSystem( phys_system )
-	assert(phys_system ~= nil and phys_system.class ~= nil and phys_system:isInstanceOf( PhysicsSystem ), "Not a PhysicsSystem object!")
-	table.insert( self._physics_systems, phys_system )
-end
-
 function Level:getProperties()
 	return self._leveldata.properties
+end
+
+function Level:getPhysicsWorld()
+	assert(self._physics_system ~= nil, "Physics world not active!")
+	return self._physics_system:getWorld()
 end
 
 function Level:getPixelsPerMeter()

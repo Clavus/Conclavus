@@ -12,9 +12,10 @@ function LevelData:initialize()
 	self.level_tilewidth = 32
 	self.level_tileheight = 32
 	self.properties = {}
-	self.physics = {
-		pixels_per_meter = 20
-	}
+	self.physics = {}
+	self.physics.active = true
+	self.physics.pixels_per_meter = 20
+	
 	-- Example formats for the below tables
 	self.layers = {
 		--[[
