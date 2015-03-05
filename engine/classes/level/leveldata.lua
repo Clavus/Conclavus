@@ -14,7 +14,7 @@ function LevelData:initialize()
 	self.properties = {}
 	self.physics = {}
 	self.physics.active = true
-	self.physics.pixels_per_meter = 20
+	self.physics.pixels_per_meter = 30
 	
 	-- Example formats for the below tables
 	self.layers = {

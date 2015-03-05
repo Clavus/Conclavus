@@ -21,6 +21,7 @@ function Level:initialize( leveldata )
 	end
 end
 
+--- Spawn all objects passed with the @{LevelData} provided during creation
 function Level:spawnObjects()
 	local objects = nil
 	if (self._leveldata) then
@@ -29,6 +30,8 @@ function Level:spawnObjects()
 	self._entManager:loadLevelObjects(objects)
 end
 
+--- Updates level camera, physics and all entities
+-- @number dt delta time
 function Level:update( dt )
 	self._camera:update(dt)
 	if (self._physics_system) then
@@ -37,6 +40,7 @@ function Level:update( dt )
 	self._entManager:update(dt)
 end
 
+--- Draw all level layers and entities
 function Level:draw()
 	self._camera:attach()
 	self._entManager:preDraw()
@@ -91,7 +95,6 @@ function Level:draw()
 			layer:drawFunc(self._camera)
 			lg.pop()
 		end
-		
 	end
 	
 	lg.setColor(255,255,255,255)
@@ -99,38 +102,61 @@ function Level:draw()
 	self._camera:detach()
 end
 
+--- Get the properties table from the @{LevelData} provided during creation
+-- @treturn table leveldata properties
 function Level:getProperties()
 	return self._leveldata.properties
 end
 
+--- Get the physics world. Requires the physics system to be active in this level.
+-- @treturn World world physics world
 function Level:getPhysicsWorld()
 	assert(self._physics_system ~= nil, "Physics world not active!")
 	return self._physics_system:getWorld()
 end
 
+--- Get pixels per meter of the physics world
+-- @treturn number n pixels per meter
 function Level:getPixelsPerMeter()
 	return self._pixels_per_meter
 end
 
+--- Get camera object
+-- @treturn Camera camera
 function Level:getCamera()
 	return self._camera
 end
 
+--- Create an entity
+-- @string cl entity class name
+-- @treturn Entity entity
 function Level:createEntity( class, ... )
 	return self._entManager:createEntity( class, ...)
 end
 
+--- Get entities by class
+-- @string cl class name
+-- @treturn table t table of entities
 function Level:getEntitiesByClass( class )
 	return self._entManager:getEntitiesByClass( class )
 end
 
+--- Get entities by mixin
+-- @tparam table mixin table
+-- @treturn table t table of entities
 function Level:getEntitiesByMixin( mixin )
 	return self._entManager:getEntitiesByMixin( mixin )
 end
 
+--- Get entities by function filter
+-- @func filter function (returns true or false)
+-- @treturn table t table of entities
 function Level:getEntitiesWhere( func )
 	return self._entManager:getEntitiesWhere( func )
 end
+
+--- Get all entities
+-- @treturn table t table of entities
 function Level:getAllEntities()
 	return self._entManager:getAllEntities()
 end

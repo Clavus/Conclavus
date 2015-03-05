@@ -1,6 +1,6 @@
 ------------------------
 -- EntityManager class.
--- Handles all entities in the level and keeps em happy.
+-- Handles all entities in the scene and keeps em happy. Automatically created and managed by every @{Level} object.
 -- @cl EntityManager
 
 local EntityManager = class("EntityManager")
