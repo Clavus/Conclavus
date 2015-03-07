@@ -35,7 +35,7 @@ end
 --- Returns a formatted string.
 -- Alternative to Lua's string.format. The values of the keys in the provided table can be inserted into the string
 -- using the form '{key}' in the input string. Numerical keys can also be used.
--- @string input string
+-- @string str input string
 -- @tparam ?table|string ... elements to format into the input string
 -- @usage string.simpleFormat("{b} hi {a}", {a = "mark", b = "Oh"}) -- Returns "Oh hi mark"
 --string.simpleFormat("Hello {1}!", "world") -- Returns "Hello world!"
@@ -50,25 +50,26 @@ function string.simpleFormat(str, ...)
 end
 
 --- Append or prepend characters to fill up a string to a specified length.
--- @string input string
+-- @string str input string
 -- @number size desired length of resulting string
 -- @string pos either "before" or "after"
+-- @string[opt="0"] ch character to append or prepend
 -- @treturn string resulting string
 -- @usage string.fill("12", 5, "before", "0") -- Returns "00012"
 --string.fill("BLAM", 10, "after", "O") -- Returns "BLAMOOOOOO"
-function string.fill(str, sz, pos, ch)
+function string.fill(str, size, pos, ch)
 	local n = tostring(str)
 	ch = ch or "0"
 	pos = pos or "before"
-	if string.len(n) >= sz then
+	if string.len(n) >= size then
 		return n
 	else
 		if pos == "before" then
-			while string.len(n) < sz do
+			while string.len(n) < size do
 				n = ch .. n
 			end
 		elseif pos == "after" then
-			while string.len(n) < sz do
+			while string.len(n) < size do
 				n = n .. ch
 			end
 		end

@@ -3,15 +3,21 @@
 -- Credit to rxi's [lume](https://github.com/rxi/lume/) lib for some of these functions..
 -- @extend table
 
--- copies base table, but not nested tables
+--- Copies a table.
+-- Only copies references to nested tables.
+-- @tparam table t table to copy
+-- @treturn table copied table
 function table.copy(t)
 	local clone = {}
 	for k, v in pairs(t) do clone[k] = v end
 	return clone
 end
 
--- Originally from: http://lua-users.org/wiki/PitLibTablestuff
--- fully copies table and nested tables
+--- Fully copies table and nested tables.
+-- [Credit](http://lua-users.org/wiki/PitLibTablestuff).
+-- @tparam table t table to copy
+-- @tparam[opt] table lookup_table used for avoiding infinite loops when recursively copying nested tables, just ignore.
+-- @treturn table copied table
 function table.deepCopy(t, lookup_table)
 	local copy = {}
 	setmetatable(copy, getmetatable(t))
@@ -31,6 +37,10 @@ function table.deepCopy(t, lookup_table)
 	return copy
 end
 
+--- Checks if table has a certain value.
+-- @tparam table t table to check
+-- @param val value to find
+-- @treturn bool
 function table.hasValue( t, val )
 	for k,v in pairs(t) do
 		if (v == val ) then return true end
@@ -38,39 +48,79 @@ function table.hasValue( t, val )
 	return false
 end
 
-function table.keyFromValue( tbl, val )
-	for key, value in pairs( tbl ) do
+--- Get first key containing the specified value in this table.
+-- @tparam table t table to check
+-- @param val value to find
+-- @treturn ?number|string key
+function table.keyFromValue( t, val )
+	for key, value in pairs( t ) do
 		if ( value == val ) then return key end
 	end
 	return nil
 end
 
-function table.keysFromValue( tbl, val )
+--- Get all keys that contain the specified value in this table.
+-- @tparam table t table to check
+-- @param val value to find
+-- @treturn table table of keys
+function table.keysFromValue( t, val )
 	local res = {}
-	for key, value in pairs( tbl ) do
+	for key, value in pairs( t ) do
 		if ( value == val ) then table.insert( res, key ) end
 	end
 	return res
 end
 
-function table.removeByValue( tbl, val )
-	for i = #tbl, 1, -1 do
-		if (tbl[i] == val) then
-			table.remove(tbl, i)
+--- Remove all occurences of this value from this table.
+-- Assumes the table is sequential unless otherwise specified.
+-- @tparam table t table
+-- @param val value to remove
+-- @bool[opt=false] notSeq is table non-sequential
+-- @treturn table table t
+function table.removeByValue( t, val, notSeq )
+	if (notSeq) then
+		for k, v in pairs( t ) do
+			if (v == val) then t[k] = nil end
+		end
+	else
+		for i = #t, 1, -1 do
+			if (t[i] == val) then
+				table.remove(t, i)
+			end
 		end
 	end
-	return tbl
+	return t
 end
 
-function table.removeByFilter( tbl, filter_func )
-	for i = #tbl, 1, -1 do
-		if (filter_func( i, tbl[i] )) then
-			table.remove(tbl, i)
+--- Removes values from the table based on a filter function.
+-- Assumes the table is sequential unless otherwise specified.
+-- @tparam table t table
+-- @tparam function filter_func filter function in format *function( key, value )*. If this function returns true for a given table key->value pair, that pair is removed from the table.
+-- @bool[opt=false] notSeq is table non-sequential
+-- @treturn table table t
+-- @usage local numbers = { "one", "two", "three" }
+-- table.removeByFilter( numbers, function( k, v )
+-- 	if (v == "two") return true end
+-- end)
+-- -- now table numbers = { "one", "three" }
+function table.removeByFilter( t, filter_func, notSeq )
+	if (notSeq) then
+		for k, v in pairs( t ) do
+			if (filter_func( k, v )) then t[k] = nil end
+		end
+	else
+		for i = #t, 1, -1 do
+			if (filter_func( i, t[i] )) then
+				table.remove(t, i)
+			end
 		end
 	end
-	return tbl
+	return t
 end
 
+--- Get a sequential table of all keys in the given table.
+-- @tparam table t table
+-- @treturn table table of keys in t
 function table.getKeys( t )
 	local keys = {}
 	for k, v in pairs(t) do
@@ -79,6 +129,9 @@ function table.getKeys( t )
 	return keys
 end
 
+--- Shuffle the table values around. Essentially randomizing the key->value pairs.
+-- @tparam table t table
+-- @treturn table table t, now shuffled
 function table.shuffle( t )
 	local keys = table.getKeys(t)
 	for _, key in ipairs(keys) do
@@ -88,12 +141,21 @@ function table.shuffle( t )
 	return t
 end
 
+--- Switch the key->value pairs around. Turning them into value->key pairs.
+-- @tparam table t table
+-- @treturn table new inverted table
 function table.invert( t )
 	local rtn = {}
 	for k, v in pairs(t) do rtn[v] = k end
 	return rtn
 end
 
+--- Return a set of this table, removing all duplicate values.
+-- @tparam table t table
+-- @treturn table new set
+-- @usage local numbers = { "one", "one", "two", "two", "three" }
+-- local numberset = table.set( numbers )
+-- -- numberset = { "one", "two", "three" }
 function table.set( t )
 	local rtn = {}
 	for k, v in pairs(table.invert(t)) do
@@ -102,6 +164,17 @@ function table.set( t )
 	return rtn
 end
 
+--- Calls a function on every value in the table.
+-- @tparam table t table
+-- @tparam ?string|function func either a string or function in format *function( key, value, ... )*, which is called on every value in the table
+-- @param ... additional parameters to be passed to the function call
+-- @treturn table table t
+-- @usage local numbers = { "one", "two", "three" }
+-- table.forEach( numbers, function( k, v ) numbers[k] = v.."s" end )
+-- -- now table numbers = { "ones", "twos", "threes" }
+-- local vectors = { Vector(1,1), Vector(2,1), Vector(3,1) }
+-- table.forEach( vectors, "add", Vector(0,1) ) -- calls Vector:add(..) on every table entry
+-- -- now table vectors = { Vector(1,2), Vector(2,2), Vector(3,2) }
 function table.forEach( t, func, ... )
 	if (type(func) == "string") then
 		for k, v in pairs( t ) do
@@ -115,6 +188,11 @@ function table.forEach( t, func, ... )
 	return t
 end
 
+--- Count number of entries in the table.
+-- Can count only specific entries if specified.
+-- @tparam table t table
+-- @tparam[opt] function count_func function in format *function( key, value )*, only counts entries where this function returns true
+-- @treturn number count
 function table.count( t, count_func ) -- if count_func(key, value) is supplied, only count where it returns true
 	local i = 0
 	if count_func then
@@ -127,6 +205,9 @@ function table.count( t, count_func ) -- if count_func(key, value) is supplied, 
 	return i
 end
 
+--- Get a random value from this table.
+-- @tparam table t table
+-- @return random value from the table
 function table.random( t )
 	local rk = math.random( 1, table.count( t ) )
 	local i = 1
@@ -136,6 +217,11 @@ function table.random( t )
 	end
 end
 
+--- Filter a table using a given function.
+-- @tparam table t table
+-- @tparam function func function in format *function( key, value )*, table only retains entries where this functions returns true
+-- @bool retainkeys whether to retain the keys of the original table, or create a new sequence
+-- @treturn table new filtered table
 function table.filter( t, func, retainkeys ) -- filter t where func(key, value) returns true
 	local rtn = {}
 	for k, v in pairs(t) do
@@ -144,6 +230,11 @@ function table.filter( t, func, retainkeys ) -- filter t where func(key, value) 
 	return rtn
 end
 
+--- Merge two tables.
+-- @tparam table t1 first table
+-- @tparam table t2 second table
+-- @bool retainkeys whether to retain the keys of the second table (overriding those of the first table), or just to add behind the sequence of the first table
+-- @treturn table table t1, with table t2 merged into it
 function table.merge(t1, t2, retainkeys) -- merges t2 into t1
 	for k, v in pairs(t2) do
 		t1[retainkeys and k or (#t1 + 1)] = v
@@ -151,6 +242,9 @@ function table.merge(t1, t2, retainkeys) -- merges t2 into t1
 	return t1
 end
 
+--- Returns whether table is sequential. Meaning only numerical indices are used without gaps.
+-- @tparam table t table
+-- @treturn bool is table sequential
 function table.isSequential(t)
 	local i = 1
 	for key, value in pairs (t) do
@@ -160,18 +254,14 @@ function table.isSequential(t)
 	return true
 end
 
---[[
-	Name: table.toString( table,name,nice )
-	Desc: Convert a simple table to a string
-	table = the table you want to convert (table)
-	name  = the name of the table (string)
-	nice  = whether to add line breaks and indents (bool)
-	maxdepth = (optional) max depth to print table
-	maxseq = (optional) summarizes sequential tables bigger 
-			 than this number instead of printing them out 
-			 completely
-]]
-function table.toString( t, n, nice, maxdepth, maxseq )
+--- Convert a table to a pretty string.
+-- @tparam table t table
+-- @string name name of the table to print
+-- @bool nice whether to add line breaks and indents (bool)
+-- @number[opt] maxdepth max depth to print table
+-- @number[opt] maxseq summarizes sequential tables bigger than this number instead of printing them out completely
+-- @treturn string readable string presentation of this table
+function table.toString( t, name, nice, maxdepth, maxseq )
 	local nl,tab  = "",  ""
 	if nice then nl,tab = "\n", "\t" end
 	local function makeTable ( t, nice, indent, done)
@@ -224,7 +314,7 @@ function table.toString( t, n, nice, maxdepth, maxseq )
 		return str
 	end
 	local str = ""
-	if n then str = n..tab.."="..tab end
+	if name then str = name..tab.."="..tab end
 	str = str.."{".. nl..makeTable( t, nice).."}"
 	return str
 end

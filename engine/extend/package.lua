@@ -11,9 +11,9 @@ local curtime = currentTime
 local lastmodified = love.filesystem.getLastModified
 
 --- Loads table of swappable modules.
--- @tparam table packages package table 
-function package.loadSwappable( packagetable )
-	for k, packages in pairs(packagetable) do
+-- @tparam table ptab package table 
+function package.loadSwappable( ptab )
+	for k, packages in pairs( ptab ) do
 		for name, path in pairs( packages ) do
 			_G[name] = require(path)
 			local fullpath = path..".lua"

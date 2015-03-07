@@ -102,7 +102,7 @@ function Vector:snap( gx, gy )
 end
 
 --- Approach another vector at the given step.
--- @tparam Vector vector other vector
+-- @tparam Vector vec other vector
 -- @number step step size (distance to cover towards other vector)
 -- @treturn Vector self
 -- @see vector2d.approach
@@ -112,7 +112,7 @@ function Vector:approach( vec, step )
 end
 
 --- Rounds this vector off.
--- @number[opt=0] decimals number of decimals to round to
+-- @number[opt=0] d number of decimals to round to
 -- @treturn Vector self
 function Vector:round( d )
 	self.x = round( self.x, d )
@@ -128,21 +128,21 @@ function Vector:perpendicular()
 end
 
 --- Get dot product of this vector with the other vector.
--- @tparam Vector vector other vector
+-- @tparam Vector vec other vector
 -- @see vector2d.dot
 function Vector:dot( vec )
 	return dot(self.x, self.y, vec.x, vec.y)
 end
 
 --- Get cross product of this vector with the other vector.
--- @tparam Vector vector other vector
+-- @tparam Vector vec other vector
 -- @see vector2d.cross
 function Vector:cross( vec )
 	return self.x * vec.y - self.y * vec.x
 end
 
 --- Project this vector onto the other.
--- @tparam Vector vector other vector
+-- @tparam Vector vec other vector
 -- @treturn Vector projected vector
 -- @see vector2d.projectOn
 function Vector:projectOn( vec )
@@ -150,7 +150,7 @@ function Vector:projectOn( vec )
 end
 
 --- Mirror this vector respective to the other.
--- @tparam Vector vector other vector
+-- @tparam Vector vec other vector
 -- @treturn Vector mirrored vector
 -- @see vector2d.mirrorOn
 function Vector:mirrorOn( vec )
