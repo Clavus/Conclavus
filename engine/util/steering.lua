@@ -1,5 +1,5 @@
 ------------------------
--- Several steering functions to help with physics interactions.
+-- Steering functions. Helps with physics interactions.
 -- Credit to [ivan](http://www.love2d.org/forums/viewtopic.php?f=5&t=78537#p175033)
 -- @util steering
 -- @usage

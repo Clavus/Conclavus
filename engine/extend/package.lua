@@ -10,6 +10,8 @@ local next_poll = 0
 local curtime = currentTime
 local lastmodified = love.filesystem.getLastModified
 
+--- Loads table of swappable modules.
+-- @tparam table packages package table 
 function package.loadSwappable( packagetable )
 	for k, packages in pairs(packagetable) do
 		for name, path in pairs( packages ) do
@@ -20,6 +22,8 @@ function package.loadSwappable( packagetable )
 	end
 end
 
+--- Hotswaps module.
+-- @string modref module name
 function package.hotswap( modref )
 	assert(type(modref) == "string", "Package name needs to be a string!")
 	assert(loaded_packages[modref] ~= nil, "Package "..tostring(modref).." is not loaded!")
@@ -63,14 +67,21 @@ function package.hotswap( modref )
 	return oldmod
 end
 
+--- Enable or disable auto-hotswap.
+-- Auto-hotswap checks whether files have been modified and swaps them automatically.
+-- @bool b enable hotswap
 function package.autoHotswapEnabled( b )
 	autohotswap_enabled = b
 end
 
+--- Auto-hotswap polling rate.
+-- Amount of seconds between file modification checks.
+-- @number[opt=0.5] n seconds
 function package.autoHotswapUpdateRate( n )
-	autohotswap_pollrate = tonumber( n )
+	autohotswap_pollrate = tonumber( n or 0.5 )
 end
 
+--- Swaps modules if they were modified. Automatically called if auto-hotswap is enabled.
 function package.updatePackages()
 	if autohotswap_enabled and (curtime() >= next_poll) then
 		for k, v in pairs( loaded_packages ) do
