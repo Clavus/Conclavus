@@ -1,0 +1,1948 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Conclavus</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Utility</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../utility/angle.html">angle</a></li>
+  <li><strong>easing</strong></li>
+  <li><a href="../utility/graphics.html">graphics</a></li>
+  <li><a href="../utility/resource.html">resource</a></li>
+  <li><a href="../utility/screen.html">screen</a></li>
+  <li><a href="../utility/steering.html">steering</a></li>
+  <li><a href="../utility/util.html">util</a></li>
+  <li><a href="../utility/vector2d.html">vector2d</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/Color.html">Color</a></li>
+  <li><a href="../classes/Camera.html">Camera</a></li>
+  <li><a href="../classes/Entity.html">Entity</a></li>
+  <li><a href="../classes/Trigger.html">Trigger</a></li>
+  <li><a href="../classes/Wall.html">Wall</a></li>
+  <li><a href="../classes/EntityManager.html">EntityManager</a></li>
+  <li><a href="../classes/FiniteStateMachine.html">FiniteStateMachine</a></li>
+  <li><a href="../classes/GUI.html">GUI</a></li>
+  <li><a href="../classes/InputController.html">InputController</a></li>
+  <li><a href="../classes/CustomLevelData.html">CustomLevelData</a></li>
+  <li><a href="../classes/Level.html">Level</a></li>
+  <li><a href="../classes/LevelData.html">LevelData</a></li>
+  <li><a href="../classes/TiledLevelData.html">TiledLevelData</a></li>
+  <li><a href="../classes/PhysicsSystem.html">PhysicsSystem</a></li>
+  <li><a href="../classes/Sprite.html">Sprite</a></li>
+  <li><a href="../classes/SpriteData.html">SpriteData</a></li>
+  <li><a href="../classes/StateAnimatedSprite.html">StateAnimatedSprite</a></li>
+  <li><a href="../classes/Vector.html">Vector</a></li>
+</ul>
+<h2>Mixins</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../mixins/CollisionResolver.html">CollisionResolver</a></li>
+  <li><a href="../mixins/PhysicsBody.html">PhysicsBody</a></li>
+  <li><a href="../mixins/Positional.html">Positional</a></li>
+  <li><a href="../mixins/Rotatable.html">Rotatable</a></li>
+  <li><a href="../mixins/Scalable.html">Scalable</a></li>
+</ul>
+<h2>Extensions</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../extensions/debug.html">debug</a></li>
+  <li><a href="../extensions/math.html">math</a></li>
+  <li><a href="../extensions/package.html">package</a></li>
+  <li><a href="../extensions/string.html">string</a></li>
+  <li><a href="../extensions/table.html">table</a></li>
+</ul>
+<h2>Other</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../other/constants.html">constants</a></li>
+  <li><a href="../other/global.html">global</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../topics/01-intro.md.html">01-intro</a></li>
+  <li><a href="../topics/02-love_differences.md.html">02-love_differences</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Util <code>easing</code></h1>
+<p>Easing functions.</p>
+<p> Visualization (taken from <a href="http://jqueryui.com/resources/demos/effect/easing.html">jQuery</a>, naming not directly applicable):
+ <img src="http://i.imgur.com/TYfB5QG.png" alt="easing_visualization"/>
+ More visualizing tools for these easing functions can be found <a href="http://gizma.com/easing/">here</a> and <a href="http://matthewlein.com/ceaser/">here</a>.
+ Credit to <a href="https://github.com/EmmanuelOga/easing">Robert Penner</a>.</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#linear">linear (t, b, c, d)</a></td>
+	<td class="summary">Linear easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#inQuad">inQuad (t, b, c, d)</a></td>
+	<td class="summary">Quadratic easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#outQuad">outQuad (t, b, c, d)</a></td>
+	<td class="summary">Quadratic easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#inOutQuad">inOutQuad (t, b, c, d)</a></td>
+	<td class="summary">Quadratic easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#outInQuad">outInQuad (t, b, c, d)</a></td>
+	<td class="summary">Quadratic easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#inCubic">inCubic (t, b, c, d)</a></td>
+	<td class="summary">Cubic easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#outCubic">outCubic (t, b, c, d)</a></td>
+	<td class="summary">Cubic easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#inOutCubic">inOutCubic (t, b, c, d)</a></td>
+	<td class="summary">Cubic easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#outInCubic">outInCubic (t, b, c, d)</a></td>
+	<td class="summary">Cubic easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#inQuart">inQuart (t, b, c, d)</a></td>
+	<td class="summary">Quartic easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#outQuart">outQuart (t, b, c, d)</a></td>
+	<td class="summary">Quartic easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#inOutQuart">inOutQuart (t, b, c, d)</a></td>
+	<td class="summary">Quartic easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#outInQuart">outInQuart (t, b, c, d)</a></td>
+	<td class="summary">Quartic easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#inQuint">inQuint (t, b, c, d)</a></td>
+	<td class="summary">Quintic easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#outQuint">outQuint (t, b, c, d)</a></td>
+	<td class="summary">Quintic easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#inOutQuint">inOutQuint (t, b, c, d)</a></td>
+	<td class="summary">Quintic easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#outInQuint">outInQuint (t, b, c, d)</a></td>
+	<td class="summary">Quintic easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#inSine">inSine (t, b, c, d)</a></td>
+	<td class="summary">Sinusoidal easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#outSine">outSine (t, b, c, d)</a></td>
+	<td class="summary">Sinusoidal easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#inOutSine">inOutSine (t, b, c, d)</a></td>
+	<td class="summary">Sinusoidal easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#outInSine">outInSine (t, b, c, d)</a></td>
+	<td class="summary">Sinusoidal easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#inExpo">inExpo (t, b, c, d)</a></td>
+	<td class="summary">Exponential easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#outExpo">outExpo (t, b, c, d)</a></td>
+	<td class="summary">Exponential easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#inOutExpo">inOutExpo (t, b, c, d)</a></td>
+	<td class="summary">Exponential easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#outInExpo">outInExpo (t, b, c, d)</a></td>
+	<td class="summary">Exponential easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#inCirc">inCirc (t, b, c, d)</a></td>
+	<td class="summary">Circular easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#outCirc">outCirc (t, b, c, d)</a></td>
+	<td class="summary">Circular easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#inOutCirc">inOutCirc (t, b, c, d)</a></td>
+	<td class="summary">Circular easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#outInCirc">outInCirc (t, b, c, d)</a></td>
+	<td class="summary">Circular easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#inElastic">inElastic (t, b, c, d, a, p)</a></td>
+	<td class="summary">Elastic easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#outElastic">outElastic (t, b, c, d, a, p)</a></td>
+	<td class="summary">Elastic easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#inOutElastic">inOutElastic (t, b, c, d, a, p)</a></td>
+	<td class="summary">Elastic easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#outInElastic">outInElastic (t, b, c, d, a, p)</a></td>
+	<td class="summary">Elastic easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#inBack">inBack (t, b, c, d[, s=1.70158])</a></td>
+	<td class="summary">Back easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#outBack">outBack (t, b, c, d[, s=1.70158])</a></td>
+	<td class="summary">Back easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#inOutBack">inOutBack (t, b, c, d[, s=1.70158])</a></td>
+	<td class="summary">Back easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#outInBack">outInBack (t, b, c, d[, s=1.70158])</a></td>
+	<td class="summary">Back easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#outBounce">outBounce (t, b, c, d)</a></td>
+	<td class="summary">Bounce easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#inBounce">inBounce (t, b, c, d)</a></td>
+	<td class="summary">Bounce easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#inOutBounce">inOutBounce (t, b, c, d)</a></td>
+	<td class="summary">Bounce easing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#outInBounce">outInBounce (t, b, c, d)</a></td>
+	<td class="summary">Bounce easing.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "linear"></a>
+    <strong>linear (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Linear easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "inQuad"></a>
+    <strong>inQuad (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Quadratic easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "outQuad"></a>
+    <strong>outQuad (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Quadratic easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "inOutQuad"></a>
+    <strong>inOutQuad (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Quadratic easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "outInQuad"></a>
+    <strong>outInQuad (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Quadratic easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "inCubic"></a>
+    <strong>inCubic (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Cubic easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "outCubic"></a>
+    <strong>outCubic (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Cubic easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "inOutCubic"></a>
+    <strong>inOutCubic (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Cubic easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "outInCubic"></a>
+    <strong>outInCubic (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Cubic easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "inQuart"></a>
+    <strong>inQuart (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Quartic easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "outQuart"></a>
+    <strong>outQuart (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Quartic easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "inOutQuart"></a>
+    <strong>inOutQuart (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Quartic easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "outInQuart"></a>
+    <strong>outInQuart (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Quartic easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "inQuint"></a>
+    <strong>inQuint (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Quintic easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "outQuint"></a>
+    <strong>outQuint (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Quintic easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "inOutQuint"></a>
+    <strong>inOutQuint (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Quintic easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "outInQuint"></a>
+    <strong>outInQuint (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Quintic easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "inSine"></a>
+    <strong>inSine (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Sinusoidal easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "outSine"></a>
+    <strong>outSine (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Sinusoidal easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "inOutSine"></a>
+    <strong>inOutSine (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Sinusoidal easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "outInSine"></a>
+    <strong>outInSine (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Sinusoidal easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "inExpo"></a>
+    <strong>inExpo (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Exponential easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "outExpo"></a>
+    <strong>outExpo (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Exponential easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "inOutExpo"></a>
+    <strong>inOutExpo (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Exponential easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "outInExpo"></a>
+    <strong>outInExpo (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Exponential easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "inCirc"></a>
+    <strong>inCirc (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Circular easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "outCirc"></a>
+    <strong>outCirc (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Circular easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "inOutCirc"></a>
+    <strong>inOutCirc (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Circular easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "outInCirc"></a>
+    <strong>outInCirc (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Circular easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "inElastic"></a>
+    <strong>inElastic (t, b, c, d, a, p)</strong>
+    </dt>
+    <dd>
+    Elastic easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+        <li><span class="parameter">a</span>
+            <span class="types"><span class="type">number</span></span>
+         amplitude
+        </li>
+        <li><span class="parameter">p</span>
+            <span class="types"><span class="type">number</span></span>
+         period
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "outElastic"></a>
+    <strong>outElastic (t, b, c, d, a, p)</strong>
+    </dt>
+    <dd>
+    Elastic easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+        <li><span class="parameter">a</span>
+            <span class="types"><span class="type">number</span></span>
+         amplitude
+        </li>
+        <li><span class="parameter">p</span>
+            <span class="types"><span class="type">number</span></span>
+         period
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "inOutElastic"></a>
+    <strong>inOutElastic (t, b, c, d, a, p)</strong>
+    </dt>
+    <dd>
+    Elastic easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+        <li><span class="parameter">a</span>
+            <span class="types"><span class="type">number</span></span>
+         amplitude
+        </li>
+        <li><span class="parameter">p</span>
+            <span class="types"><span class="type">number</span></span>
+         period
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "outInElastic"></a>
+    <strong>outInElastic (t, b, c, d, a, p)</strong>
+    </dt>
+    <dd>
+    Elastic easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+        <li><span class="parameter">a</span>
+            <span class="types"><span class="type">number</span></span>
+         amplitude
+        </li>
+        <li><span class="parameter">p</span>
+            <span class="types"><span class="type">number</span></span>
+         period
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "inBack"></a>
+    <strong>inBack (t, b, c, d[, s=1.70158])</strong>
+    </dt>
+    <dd>
+    Back easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+        <li><span class="parameter">s</span>
+            <span class="types"><span class="type">number</span></span>
+         factor
+         (<em>default</em> 1.70158)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "outBack"></a>
+    <strong>outBack (t, b, c, d[, s=1.70158])</strong>
+    </dt>
+    <dd>
+    Back easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+        <li><span class="parameter">s</span>
+            <span class="types"><span class="type">number</span></span>
+         factor
+         (<em>default</em> 1.70158)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "inOutBack"></a>
+    <strong>inOutBack (t, b, c, d[, s=1.70158])</strong>
+    </dt>
+    <dd>
+    Back easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+        <li><span class="parameter">s</span>
+            <span class="types"><span class="type">number</span></span>
+         factor
+         (<em>default</em> 1.70158)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "outInBack"></a>
+    <strong>outInBack (t, b, c, d[, s=1.70158])</strong>
+    </dt>
+    <dd>
+    Back easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+        <li><span class="parameter">s</span>
+            <span class="types"><span class="type">number</span></span>
+         factor
+         (<em>default</em> 1.70158)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "outBounce"></a>
+    <strong>outBounce (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Bounce easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "inBounce"></a>
+    <strong>inBounce (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Bounce easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "inOutBounce"></a>
+    <strong>inOutBounce (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Bounce easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "outInBounce"></a>
+    <strong>outInBounce (t, b, c, d)</strong>
+    </dt>
+    <dd>
+    Bounce easing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+         elapsed time
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+         beginning number
+        </li>
+        <li><span class="parameter">c</span>
+            <span class="types"><span class="type">number</span></span>
+         desired change (ending - beginning)
+        </li>
+        <li><span class="parameter">d</span>
+            <span class="types"><span class="type">number</span></span>
+         duration of lerp
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        result
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2015-03-08 16:29:02 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
+

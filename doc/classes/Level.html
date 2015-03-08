@@ -30,6 +30,10 @@
   <li><a href="../index.html">Index</a></li>
 </ul>
 
+<h2>Contents</h2>
+<ul>
+<li><a href="#Class_Level">Class Level </a></li>
+</ul>
 
 
 <h2>Classes</h2>
@@ -47,7 +51,6 @@
   <li><strong>Level</strong></li>
   <li><a href="../classes/LevelData.html">LevelData</a></li>
   <li><a href="../classes/TiledLevelData.html">TiledLevelData</a></li>
-  <li><a href="../classes/Box2DPhysicsSystem.html">Box2DPhysicsSystem</a></li>
   <li><a href="../classes/PhysicsSystem.html">PhysicsSystem</a></li>
   <li><a href="../classes/Sprite.html">Sprite</a></li>
   <li><a href="../classes/SpriteData.html">SpriteData</a></li>
@@ -59,15 +62,18 @@
   <li><a href="../mixins/CollisionResolver.html">CollisionResolver</a></li>
   <li><a href="../mixins/PhysicsBody.html">PhysicsBody</a></li>
   <li><a href="../mixins/Positional.html">Positional</a></li>
-  <li><a href="../mixins/Rotational.html">Rotational</a></li>
+  <li><a href="../mixins/Rotatable.html">Rotatable</a></li>
   <li><a href="../mixins/Scalable.html">Scalable</a></li>
 </ul>
 <h2>Utility</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../utility/angle.html">angle</a></li>
+  <li><a href="../utility/easing.html">easing</a></li>
+  <li><a href="../utility/graphics.html">graphics</a></li>
   <li><a href="../utility/resource.html">resource</a></li>
   <li><a href="../utility/screen.html">screen</a></li>
   <li><a href="../utility/steering.html">steering</a></li>
+  <li><a href="../utility/util.html">util</a></li>
   <li><a href="../utility/vector2d.html">vector2d</a></li>
 </ul>
 <h2>Extensions</h2>
@@ -86,6 +92,7 @@
 <h2>Topics</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../topics/01-intro.md.html">01-intro</a></li>
+  <li><a href="../topics/02-love_differences.md.html">02-love_differences</a></li>
 </ul>
 
 </div>
@@ -97,18 +104,330 @@
 <p> Manages your game scene.</p>
 
 
+<h2><a href="#Class_Level">Class Level </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Level:spawnObjects">Level:spawnObjects ()</a></td>
+	<td class="summary">Spawn all objects passed with the <a href="../classes/LevelData.html#">LevelData</a> provided during creation.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:update">Level:update (dt)</a></td>
+	<td class="summary">Updates level camera, physics and all entities.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:draw">Level:draw ()</a></td>
+	<td class="summary">Draw all level layers and entities.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:getProperties">Level:getProperties ()</a></td>
+	<td class="summary">Get the properties table from the <a href="../classes/LevelData.html#">LevelData</a> provided during creation.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:getPhysicsWorld">Level:getPhysicsWorld ()</a></td>
+	<td class="summary">Get the physics world.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:getPixelsPerMeter">Level:getPixelsPerMeter ()</a></td>
+	<td class="summary">Get pixels per meter of the physics world.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:getCamera">Level:getCamera ()</a></td>
+	<td class="summary">Get camera object.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:createEntity">Level:createEntity (class)</a></td>
+	<td class="summary">Create an entity.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:getEntitiesByClass">Level:getEntitiesByClass (class)</a></td>
+	<td class="summary">Get entities by class.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:getEntitiesByMixin">Level:getEntitiesByMixin (mixin)</a></td>
+	<td class="summary">Get entities by mixin.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:getEntitiesWhere">Level:getEntitiesWhere (func)</a></td>
+	<td class="summary">Get entities by function filter.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:getAllEntities">Level:getAllEntities ()</a></td>
+	<td class="summary">Get all entities.</td>
+	</tr>
+</table>
 
 <br/>
 <br/>
 
 
+    <h2 class="section-header "><a name="Class_Level"></a>Class Level </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Level:spawnObjects"></a>
+    <strong>Level:spawnObjects ()</strong>
+    </dt>
+    <dd>
+    Spawn all objects passed with the <a href="../classes/LevelData.html#">LevelData</a> provided during creation.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:update"></a>
+    <strong>Level:update (dt)</strong>
+    </dt>
+    <dd>
+    Updates level camera, physics and all entities.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">dt</span>
+            <span class="types"><span class="type">number</span></span>
+         delta time
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:draw"></a>
+    <strong>Level:draw ()</strong>
+    </dt>
+    <dd>
+    Draw all level layers and entities.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:getProperties"></a>
+    <strong>Level:getProperties ()</strong>
+    </dt>
+    <dd>
+    Get the properties table from the <a href="../classes/LevelData.html#">LevelData</a> provided during creation.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        leveldata properties
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:getPhysicsWorld"></a>
+    <strong>Level:getPhysicsWorld ()</strong>
+    </dt>
+    <dd>
+    Get the physics world.  Requires the physics system to be active in this level.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">World</span></span>
+        world physics world
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:getPixelsPerMeter"></a>
+    <strong>Level:getPixelsPerMeter ()</strong>
+    </dt>
+    <dd>
+    Get pixels per meter of the physics world.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        pixels per meter
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:getCamera"></a>
+    <strong>Level:getCamera ()</strong>
+    </dt>
+    <dd>
+    Get camera object.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">Camera</span></span>
+        camera
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:createEntity"></a>
+    <strong>Level:createEntity (class)</strong>
+    </dt>
+    <dd>
+    Create an entity.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">class</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         entity class name
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">Entity</span></span>
+        entity
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:getEntitiesByClass"></a>
+    <strong>Level:getEntitiesByClass (class)</strong>
+    </dt>
+    <dd>
+    Get entities by class.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">class</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         class name
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        table of entities
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:getEntitiesByMixin"></a>
+    <strong>Level:getEntitiesByMixin (mixin)</strong>
+    </dt>
+    <dd>
+    Get entities by mixin.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">mixin</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         mixin table
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        table of entities
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:getEntitiesWhere"></a>
+    <strong>Level:getEntitiesWhere (func)</strong>
+    </dt>
+    <dd>
+    Get entities by function filter.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">func</span>
+            <span class="types"><span class="type">func</span></span>
+         filter function (returns true or false)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        table of entities
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:getAllEntities"></a>
+    <strong>Level:getAllEntities ()</strong>
+    </dt>
+    <dd>
+    Get all entities.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        table of entities
+    </ol>
+
+
+
+
+</dd>
+</dl>
 
 
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
-<i style="float:right;">Last updated 2015-03-03 03:57:44 </i>
+<i style="float:right;">Last updated 2015-03-08 16:29:02 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

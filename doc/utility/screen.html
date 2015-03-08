@@ -30,14 +30,21 @@
   <li><a href="../index.html">Index</a></li>
 </ul>
 
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
 
 
 <h2>Utility</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../utility/angle.html">angle</a></li>
+  <li><a href="../utility/easing.html">easing</a></li>
+  <li><a href="../utility/graphics.html">graphics</a></li>
   <li><a href="../utility/resource.html">resource</a></li>
   <li><strong>screen</strong></li>
   <li><a href="../utility/steering.html">steering</a></li>
+  <li><a href="../utility/util.html">util</a></li>
   <li><a href="../utility/vector2d.html">vector2d</a></li>
 </ul>
 <h2>Classes</h2>
@@ -55,7 +62,6 @@
   <li><a href="../classes/Level.html">Level</a></li>
   <li><a href="../classes/LevelData.html">LevelData</a></li>
   <li><a href="../classes/TiledLevelData.html">TiledLevelData</a></li>
-  <li><a href="../classes/Box2DPhysicsSystem.html">Box2DPhysicsSystem</a></li>
   <li><a href="../classes/PhysicsSystem.html">PhysicsSystem</a></li>
   <li><a href="../classes/Sprite.html">Sprite</a></li>
   <li><a href="../classes/SpriteData.html">SpriteData</a></li>
@@ -67,7 +73,7 @@
   <li><a href="../mixins/CollisionResolver.html">CollisionResolver</a></li>
   <li><a href="../mixins/PhysicsBody.html">PhysicsBody</a></li>
   <li><a href="../mixins/Positional.html">Positional</a></li>
-  <li><a href="../mixins/Rotational.html">Rotational</a></li>
+  <li><a href="../mixins/Rotatable.html">Rotatable</a></li>
   <li><a href="../mixins/Scalable.html">Scalable</a></li>
 </ul>
 <h2>Extensions</h2>
@@ -86,6 +92,7 @@
 <h2>Topics</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../topics/01-intro.md.html">01-intro</a></li>
+  <li><a href="../topics/02-love_differences.md.html">02-love_differences</a></li>
 </ul>
 
 </div>
@@ -99,18 +106,338 @@
 </p>
 
 
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#init">init (w, h, flags)</a></td>
+	<td class="summary">INTERNAL - Initializes screen parameters.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setDefaultRenderDimensions">setDefaultRenderDimensions (w, h)</a></td>
+	<td class="summary">Set the default render dimensions of your game.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setScaleType">setScaleType (stype)</a></td>
+	<td class="summary">Set the scaling type.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#updateDisplays">updateDisplays ()</a></td>
+	<td class="summary">INTERNAL - Update display information.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set">set (w, h, flags)</a></td>
+	<td class="summary">Set screen mode.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#preDraw">preDraw ()</a></td>
+	<td class="summary">INTERNAL - Is called before everything draws.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#postDraw">postDraw ()</a></td>
+	<td class="summary">INTERNAL - Is called after everything draws.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getRenderWidth">getRenderWidth ()</a></td>
+	<td class="summary">Get screen render width.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getRenderHeight">getRenderHeight ()</a></td>
+	<td class="summary">Get screen render height.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getAspectRatio">getAspectRatio ()</a></td>
+	<td class="summary">Get screen aspect ratio.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getMousePosition">getMousePosition ()</a></td>
+	<td class="summary">Get the mouse position.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#resize">resize (w, h)</a></td>
+	<td class="summary">INTERNAL -  Called when the screen size changes.</td>
+	</tr>
+</table>
 
 <br/>
 <br/>
 
 
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "init"></a>
+    <strong>init (w, h, flags)</strong>
+    </dt>
+    <dd>
+    INTERNAL - Initializes screen parameters.
+ Is called when the framework loads.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">w</span>
+
+
+
+        </li>
+        <li><span class="parameter">h</span>
+
+
+
+        </li>
+        <li><span class="parameter">flags</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setDefaultRenderDimensions"></a>
+    <strong>setDefaultRenderDimensions (w, h)</strong>
+    </dt>
+    <dd>
+    Set the default render dimensions of your game.
+ Independent of window size.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">w</span>
+            <span class="types"><span class="type">number</span></span>
+         render width
+        </li>
+        <li><span class="parameter">h</span>
+            <span class="types"><span class="type">number</span></span>
+         render height
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setScaleType"></a>
+    <strong>setScaleType (stype)</strong>
+    </dt>
+    <dd>
+    Set the scaling type.  See <a href="../other/constants.html#SCREEN_SCALE">SCREEN_SCALE constants</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">stype</span>
+            <span class="types"><span class="type">SCREEN_SCALE</span></span>
+         scaling type
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">screen.setScaleType( SCREEN_SCALE.FIT_LETTERBOX )</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "updateDisplays"></a>
+    <strong>updateDisplays ()</strong>
+    </dt>
+    <dd>
+    INTERNAL - Update display information.  Stores display count and width, height and available fullscreen modes per display.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set"></a>
+    <strong>set (w, h, flags)</strong>
+    </dt>
+    <dd>
+    Set screen mode.
+ Replaces <a href="https://www.love2d.org/wiki/love.window.setMode">love.window.setMode</a>. Same parameters.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">w</span>
+            <span class="types"><span class="type">number</span></span>
+         screen width
+        </li>
+        <li><span class="parameter">h</span>
+            <span class="types"><span class="type">number</span></span>
+         screen height
+        </li>
+        <li><span class="parameter">flags</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         screen settings
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "preDraw"></a>
+    <strong>preDraw ()</strong>
+    </dt>
+    <dd>
+    INTERNAL - Is called before everything draws.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "postDraw"></a>
+    <strong>postDraw ()</strong>
+    </dt>
+    <dd>
+    INTERNAL - Is called after everything draws.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "getRenderWidth"></a>
+    <strong>getRenderWidth ()</strong>
+    </dt>
+    <dd>
+    Get screen render width.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        render width
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "getRenderHeight"></a>
+    <strong>getRenderHeight ()</strong>
+    </dt>
+    <dd>
+    Get screen render height.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        render width
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "getAspectRatio"></a>
+    <strong>getAspectRatio ()</strong>
+    </dt>
+    <dd>
+    Get screen aspect ratio.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        aspect ratio ( width / height )
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "getMousePosition"></a>
+    <strong>getMousePosition ()</strong>
+    </dt>
+    <dd>
+    Get the mouse position.
+ Replaces <a href="https://www.love2d.org/wiki/love.mouse.getPosition">love.mouse.getPosition</a>.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        x</li>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        y</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "resize"></a>
+    <strong>resize (w, h)</strong>
+    </dt>
+    <dd>
+    INTERNAL -  Called when the screen size changes.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">w</span>
+            <span class="types"><span class="type">number</span></span>
+         new width
+        </li>
+        <li><span class="parameter">h</span>
+            <span class="types"><span class="type">number</span></span>
+         new height
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
 
 
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
-<i style="float:right;">Last updated 2015-03-03 03:57:44 </i>
+<i style="float:right;">Last updated 2015-03-08 16:29:02 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

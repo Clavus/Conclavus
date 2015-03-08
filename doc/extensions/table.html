@@ -30,6 +30,10 @@
   <li><a href="../index.html">Index</a></li>
 </ul>
 
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
 
 
 <h2>Extensions</h2>
@@ -55,7 +59,6 @@
   <li><a href="../classes/Level.html">Level</a></li>
   <li><a href="../classes/LevelData.html">LevelData</a></li>
   <li><a href="../classes/TiledLevelData.html">TiledLevelData</a></li>
-  <li><a href="../classes/Box2DPhysicsSystem.html">Box2DPhysicsSystem</a></li>
   <li><a href="../classes/PhysicsSystem.html">PhysicsSystem</a></li>
   <li><a href="../classes/Sprite.html">Sprite</a></li>
   <li><a href="../classes/SpriteData.html">SpriteData</a></li>
@@ -67,15 +70,18 @@
   <li><a href="../mixins/CollisionResolver.html">CollisionResolver</a></li>
   <li><a href="../mixins/PhysicsBody.html">PhysicsBody</a></li>
   <li><a href="../mixins/Positional.html">Positional</a></li>
-  <li><a href="../mixins/Rotational.html">Rotational</a></li>
+  <li><a href="../mixins/Rotatable.html">Rotatable</a></li>
   <li><a href="../mixins/Scalable.html">Scalable</a></li>
 </ul>
 <h2>Utility</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../utility/angle.html">angle</a></li>
+  <li><a href="../utility/easing.html">easing</a></li>
+  <li><a href="../utility/graphics.html">graphics</a></li>
   <li><a href="../utility/resource.html">resource</a></li>
   <li><a href="../utility/screen.html">screen</a></li>
   <li><a href="../utility/steering.html">steering</a></li>
+  <li><a href="../utility/util.html">util</a></li>
   <li><a href="../utility/vector2d.html">vector2d</a></li>
 </ul>
 <h2>Other</h2>
@@ -86,6 +92,7 @@
 <h2>Topics</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../topics/01-intro.md.html">01-intro</a></li>
+  <li><a href="../topics/02-love_differences.md.html">02-love_differences</a></li>
 </ul>
 
 </div>
@@ -93,25 +100,693 @@
 <div id="content">
 
 <h1>Extend <code>table</code></h1>
-<p>Extensions to the <a href="http://www.lua.org/manual/5.1/manual.html#5.5">table module</a>
- Credit to rxi's <a href="https://github.com/rxi/lume/">lume</a> lib for some of these functions..</p>
-<p>
-
-</p>
+<p>Extensions to the <a href="http://www.lua.org/manual/5.1/manual.html#5.5">table module</a>.</p>
+<p> Credit to rxi's <a href="https://github.com/rxi/lume/">lume</a> lib for some of these functions..</p>
 
 
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#copy">copy (t)</a></td>
+	<td class="summary">Copies a table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#deepCopy">deepCopy (t[, lookup_table])</a></td>
+	<td class="summary">Fully copies table and nested tables.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#hasValue">hasValue (t, val)</a></td>
+	<td class="summary">Checks if table has a certain value.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#keyFromValue">keyFromValue (t, val)</a></td>
+	<td class="summary">Get first key containing the specified value in this table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#keysFromValue">keysFromValue (t, val)</a></td>
+	<td class="summary">Get all keys that contain the specified value in this table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#removeByValue">removeByValue (t, val[, notSeq=false])</a></td>
+	<td class="summary">Remove all occurences of this value from this table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#removeByFilter">removeByFilter (t, filter_func[, notSeq=false])</a></td>
+	<td class="summary">Removes values from the table based on a filter function.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getKeys">getKeys (t)</a></td>
+	<td class="summary">Get a sequential table of all keys in the given table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#shuffle">shuffle (t)</a></td>
+	<td class="summary">Shuffle the table values around.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#invert">invert (t)</a></td>
+	<td class="summary">Switch the key->value pairs around.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set">set (t)</a></td>
+	<td class="summary">Return a set of this table, removing all duplicate values.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#forEach">forEach (t, func, ...)</a></td>
+	<td class="summary">Calls a function on every value in the table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#count">count (t[, count_func])</a></td>
+	<td class="summary">Count number of entries in the table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#random">random (t)</a></td>
+	<td class="summary">Get a random value from this table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#filter">filter (t, func, retainkeys)</a></td>
+	<td class="summary">Filter a table using a given function.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#merge">merge (t1, t2, retainkeys)</a></td>
+	<td class="summary">Merge two tables.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#isSequential">isSequential (t)</a></td>
+	<td class="summary">Returns whether table is sequential.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#toString">toString (t, name, nice[, maxdepth[, maxseq]])</a></td>
+	<td class="summary">Convert a table to a pretty string.</td>
+	</tr>
+</table>
 
 <br/>
 <br/>
 
 
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "copy"></a>
+    <strong>copy (t)</strong>
+    </dt>
+    <dd>
+    Copies a table.
+ Only copies references to nested tables.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table to copy
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        copied table
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "deepCopy"></a>
+    <strong>deepCopy (t[, lookup_table])</strong>
+    </dt>
+    <dd>
+    Fully copies table and nested tables.
+ <a href="http://lua-users.org/wiki/PitLibTablestuff">Credit</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table to copy
+        </li>
+        <li><span class="parameter">lookup_table</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         used for avoiding infinite loops when recursively copying nested tables, just ignore.
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        copied table
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "hasValue"></a>
+    <strong>hasValue (t, val)</strong>
+    </dt>
+    <dd>
+    Checks if table has a certain value.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table to check
+        </li>
+        <li><span class="parameter">val</span>
+         value to find
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+
+
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "keyFromValue"></a>
+    <strong>keyFromValue (t, val)</strong>
+    </dt>
+    <dd>
+    Get first key containing the specified value in this table.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table to check
+        </li>
+        <li><span class="parameter">val</span>
+         value to find
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span> or <a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        key
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "keysFromValue"></a>
+    <strong>keysFromValue (t, val)</strong>
+    </dt>
+    <dd>
+    Get all keys that contain the specified value in this table.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table to check
+        </li>
+        <li><span class="parameter">val</span>
+         value to find
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        table of keys
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "removeByValue"></a>
+    <strong>removeByValue (t, val[, notSeq=false])</strong>
+    </dt>
+    <dd>
+    Remove all occurences of this value from this table.
+ Assumes the table is sequential unless otherwise specified.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table
+        </li>
+        <li><span class="parameter">val</span>
+         value to remove
+        </li>
+        <li><span class="parameter">notSeq</span>
+            <span class="types"><span class="type">bool</span></span>
+         is table non-sequential
+         (<em>default</em> false)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        table t
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "removeByFilter"></a>
+    <strong>removeByFilter (t, filter_func[, notSeq=false])</strong>
+    </dt>
+    <dd>
+    Removes values from the table based on a filter function.
+ Assumes the table is sequential unless otherwise specified.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table
+        </li>
+        <li><span class="parameter">filter_func</span>
+            <span class="types"><span class="type">function</span></span>
+         filter function in format <em>function( key, value )</em>. If this function returns true for a given table key->value pair, that pair is removed from the table.
+        </li>
+        <li><span class="parameter">notSeq</span>
+            <span class="types"><span class="type">bool</span></span>
+         is table non-sequential
+         (<em>default</em> false)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        table t
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"> <span class="keyword">local</span> numbers = { <span class="string">"one"</span>, <span class="string">"two"</span>, <span class="string">"three"</span> }
+ <span class="global">table</span>.removeByFilter( numbers, <span class="keyword">function</span>( k, v )
+ 	<span class="keyword">if</span> (v == <span class="string">"two"</span>) <span class="keyword">return</span> <span class="keyword">true</span> <span class="keyword">end</span>
+ <span class="keyword">end</span>)
+ -- now <span class="global">table</span> numbers = { <span class="string">"one"</span>, <span class="string">"three"</span> }</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "getKeys"></a>
+    <strong>getKeys (t)</strong>
+    </dt>
+    <dd>
+    Get a sequential table of all keys in the given table.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        table of keys in t
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "shuffle"></a>
+    <strong>shuffle (t)</strong>
+    </dt>
+    <dd>
+    Shuffle the table values around.  Essentially randomizing the key->value pairs.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        table t, now shuffled
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "invert"></a>
+    <strong>invert (t)</strong>
+    </dt>
+    <dd>
+    Switch the key->value pairs around.  Turning them into value->key pairs.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        new inverted table
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set"></a>
+    <strong>set (t)</strong>
+    </dt>
+    <dd>
+    Return a set of this table, removing all duplicate values.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        new set
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"> <span class="keyword">local</span> numbers = { <span class="string">"one"</span>, <span class="string">"one"</span>, <span class="string">"two"</span>, <span class="string">"two"</span>, <span class="string">"three"</span> }
+ <span class="keyword">local</span> numberset = <span class="global">table</span>.set( numbers )
+ -- numberset = { <span class="string">"one"</span>, <span class="string">"two"</span>, <span class="string">"three"</span> }</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "forEach"></a>
+    <strong>forEach (t, func, ...)</strong>
+    </dt>
+    <dd>
+    Calls a function on every value in the table.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table
+        </li>
+        <li><span class="parameter">func</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a> or <span class="type">function</span></span>
+         either a string or function in format <em>function( key, value, ... )</em>, which is called on every value in the table
+        </li>
+        <li><span class="parameter">...</span>
+         additional parameters to be passed to the function call
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        table t
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"> <span class="keyword">local</span> numbers = { <span class="string">"one"</span>, <span class="string">"two"</span>, <span class="string">"three"</span> }
+ <span class="global">table</span>.forEach( numbers, <span class="keyword">function</span>( k, v ) numbers[k] = v..<span class="string">"s"</span> <span class="keyword">end</span> )
+ <span class="comment">-- now table numbers = { "ones", "twos", "threes" }
+</span> <span class="keyword">local</span> vectors = { Vector(<span class="number">1</span>,<span class="number">1</span>), Vector(<span class="number">2</span>,<span class="number">1</span>), Vector(<span class="number">3</span>,<span class="number">1</span>) }
+ <span class="global">table</span>.forEach( vectors, <span class="string">"add"</span>, Vector(<span class="number">0</span>,<span class="number">1</span>) ) <span class="comment">-- calls Vector:add(..) on every table entry
+</span> -- now <span class="global">table</span> vectors = { Vector(<span class="number">1</span>,<span class="number">2</span>), Vector(<span class="number">2</span>,<span class="number">2</span>), Vector(<span class="number">3</span>,<span class="number">2</span>) }</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "count"></a>
+    <strong>count (t[, count_func])</strong>
+    </dt>
+    <dd>
+    Count number of entries in the table.
+ Can count only specific entries if specified.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table
+        </li>
+        <li><span class="parameter">count_func</span>
+            <span class="types"><span class="type">function</span></span>
+         function in format <em>function( key, value )</em>, only counts entries where this function returns true
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        count
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "random"></a>
+    <strong>random (t)</strong>
+    </dt>
+    <dd>
+    Get a random value from this table.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        random value from the table
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "filter"></a>
+    <strong>filter (t, func, retainkeys)</strong>
+    </dt>
+    <dd>
+    Filter a table using a given function.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table
+        </li>
+        <li><span class="parameter">func</span>
+            <span class="types"><span class="type">function</span></span>
+         function in format <em>function( key, value )</em>, table only retains entries where this functions returns true
+        </li>
+        <li><span class="parameter">retainkeys</span>
+            <span class="types"><span class="type">bool</span></span>
+         whether to retain the keys of the original table, or create a new sequence
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        new filtered table
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "merge"></a>
+    <strong>merge (t1, t2, retainkeys)</strong>
+    </dt>
+    <dd>
+    Merge two tables.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t1</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         first table
+        </li>
+        <li><span class="parameter">t2</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         second table
+        </li>
+        <li><span class="parameter">retainkeys</span>
+            <span class="types"><span class="type">bool</span></span>
+         whether to retain the keys of the second table (overriding those of the first table), or just to add behind the sequence of the first table
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        table t1, with table t2 merged into it
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "isSequential"></a>
+    <strong>isSequential (t)</strong>
+    </dt>
+    <dd>
+    Returns whether table is sequential.  Meaning only numerical indices are used without gaps.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        is table sequential
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "toString"></a>
+    <strong>toString (t, name, nice[, maxdepth[, maxseq]])</strong>
+    </dt>
+    <dd>
+    Convert a table to a pretty string.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         table
+        </li>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         name of the table to print
+        </li>
+        <li><span class="parameter">nice</span>
+            <span class="types"><span class="type">bool</span></span>
+         whether to add line breaks and indents (bool)
+        </li>
+        <li><span class="parameter">maxdepth</span>
+            <span class="types"><span class="type">number</span></span>
+         max depth to print table
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">maxseq</span>
+            <span class="types"><span class="type">number</span></span>
+         summarizes sequential tables bigger than this number instead of printing them out completely
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        readable string presentation of this table
+    </ol>
+
+
+
+
+</dd>
+</dl>
 
 
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
-<i style="float:right;">Last updated 2015-03-03 03:57:44 </i>
+<i style="float:right;">Last updated 2015-03-08 16:29:02 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

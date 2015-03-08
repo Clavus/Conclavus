@@ -32,11 +32,16 @@
 
 
 
+<h2>Topics</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../topics/01-intro.md.html">01-intro</a></li>
+  <li><strong>02-love_differences</strong></li>
+</ul>
 <h2>Classes</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../classes/Color.html">Color</a></li>
   <li><a href="../classes/Camera.html">Camera</a></li>
-  <li><strong>Entity</strong></li>
+  <li><a href="../classes/Entity.html">Entity</a></li>
   <li><a href="../classes/Trigger.html">Trigger</a></li>
   <li><a href="../classes/Wall.html">Wall</a></li>
   <li><a href="../classes/EntityManager.html">EntityManager</a></li>
@@ -85,26 +90,18 @@
   <li><a href="../other/constants.html">constants</a></li>
   <li><a href="../other/global.html">global</a></li>
 </ul>
-<h2>Topics</h2>
-<ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><a href="../topics/01-intro.md.html">01-intro</a></li>
-  <li><a href="../topics/02-love_differences.md.html">02-love_differences</a></li>
-</ul>
 
 </div>
 
 <div id="content">
 
-<h1>Cl <code>Entity</code></h1>
-<p>Entity class.</p>
-<p> Should be the base class of pretty much all your game objects.</p>
 
+<h1></h1>
+<h1>Differences</h1>
 
+<p>Use <a href="../utility/screen.html#getMousePosition">screen.getMousePosition</a> instead of <a href="https://www.love2d.org/wiki/love.mouse">love.mouse.getPosition</a>.</p>
 
-<br/>
-<br/>
-
-
+<p>Use <a href="../utility/screen.html#set">screen.set</a> instead of <a href="https://www.love2d.org/wiki/love.window.setMode">love.window.setMode</a>.</p>
 
 
 </div> <!-- id="content" -->
