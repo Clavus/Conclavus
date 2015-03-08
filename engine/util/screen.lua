@@ -8,10 +8,12 @@ screen.modes = {}
 screen.transform = {}
 screen.displays = {}
 
-local lg, lw = love.graphics, love.window
+local lg, lw, lm = love.graphics, love.window, love.mouse
 local force_aspect_ratio = true
 local SCREEN_SCALE = SCREEN_SCALE
 
+--- INTERNAL - Initializes screen parameters.
+-- Is called when the framework loads.
 function screen.init( w, h, flags )
 	screen.settings = flags
 	screen.width = w
@@ -33,6 +35,10 @@ function screen.init( w, h, flags )
 	screen.resize( w, h )
 end
 
+--- Set the default render dimensions of your game.
+-- Independent of window size.
+-- @number w render width
+-- @number h render height
 function screen.setDefaultRenderDimensions( w, h )
 	screen.transform.defaultRenderWidth = w
 	screen.transform.defaultRenderHeight = h
@@ -40,6 +46,9 @@ function screen.setDefaultRenderDimensions( w, h )
 	screen.resize( lw.getMode() )
 end
 
+--- Set the scaling type. See @{constants.SCREEN_SCALE|SCREEN_SCALE constants}.
+-- @tparam SCREEN_SCALE stype scaling type
+-- @usage screen.setScaleType( SCREEN_SCALE.FIT_LETTERBOX )
 function screen.setScaleType( stype )
 	local exists = false
 	for k, v in pairs( SCREEN_SCALE ) do
@@ -53,6 +62,7 @@ function screen.setScaleType( stype )
 	screen.resize( lw.getMode() )
 end
 
+--- INTERNAL - Update display information. Stores display count and width, height and available fullscreen modes per display.
 function screen.updateDisplays()
 	screen.displays = {}
 	screen.displayCount = lw.getDisplayCount()
@@ -64,6 +74,11 @@ function screen.updateDisplays()
 	end
 end
 
+--- Set screen mode.
+-- Replaces [love.window.setMode](https://www.love2d.org/wiki/love.window.setMode). Same parameters.
+-- @number w screen width
+-- @number h screen height
+-- @tparam table flags screen settings
 function screen.set( w, h, flags )
 	screen.width = w or screen.width
 	screen.height = h or screen.height
@@ -82,10 +97,11 @@ function screen.set( w, h, flags )
 	return res
 end
 
+--- INTERNAL - Is called before everything draws.
 function screen.preDraw()
 	lg.push()
-	love.graphics.setBackgroundColor( 0, 0, 0, 0 )
-	love.graphics.clear()
+	lg.setBackgroundColor( 0, 0, 0, 0 )
+	lg.clear()
 	lg.translate(screen.transform.translateX, screen.transform.translateY)
 	lg.scale(screen.transform.scaleX, screen.transform.scaleY)
 	if (force_aspect_ratio) then
@@ -93,28 +109,42 @@ function screen.preDraw()
 	end
 end
 
+--- INTERNAL - Is called after everything draws.
 function screen.postDraw()
-	love.graphics.setScissor()
+	lg.setScissor()
 	lg.pop()
 end
 
+--- Get screen render width.
+-- @treturn number render width
 function screen.getRenderWidth()
 	return screen.transform.renderWidth	
 end
 
+--- Get screen render height.
+-- @treturn number render width
 function screen.getRenderHeight()	
 	return screen.transform.renderHeight	
 end
 
+--- Get screen aspect ratio.
+-- @treturn number aspect ratio ( width / height )
 function screen.getAspectRatio()	
 	return screen.transform.aspectRatio	
 end
 
+--- Get the mouse position.
+-- Replaces [love.mouse.getPosition](https://www.love2d.org/wiki/love.mouse.getPosition).
+-- @treturn number x
+-- @treturn number y
 function screen.getMousePosition()
-	local mx, my = love.mouse.getPosition()
+	local mx, my = lm.getPosition()
 	return (mx - screen.transform.translateX) / screen.transform.scaleX, (my - screen.transform.translateY) / screen.transform.scaleY	
 end
 
+--- INTERNAL -  Called when the screen size changes.
+-- @number w new width
+-- @number h new height
 function screen.resize( w, h )
 	local sst = screen.scaleType
 	local ratio = w / h

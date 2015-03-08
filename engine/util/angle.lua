@@ -29,7 +29,7 @@ function angle.normalize( r )
 end
 local normalize = angle.normalize
 
---- Rotates angle by given radians, normalizes angle after (between -pi and pi).
+--- Rotates angle by given radians, normalizes angle after.
 -- @number r1 angle (radians)
 -- @number r2 angle (radians) to rotate by
 -- @treturn number new angle (radians)

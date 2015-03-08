@@ -1,5 +1,5 @@
 # 
-# Heading
+# Intro
 Test text, and some formatting experiments.
 
 [Markdown formatting](https://help.github.com/articles/markdown-basics/)
@@ -17,3 +17,5 @@ Block of text
 ```
 
 Need some final text or ldoc will flip
+
+Functions marked "INTERNAL" should not be called, they are usually handled by the framework.
