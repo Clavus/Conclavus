@@ -3,6 +3,7 @@
 -- The game camera managed by the @{Level} instance.
 -- @cl Camera
 
+--- @type Camera
 local Camera = class("Camera", Entity)
 Camera:include( Rotatable )
 Camera:include( Scalable )

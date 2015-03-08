@@ -1,6 +1,8 @@
 
+-- Example of your main gamestate, handling creation of the level and its entities, and setting up input callbacks.
+
 local play = gamestate.new()
-local gui, level, player, world, physics
+local gui, level, player, world, physics, input
 
 function play:init()
 
@@ -13,7 +15,9 @@ function play:init()
 	-- Set up example
 	player = level:createEntity("SpaceShip")
 	player:setPos( 0, 0 )
-	
+	--Get input controller
+	input = getInput()
+		
 	input:addMousePressCallback( "zoomin", MOUSE.WHEELUP, function()
 		local cam = level:getCamera()
 		local sx, sy = cam:getScale()
@@ -75,9 +79,5 @@ function play:draw()
 	love.graphics.print( "["..math.round(mwx)..", "..math.round(mwy).."]", mx + 8, my )
 end
 
-
-function play:createLevelEntity( level, entData )
-	
-end
 
 return play

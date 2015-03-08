@@ -22,12 +22,13 @@ function Level:initialize( leveldata )
 end
 
 --- Spawn all objects passed with the @{LevelData} provided during creation.
+-- Emits the "SpawnLevelObject" signal with signature *function( (Level) level, (table) objectData )* for every loaded object.
 function Level:spawnObjects()
-	local objects = nil
 	if (self._leveldata) then
-		objects = self._leveldata.objects
+		for k, v in pairs( self._leveldata.objects ) do
+			signal.emit( "SpawnLevelObject", self, v )
+		end
 	end
-	self._entManager:loadLevelObjects(objects)
 end
 
 --- Updates level camera, physics and all entities.

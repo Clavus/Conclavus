@@ -3,6 +3,7 @@
 -- A static wall in your environment.
 -- @cl Wall
 
+--- @type Wall
 local Wall = class("Wall", Entity)
 Wall:include(PhysicsBody)
 

@@ -1,8 +1,33 @@
+------------------------
+-- The main file of your game.
+-- Receives a few callbacks forwarded by the [LÖVE callbacks](https://www.love2d.org/wiki/love#Callbacks).
+-- These include:
+--
+-- * game.load() (REQUIRED)
+-- * game.update( dt ) (REQUIRED)
+-- * game.draw() (REQUIRED)
+-- * game.focus( f )
+-- * game.mousefocus( f )
+-- * game.visible( v )
+-- * game.quit()
+-- @other game
 
+-- two test gamestates
 local playState = require("game/gamestate_play")
 local menuState = require("game/gamestate_menu")
+local input
 
 function game.load()
+	input = getInput()
+	
+	signal.register( "SpawnLevelObject", function( trigger, other, contact )
+		-- spawn level objects
+	end)
+
+	signal.register( "Trigger", function( trigger, other, contact )
+		-- handles triggers
+	end)
+
 	gamestate.switch( playState )
 end
 
@@ -19,16 +44,6 @@ function game.draw()
 	love.graphics.setBackgroundColor( 30, 30, 40 )
 	love.graphics.clear()
 	gamestate.drawStack()
-end
-
-function game.handleTrigger( trigger, other, contact, trigger_type, ...)
-	-- function called by Trigger entities upon triggering. Return true to disable the trigger.
-	return (gamestate.handleTrigger or nilfunction)( trigger, other, contact, trigger_type, ...)
-end
-
-
-function game.createLevelEntity( level, entData )
-	return (gamestate.createLevelEntity or nilfunction)( level, entData )
 end
 
 function game.openMenu()

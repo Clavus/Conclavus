@@ -12,14 +12,6 @@ function EntityManager:initialize( level )
 	self._level = level
 end
 
-function EntityManager:loadLevelObjects( levelobjects )
-	if (levelobjects and game.createLevelEntity) then
-		for i,v in ipairs(levelobjects) do
-			game.createLevelEntity(self._level, v)
-		end
-	end
-end
-
 function EntityManager:createEntity( class, ...)
 	--print("Creating entity of "..tostring(class))
 	local ent

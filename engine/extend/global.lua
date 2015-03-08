@@ -55,3 +55,10 @@ end
 function words(text)
 	return split(text,' ')
 end
+
+--- Get the global input controller.
+-- @treturn InputController global input controller
+-- @see InputController
+function getInput()
+	return _inputController()
+end

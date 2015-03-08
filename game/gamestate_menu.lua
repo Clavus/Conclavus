@@ -1,4 +1,6 @@
 
+-- Example of a menu gamestate.
+
 local menu = gamestate.new()
 
 function menu:init()

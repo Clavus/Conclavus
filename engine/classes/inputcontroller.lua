@@ -1,7 +1,8 @@
 ------------------------
--- Input controller. Allows you to check for various input, add callbacks to certain input, bind input to actions, etc.
+-- Input controller. Enables you to check for various input, add callbacks to certain input, bind input to actions, etc.
 -- @cl InputController
 
+--- @type InputController
 local InputController = class("InputController")
 
 -- cache functions
