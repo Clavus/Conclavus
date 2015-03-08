@@ -4,17 +4,30 @@
 
 local util = {}
 
-function util.getPathFromFilename( file_path, sep )
+--- Get the path from a file path.
+-- @string filepath path to file
+-- @string[opt='/'] sep path seperator
+-- @treturn string path
+-- @usage local path = util.getPathFromFilePath( "C:/test/myfile.lua" ) -- Returns "C:/test/"
+function util.getPathFromFilePath( filepath, sep )
 	sep = sep or '/'
-  return file_path:match("(.*"..sep..")")	
+  return filepath:match("(.*"..sep..")")	
 end
 
+--- Choose a random parameter from the provided parameters
+-- @param ... multiple parameters
+-- @return random parameters
+-- @usage local param = util.choose("Five", 5, Vector(0,5)) -- Returns either the string, number or vector
 function util.choose( ... )
 	local arg = {...}
 	return arg[math.random(1,#arg)]
 end
 
-function util.weightedChoice( ... ) -- in format util.weightedChoice("duck", 20, "cat", 10). "duck" is twice as likely to be chosen
+--- Choose a weighted random parameter from the provided parameters and weights.
+-- @param ... multiple parameters and weights, with weights on the even indices
+-- @return random parameters
+-- @usage local param = util.weightedChoice("duck", 20, "cat", 10) -- String "duck" is twice as likely to be returned than "cat"
+function util.weightedChoice( ... ) 
 	local sum = 0
 	local t = {...}
 	local choices = {}
@@ -38,12 +51,19 @@ function util.weightedChoice( ... ) -- in format util.weightedChoice("duck", 20,
 	end	
 end
 
+--- Turn a list of parameters into a sequential table.
+-- @param ... list of parameters
+-- @treturn table table containing parameters
 function util.array(...)
 	local t = {}
 	for x in unpack({...}) do t[#t + 1] = x end
 	return t	
 end
 
+--- Returns if every parameter equals the specified value.
+-- @param value
+-- @param list of parameters
+-- @treturn bool true if every parameter equals the value
 function util.equalsAll(value, ...)
 	for _, v in ipairs({...}) do
 		if value ~= v then return false end
@@ -51,6 +71,10 @@ function util.equalsAll(value, ...)
 	return true
 end
 
+--- Returns if any of the parameters equals the specified value.
+-- @param value
+-- @param list of parameters
+-- @treturn bool true if at least one parameter equals the value
 function util.equalsAny(value, ...)
 	for _, v in ipairs({...}) do
 		if value == v then return true end
@@ -58,10 +82,16 @@ function util.equalsAny(value, ...)
 	return false
 end
 
+--- Toggles between 0 and 1.
+-- @number x 0 or 1
+-- @treturn number 0 or 1
 function util.toggle( x )	
 	return 1 - math_abs(1 - x % 2)
 end
 
+--- Runs the string as lua code.
+-- Throws assertion if there's an error.
+-- @string str lua code to run
 function util.lua( str ) -- executes the string
 	return assert((loadstring or load)(str))()	
 end
@@ -69,6 +99,10 @@ end
 local memoize_fnkey = {}
 local memoize_nil = {}
 
+--- Wraps the specified function, caching results based on set of parameters.
+-- Useful for functions that do deterministic and complex operations that can be sped up by caching the results for subsequent calls.
+-- @tparam function fn function to wrap
+-- @treturn function wrapped function
 function util.memoize( fn )
 	local cache = {}
 	return function(...)
@@ -83,6 +117,10 @@ function util.memoize( fn )
 	end
 end
 
+--- Reads particle system configuration.
+-- Looks for the particle system in the directory stored in @{constants.FOLDER|FOLDER.PARTICLESYSTEMS}. Returns a [ParticleSystem](https://www.love2d.org/wiki/ParticleSystem).
+-- @string name name of particle system
+-- @treturn ParticleSystem particle system
 function util.readParticleSystem( name )
 	local ps_data = require(name)
 	local particle_settings = {}
@@ -149,6 +187,7 @@ function util.readParticleSystem( name )
 	return ps
 end
 
+--- Opens the save directory in the user's operating system.
 function util.openSaveDirectory()
 	love.system.openURL("file://"..love.filesystem.getSaveDirectory())
 end
