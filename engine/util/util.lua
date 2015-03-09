@@ -15,7 +15,7 @@ function util.getPathFromFilePath( filepath, sep )
 end
 
 --- Choose a random parameter from the provided parameters
--- @param ... multiple parameters
+-- @tparam mixed ... multiple parameters
 -- @return random parameters
 -- @usage local param = util.choose("Five", 5, Vector(0,5)) -- Returns either the string, number or vector
 function util.choose( ... )
@@ -24,7 +24,7 @@ function util.choose( ... )
 end
 
 --- Choose a weighted random parameter from the provided parameters and weights.
--- @param ... multiple parameters and weights, with weights on the even indices
+-- @tparam mixed ... multiple parameters and weights, with weights on the even indices
 -- @return random parameters
 -- @usage local param = util.weightedChoice("duck", 20, "cat", 10) -- String "duck" is twice as likely to be returned than "cat"
 function util.weightedChoice( ... ) 
@@ -52,7 +52,7 @@ function util.weightedChoice( ... )
 end
 
 --- Turn a list of parameters into a sequential table.
--- @param ... list of parameters
+-- @tparam mixed ... list of parameters
 -- @treturn table table containing parameters
 function util.array(...)
 	local t = {}

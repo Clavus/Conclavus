@@ -12,7 +12,7 @@ end
 
 --- Executes a function and records the time it takes.
 -- @tparam function func function to execute
--- @param ... function parameters
+-- @tparam mixed ... function parameters
 -- @treturn number execution time (seconds)
 -- @treturn ... function return result
 function debug.time( func, ... )

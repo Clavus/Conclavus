@@ -167,7 +167,7 @@ end
 --- Calls a function on every value in the table.
 -- @tparam table t table
 -- @tparam ?string|function func either a string or function in format *function( key, value, ... )*, which is called on every value in the table
--- @param ... additional parameters to be passed to the function call
+-- @tparam mixed ... additional parameters to be passed to the function call
 -- @treturn table table t
 -- @usage local numbers = { "one", "two", "three" }
 -- table.forEach( numbers, function( k, v ) numbers[k] = v.."s" end )
