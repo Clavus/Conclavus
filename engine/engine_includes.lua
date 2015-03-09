@@ -63,3 +63,5 @@ local toload = {
 	{ Camera = 							"engine/classes/entity/camera" },
 }
 package.loadSwappable( toload )
+
+Object = class.Object -- make middleclass Object global

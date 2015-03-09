@@ -7,10 +7,11 @@
 
 --- @type PhysicsBody
 local PhysicsBody = {}
+local lp = love.physics
 
 function PhysicsBody:initialize( world, btype )
 	btype = btype or "dynamic"
-	self._body = love.physics.newBody(world, 0, 0, btype)
+	self._body = lp.newBody(world, 0, 0, btype)
 	self._body:setUserData( self )
 end
 

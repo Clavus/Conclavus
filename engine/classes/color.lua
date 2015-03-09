@@ -1,6 +1,8 @@
 ------------------------
 -- Color class.
 -- For bringing color to your life.
+-- 
+-- Derived from @{Object}.
 -- @cl Color
 
 local Color = class('Color')

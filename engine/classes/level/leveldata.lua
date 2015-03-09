@@ -1,6 +1,8 @@
 ------------------------
 -- LevelData class.
 -- Base class for level data to pass to your @{Level} instance.
+-- 
+-- Derived from @{Object}.
 -- @cl LevelData
 
 local LevelData = class('LevelData')

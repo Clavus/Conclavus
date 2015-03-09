@@ -1,6 +1,8 @@
 ------------------------
--- Wall class. Derived from @{Entity}.
+-- Wall class.
 -- A static wall in your environment.
+-- 
+-- Derived from @{Entity}.
 -- @cl Wall
 
 --- @type Wall

@@ -1,6 +1,8 @@
 ------------------------
--- Level class.
+-- Level class. Parent class: @{Object}.
 -- Manages your game scene.
+-- 
+-- Derived from @{Object}.
 -- @cl Level
 
 --- @type Level
@@ -17,7 +19,6 @@ function Level:initialize( leveldata )
 		self._physics_system = PhysicsSystem()
 		self._pixels_per_meter = leveldata.physics.pixels_per_meter
 		love.physics.setMeter(self._pixels_per_meter)
-		self._physics_system:initDefaultCollisionCallbacks()
 	end
 end
 

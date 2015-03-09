@@ -1,6 +1,8 @@
 ------------------------
 -- Camera class. Derived from @{Entity}.
 -- The game camera managed by the @{Level} instance.
+-- 
+-- Derived from @{Entity}.
 -- @cl Camera
 
 --- @type Camera

@@ -1,5 +1,8 @@
 ------------------------
--- Input controller. Enables you to check for various input, add callbacks to certain input, bind input to actions, etc.
+-- Input controller.
+-- Enables you to check for various input, add callbacks to certain input, bind input to actions, etc.
+-- 
+-- Derived from @{Object}.
 -- @cl InputController
 
 --- @type InputController

@@ -1,6 +1,8 @@
 ------------------------
 -- GUI class.
 -- For quickly sticking things on your screen.
+-- 
+-- Derived from @{Object}.
 -- @cl GUI
 
 local GUI = class("GUI")

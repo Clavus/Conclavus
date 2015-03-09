@@ -5,10 +5,16 @@
 local clock = os.clock
 local lg = love.graphics
 
+--- Prints loaded modules to console.
 function debug.printLoadedPackages()
 	print(table.toString( package.loaded, "package.loaded", true, 1 ))
 end
 
+--- Executes a function and records the time it takes.
+-- @tparam function func function to execute
+-- @param ... function parameters
+-- @treturn number execution time (seconds)
+-- @treturn ... function return result
 function debug.time( func, ... )
 	local start = clock()
 	local rtn = { func(...) }
@@ -17,12 +23,18 @@ end
 
 local benchmarks = {}
 
+--- Starts a benchmark.
+-- @string name benchmark identifier
 function debug.benchmarkStart( name )
 	assert(benchmarks[name] == nil, "Benchmark '"..name.."' has already started!")
 	benchmarks[name] = clock()
 end
 
--- message can use tokens {name} and {time} to print name and time
+--- Stops a benchmark and prints the execution time.
+-- Mssage can use 
+-- @string name benchmark identifier
+-- @string[opt] message message to print. Use tokens {name} and {time} to print name and time.
+-- @tparam[opt] function condition_func condition function, signature *function(benchmarktime)*. Only print message if it returns true. Useful for only printing messages if execution time exceeds a value.
 function debug.benchmarkStop( name, message, condition_func )
 	message = message or "Benchmark '{name}' time: {time}"
 	assert(benchmarks[name] ~= nil, "Benchmark '"..name.."' is not active")
@@ -33,6 +45,9 @@ function debug.benchmarkStop( name, message, condition_func )
 	benchmarks[name] = nil
 end
 
+--- Draw the physics world.
+-- Including bodies, fixtures, joints and contacts.
+-- @tparam World world [physics world](https://www.love2d.org/wiki/World)
 function debug.drawPhysicsWorld( world )
 	collectgarbage()
 	collectgarbage()

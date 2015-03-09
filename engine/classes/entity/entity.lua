@@ -1,6 +1,8 @@
 ------------------------
 -- Entity class.
--- Should be the base class of pretty much all your game objects.
+-- Base class of pretty much all your game objects.
+-- 
+-- Derived from @{Object}.
 -- @cl Entity
 
 --- @type Entity

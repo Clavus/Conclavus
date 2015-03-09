@@ -1,6 +1,8 @@
 ------------------------
 -- SpriteData class.
 -- Food for @{Sprite|sprites}.
+-- 
+-- Derived from @{Object}.
 -- @cl SpriteData
 
 local SpriteData = class("SpriteData")

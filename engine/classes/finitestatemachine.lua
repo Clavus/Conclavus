@@ -1,6 +1,8 @@
 ------------------------
 -- FiniteStateMachine class.
 -- For doing some behaviour logic.
+-- 
+-- Derived from @{Object}.
 -- @cl FiniteStateMachine
 
 local FiniteStateMachine = class("FiniteStateMachine")

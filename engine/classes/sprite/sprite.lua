@@ -1,6 +1,8 @@
 ------------------------
 -- Sprite class.
 -- Your standard animated sprite class.
+-- 
+-- Derived from @{Object}.
 -- @cl Sprite
 
 local Sprite = class("Sprite")

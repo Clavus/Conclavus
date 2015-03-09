@@ -79,5 +79,4 @@ function play:draw()
 	love.graphics.print( "["..math.round(mwx)..", "..math.round(mwy).."]", mx + 8, my )
 end
 
-
 return play

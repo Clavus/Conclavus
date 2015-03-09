@@ -1,6 +1,8 @@
 ------------------------
--- Trigger class. Derived from @{Wall}, but turns the physics bodies into sensors.
--- Emits the "Trigger" signal with signature *function( (Trigger) trigger, (object) other, (Contact) contact)* when another object collides with it.
+-- Trigger class.
+-- Emits the "Trigger" signal with signature *function( (Trigger) trigger, (object) other, (Contact) contact)* when another object collides with it, but does not produce a collision response.
+-- 
+-- Derived from @{Wall}.
 -- @cl Trigger
 
 --- @type Trigger
