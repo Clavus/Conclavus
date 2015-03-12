@@ -20,7 +20,7 @@ local input
 function game.load()
 	input = getInput()
 	
-	signal.register( "SpawnLevelObject", function( trigger, other, contact )
+	signal.register( "SpawnLevelObject", function( level, object )
 		-- spawn level objects
 	end)
 
