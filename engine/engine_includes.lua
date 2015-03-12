@@ -14,7 +14,6 @@ local toload = {
 	{ class = 					"engine/lib/middleclass/middleclass" },
 	{ timer = 					"engine/lib/hump/timer" },
 	{ signal = 					"engine/lib/hump/signal" },
-	{ gamestate = 			"engine/lib/hump/gamestate" },
 	{ mlib = 						"engine/lib/mlib/mlib" },
 	{ noise =						"engine/lib/lovenoise/lovenoise" },
 	
@@ -27,6 +26,7 @@ local toload = {
 	{ resource = 				"engine/util/resource" },
 	{ graphics = 				"engine/util/graphics" },
 	{ steering = 				"engine/util/steering" },
+	{ gamestate = 			"engine/util/hump/gamestate" },
 	
 	-- Other libraries
 	{ lovebird =				"engine/lib/lovebird/lovebird" },

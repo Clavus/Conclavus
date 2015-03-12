@@ -6,7 +6,7 @@ local _input
 
 local lw = love.window
 
-nilfunction = function() end -- null function so you can do "(a or nilfunction)(...)"  instead of "if (a != nil) then a(...) end".
+__NULL__ = function() end -- null function so you can do "(a or __NULL__)(...)"  instead of "if (a != nil) then a(...) end".
 currentTime = function() return _curTime end
 
 local oldprint = print
@@ -78,7 +78,7 @@ function love.mousereleased(x, y, button)
 end
 
 function love.mousemoved( x, y, dx, dy )
-	(game.mousemoved or nilfunction)(x, y, dx, dy)
+	(game.mousemoved or __NULL__)(x, y, dx, dy)
 end
 
 function love.keypressed(key, unicode)
@@ -121,18 +121,18 @@ function love.textinput(text)
 end
 
 function love.focus( f )
-	(game.focus or nilfunction)( f )
+	(game.focus or __NULL__)( f )
 end
 
 function love.mousefocus( f )
-	(game.mousefocus or nilfunction)( f )
+	(game.mousefocus or __NULL__)( f )
 end
 
 function love.visible( v )
-	(game.visible or nilfunction)( v )
+	(game.visible or __NULL__)( v )
 end
 
 function love.quit()
-	(game.quit or nilfunction)()
+	(game.quit or __NULL__)()
 end
 
