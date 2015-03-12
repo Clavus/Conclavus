@@ -33,19 +33,19 @@ function Registry:clear(...)
 	end
 end
 
-function Registry:emit_pattern(p, ...)
+function Registry:emitPattern(p, ...)
 	for s in pairs(self) do
 		if s:match(p) then self:emit(s, ...) end
 	end
 end
 
-function Registry:remove_pattern(p, ...)
+function Registry:removePattern(p, ...)
 	for s in pairs(self) do
 		if s:match(p) then self:remove(s, ...) end
 	end
 end
 
-function Registry:clear_pattern(p)
+function Registry:clearPattern(p)
 	for s in pairs(self) do
 		if s:match(p) then self[s] = {} end
 	end

@@ -20,14 +20,14 @@ function Timer:update(dt)
 	end
 end
 
-function Timer:do_for(delay, func, after)
+function Timer:doFor(delay, func, after)
 	local handle = {func = func, after = after or _nothing_}
 	self.functions[handle] = delay
 	return handle
 end
 
 function Timer:add(delay, func)
-	return self:do_for(delay, _nothing_, func)
+	return self:doFor(delay, _nothing_, func)
 end
 
 function Timer:addPeriodic(delay, func, count)
@@ -108,7 +108,7 @@ __call = function(tween, self, len, subject, target, method, after, ...)
 	local payload, t, args = tween_collect_payload(subject, target, {}), 0, {...}
 
 	local last_s = 0
-	return self:do_for(len, function(dt)
+	return self:doFor(len, function(dt)
 		t = t + dt
 		local s = method(math.min(1, t/len), unpack(args))
 		local ds = s - last_s
@@ -147,7 +147,7 @@ local function new()
 	return setmetatable({
 		new         = new,
 		update      = function(...) return timer:update(...) end,
-		do_for      = function(...) return timer:do_for(...) end,
+		doFor      = function(...) return timer:doFor(...) end,
 		add         = function(...) return timer:add(...) end,
 		addPeriodic = function(...) return timer:addPeriodic(...) end,
 		cancel      = function(...) return timer:cancel(...) end,
