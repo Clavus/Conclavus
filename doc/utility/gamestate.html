@@ -38,9 +38,9 @@
 
 <h2>Utility</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><strong>angle</strong></li>
+  <li><a href="../utility/angle.html">angle</a></li>
   <li><a href="../utility/easing.html">easing</a></li>
-  <li><a href="../utility/gamestate.html">gamestate</a></li>
+  <li><strong>gamestate</strong></li>
   <li><a href="../utility/graphics.html">graphics</a></li>
   <li><a href="../utility/resource.html">resource</a></li>
   <li><a href="../utility/screen.html">screen</a></li>
@@ -113,34 +113,36 @@
 
 <div id="content">
 
-<h1>Util <code>angle</code></h1>
-<p>Angle functions.</p>
-<p>
-
-</p>
+<h1>Util <code>gamestate</code></h1>
+<p>Gamestate management functions.</p>
+<p> Based on <a href="http://vrld.github.io/hump/#hump.gamestate">hump.gamestate</a>.</p>
 
 
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#forward">forward (r)</a></td>
-	<td class="summary">Get forward vector of the given angle.</td>
+	<td class="name" nowrap><a href="#new">new ([parent])</a></td>
+	<td class="summary">Create new gamestate.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#normalize">normalize (r)</a></td>
-	<td class="summary">Normalizes the angle to between -pi and pi radians (-180 to 180 degrees).</td>
+	<td class="name" nowrap><a href="#switch">switch (to, ...)</a></td>
+	<td class="summary">Switch to a gamestate.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#rotate">rotate (r1, r2)</a></td>
-	<td class="summary">Rotates angle by given radians, normalizes angle after.</td>
+	<td class="name" nowrap><a href="#push">push (to, ...)</a></td>
+	<td class="summary">Push a new gamestate on the stack.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#rotateTo">rotateTo (r1, r2, incr)</a></td>
-	<td class="summary">Rotates angle towards another angle with a given increment.</td>
+	<td class="name" nowrap><a href="#pop">pop (...)</a></td>
+	<td class="summary">Pops the current state, switching back to the one below.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#lerp">lerp (r1, r2, frac)</a></td>
-	<td class="summary">Lerps from one angle to another by the given fraction.</td>
+	<td class="name" nowrap><a href="#current">current ()</a></td>
+	<td class="summary">Get current gamestate.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#drawStack">drawStack ()</a></td>
+	<td class="summary">Draw all gamestates on the stack.</td>
 	</tr>
 </table>
 
@@ -152,26 +154,27 @@
 
     <dl class="function">
     <dt>
-    <a name = "forward"></a>
-    <strong>forward (r)</strong>
+    <a name = "new"></a>
+    <strong>new ([parent])</strong>
     </dt>
     <dd>
-    Get forward vector of the given angle.
+    Create new gamestate.
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">r</span>
-            <span class="types"><span class="type">number</span></span>
-         angle (radians)
+        <li><span class="parameter">parent</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         gamestate
+         (<em>optional</em>)
         </li>
     </ul>
 
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><span class="type">Vector</span></span>
-        forward vector
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        gamestate table
     </ol>
 
 
@@ -179,26 +182,31 @@
 
 </dd>
     <dt>
-    <a name = "normalize"></a>
-    <strong>normalize (r)</strong>
+    <a name = "switch"></a>
+    <strong>switch (to, ...)</strong>
     </dt>
     <dd>
-    Normalizes the angle to between -pi and pi radians (-180 to 180 degrees).
+    Switch to a gamestate.
+ Switching a gamestate will call the leave() callback on the current gamestate, replace the current gamestate with to, call the init() function if the state was not yet inialized and finally call enter(old_state, ...) on the new gamestate.
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">r</span>
-            <span class="types"><span class="type">number</span></span>
-         angle (radians)
+        <li><span class="parameter">to</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         target gamestate
+        </li>
+        <li><span class="parameter">...</span>
+            <span class="types"><span class="type">mixed</span></span>
+         parameters to pass to to:enter(current,...)
         </li>
     </ul>
 
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><span class="type">number</span></span>
-        new angle (radians)
+           <span class="types"><span class="type">results</span></span>
+        of to:enter(current, ...)
     </ol>
 
 
@@ -206,30 +214,32 @@
 
 </dd>
     <dt>
-    <a name = "rotate"></a>
-    <strong>rotate (r1, r2)</strong>
+    <a name = "push"></a>
+    <strong>push (to, ...)</strong>
     </dt>
     <dd>
-    Rotates angle by given radians, normalizes angle after.
+    Push a new gamestate on the stack.
+ Pushes the to on top of the state stack, i.e. makes it the active state. Semantics are the same as switch(to, ...), except that leave() is not called on the previously active state.
+ Useful for pause screens, menus, etc.
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">r1</span>
-            <span class="types"><span class="type">number</span></span>
-         angle (radians)
+        <li><span class="parameter">to</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         target gamestate
         </li>
-        <li><span class="parameter">r2</span>
-            <span class="types"><span class="type">number</span></span>
-         angle (radians) to rotate by
+        <li><span class="parameter">...</span>
+            <span class="types"><span class="type">mixed</span></span>
+         parameters to pass to to:enter(current,...)
         </li>
     </ul>
 
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><span class="type">number</span></span>
-        new angle (radians)
+           <span class="types"><span class="type">results</span></span>
+        of to:enter(current, ...)
     </ol>
 
 
@@ -237,34 +247,27 @@
 
 </dd>
     <dt>
-    <a name = "rotateTo"></a>
-    <strong>rotateTo (r1, r2, incr)</strong>
+    <a name = "pop"></a>
+    <strong>pop (...)</strong>
     </dt>
     <dd>
-    Rotates angle towards another angle with a given increment.
+    Pops the current state, switching back to the one below.
+ Calls leave() on the current state and then removes it from the stack, making the state below the current state and calls resume(...) on the activated state. Does not call enter() on the activated state.
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">r1</span>
-            <span class="types"><span class="type">number</span></span>
-         angle (radians)
-        </li>
-        <li><span class="parameter">r2</span>
-            <span class="types"><span class="type">number</span></span>
-         angle (radians) to rotate towards
-        </li>
-        <li><span class="parameter">incr</span>
-            <span class="types"><span class="type">number</span></span>
-         angle (radians) to increment from r1 to r2.
+        <li><span class="parameter">...</span>
+            <span class="types"><span class="type">mixed</span></span>
+         parameters to pass to the new state
         </li>
     </ul>
 
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><span class="type">number</span></span>
-        new angle (radians)
+           <span class="types"><span class="type">mixed</span></span>
+        results of new_state:resume(...)
     </ol>
 
 
@@ -272,35 +275,35 @@
 
 </dd>
     <dt>
-    <a name = "lerp"></a>
-    <strong>lerp (r1, r2, frac)</strong>
+    <a name = "current"></a>
+    <strong>current ()</strong>
     </dt>
     <dd>
-    Lerps from one angle to another by the given fraction.
+    Get current gamestate.
 
 
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">r1</span>
-            <span class="types"><span class="type">number</span></span>
-         angle (radians)
-        </li>
-        <li><span class="parameter">r2</span>
-            <span class="types"><span class="type">number</span></span>
-         angle (radians) to rotate towards
-        </li>
-        <li><span class="parameter">frac</span>
-            <span class="types"><span class="type">number</span></span>
-         fraction (between 0 and 1) to go from r1 to r2.
-        </li>
-    </ul>
 
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><span class="type">number</span></span>
-        new angle (radians)
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        current gamestate
     </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "drawStack"></a>
+    <strong>drawStack ()</strong>
+    </dt>
+    <dd>
+    Draw all gamestates on the stack.
+ Calls the .draw() function of all gamestates on the stack, from bottom to top.
+
+
+
 
 
 

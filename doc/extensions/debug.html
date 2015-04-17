@@ -30,6 +30,10 @@
   <li><a href="../index.html">Index</a></li>
 </ul>
 
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
 
 
 <h2>Extensions</h2>
@@ -60,6 +64,7 @@
   <li><a href="../classes/SpriteData.html">SpriteData</a></li>
   <li><a href="../classes/StateAnimatedSprite.html">StateAnimatedSprite</a></li>
   <li><a href="../classes/Vector.html">Vector</a></li>
+  <li><a href="../classes/Object.html">Object</a></li>
 </ul>
 <h2>Mixins</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
@@ -73,6 +78,7 @@
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../utility/angle.html">angle</a></li>
   <li><a href="../utility/easing.html">easing</a></li>
+  <li><a href="../utility/gamestate.html">gamestate</a></li>
   <li><a href="../utility/graphics.html">graphics</a></li>
   <li><a href="../utility/resource.html">resource</a></li>
   <li><a href="../utility/screen.html">screen</a></li>
@@ -80,15 +86,27 @@
   <li><a href="../utility/util.html">util</a></li>
   <li><a href="../utility/vector2d.html">vector2d</a></li>
 </ul>
+<h2>Libraries</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../libraries/lovebird.html">lovebird</a></li>
+  <li><a href="../libraries/loveframes.html">loveframes</a></li>
+  <li><a href="../libraries/loveloader.html">loveloader</a></li>
+  <li><a href="../libraries/noise.html">noise</a></li>
+  <li><a href="../libraries/middleclass.html">middleclass</a></li>
+  <li><a href="../libraries/signal.html">signal</a></li>
+  <li><a href="../libraries/timer.html">timer</a></li>
+</ul>
 <h2>Other</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../other/constants.html">constants</a></li>
   <li><a href="../other/global.html">global</a></li>
+  <li><a href="../other/game.html">game</a></li>
 </ul>
 <h2>Topics</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../topics/01-intro.md.html">01-intro</a></li>
   <li><a href="../topics/02-love_differences.md.html">02-love_differences</a></li>
+  <li><a href="../topics/03-signals.md.html">03-signals</a></li>
 </ul>
 
 </div>
@@ -102,18 +120,168 @@
 </p>
 
 
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#printLoadedPackages">printLoadedPackages ()</a></td>
+	<td class="summary">Prints loaded modules to console.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#time">time (func, ...)</a></td>
+	<td class="summary">Executes a function and records the time it takes.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#benchmarkStart">benchmarkStart (name)</a></td>
+	<td class="summary">Starts a benchmark.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#benchmarkStop">benchmarkStop (name[, message[, condition_func]])</a></td>
+	<td class="summary">Stops a benchmark and prints the execution time.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#drawPhysicsWorld">drawPhysicsWorld (world)</a></td>
+	<td class="summary">Draw the physics world.</td>
+	</tr>
+</table>
 
 <br/>
 <br/>
 
 
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "printLoadedPackages"></a>
+    <strong>printLoadedPackages ()</strong>
+    </dt>
+    <dd>
+    Prints loaded modules to console.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "time"></a>
+    <strong>time (func, ...)</strong>
+    </dt>
+    <dd>
+    Executes a function and records the time it takes.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">func</span>
+            <span class="types"><span class="type">function</span></span>
+         function to execute
+        </li>
+        <li><span class="parameter">...</span>
+            <span class="types"><span class="type">mixed</span></span>
+         function parameters
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        execution time (seconds)</li>
+        <li>
+           <span class="types"><span class="type">...</span></span>
+        function return result</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "benchmarkStart"></a>
+    <strong>benchmarkStart (name)</strong>
+    </dt>
+    <dd>
+    Starts a benchmark.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         benchmark identifier
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "benchmarkStop"></a>
+    <strong>benchmarkStop (name[, message[, condition_func]])</strong>
+    </dt>
+    <dd>
+    Stops a benchmark and prints the execution time.
+ Mssage can use
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         benchmark identifier
+        </li>
+        <li><span class="parameter">message</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         message to print. Use tokens {name} and {time} to print name and time.
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">condition_func</span>
+            <span class="types"><span class="type">function</span></span>
+         condition function, signature <em>function(benchmarktime)</em>. Only print message if it returns true. Useful for only printing messages if execution time exceeds a value.
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "drawPhysicsWorld"></a>
+    <strong>drawPhysicsWorld (world)</strong>
+    </dt>
+    <dd>
+    Draw the physics world.
+ Including bodies, fixtures, joints and contacts.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">world</span>
+            <span class="types"><span class="type">World</span></span>
+         <a href="https://www.love2d.org/wiki/World">physics world</a>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
 
 
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
-<i style="float:right;">Last updated 2015-03-08 16:29:02 </i>
+<i style="float:right;">Last updated 2015-04-17 22:55:40 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

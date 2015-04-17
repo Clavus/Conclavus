@@ -32,6 +32,12 @@
 
 
 
+<h2>Other</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../other/constants.html">constants</a></li>
+  <li><a href="../other/global.html">global</a></li>
+  <li><strong>game</strong></li>
+</ul>
 <h2>Classes</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../classes/Color.html">Color</a></li>
@@ -48,7 +54,7 @@
   <li><a href="../classes/LevelData.html">LevelData</a></li>
   <li><a href="../classes/TiledLevelData.html">TiledLevelData</a></li>
   <li><a href="../classes/PhysicsSystem.html">PhysicsSystem</a></li>
-  <li><strong>Sprite</strong></li>
+  <li><a href="../classes/Sprite.html">Sprite</a></li>
   <li><a href="../classes/SpriteData.html">SpriteData</a></li>
   <li><a href="../classes/StateAnimatedSprite.html">StateAnimatedSprite</a></li>
   <li><a href="../classes/Vector.html">Vector</a></li>
@@ -92,12 +98,6 @@
   <li><a href="../libraries/signal.html">signal</a></li>
   <li><a href="../libraries/timer.html">timer</a></li>
 </ul>
-<h2>Other</h2>
-<ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><a href="../other/constants.html">constants</a></li>
-  <li><a href="../other/global.html">global</a></li>
-  <li><a href="../other/game.html">game</a></li>
-</ul>
 <h2>Topics</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../topics/01-intro.md.html">01-intro</a></li>
@@ -109,11 +109,23 @@
 
 <div id="content">
 
-<h1>Cl <code>Sprite</code></h1>
-<p>Sprite class.</p>
-<p> Your standard animated sprite class.</p>
+<h1>Other <code>game</code></h1>
+<p>The main file of your game.</p>
+<p>
 
-<p> Derived from <a href="../classes/Object.html#">Object</a>.</p>
+<p> Receives a few callbacks forwarded by the <a href="https://www.love2d.org/wiki/love#Callbacks">LÖVE callbacks</a>.
+ These include:</p>
+
+<ul>
+    <li>game.load() (REQUIRED)</li>
+    <li>game.update( dt ) (REQUIRED)</li>
+    <li>game.draw() (REQUIRED)</li>
+    <li>game.focus( f )</li>
+    <li>game.mousefocus( f )</li>
+    <li>game.visible( v )</li>
+    <li>game.quit()</li>
+</ul>
+</p>
 
 
 

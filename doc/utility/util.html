@@ -30,12 +30,17 @@
   <li><a href="../index.html">Index</a></li>
 </ul>
 
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
 
 
 <h2>Utility</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../utility/angle.html">angle</a></li>
   <li><a href="../utility/easing.html">easing</a></li>
+  <li><a href="../utility/gamestate.html">gamestate</a></li>
   <li><a href="../utility/graphics.html">graphics</a></li>
   <li><a href="../utility/resource.html">resource</a></li>
   <li><a href="../utility/screen.html">screen</a></li>
@@ -63,6 +68,7 @@
   <li><a href="../classes/SpriteData.html">SpriteData</a></li>
   <li><a href="../classes/StateAnimatedSprite.html">StateAnimatedSprite</a></li>
   <li><a href="../classes/Vector.html">Vector</a></li>
+  <li><a href="../classes/Object.html">Object</a></li>
 </ul>
 <h2>Mixins</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
@@ -80,15 +86,27 @@
   <li><a href="../extensions/string.html">string</a></li>
   <li><a href="../extensions/table.html">table</a></li>
 </ul>
+<h2>Libraries</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../libraries/lovebird.html">lovebird</a></li>
+  <li><a href="../libraries/loveframes.html">loveframes</a></li>
+  <li><a href="../libraries/loveloader.html">loveloader</a></li>
+  <li><a href="../libraries/noise.html">noise</a></li>
+  <li><a href="../libraries/middleclass.html">middleclass</a></li>
+  <li><a href="../libraries/signal.html">signal</a></li>
+  <li><a href="../libraries/timer.html">timer</a></li>
+</ul>
 <h2>Other</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../other/constants.html">constants</a></li>
   <li><a href="../other/global.html">global</a></li>
+  <li><a href="../other/game.html">game</a></li>
 </ul>
 <h2>Topics</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../topics/01-intro.md.html">01-intro</a></li>
   <li><a href="../topics/02-love_differences.md.html">02-love_differences</a></li>
+  <li><a href="../topics/03-signals.md.html">03-signals</a></li>
 </ul>
 
 </div>
@@ -102,18 +120,373 @@
 </p>
 
 
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#getPathFromFilePath">getPathFromFilePath (filepath[, sep='/'])</a></td>
+	<td class="summary">Get the path from a file path.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#choose">choose (...)</a></td>
+	<td class="summary">Choose a random parameter from the provided parameters</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#weightedChoice">weightedChoice (...)</a></td>
+	<td class="summary">Choose a weighted random parameter from the provided parameters and weights.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#array">array (...)</a></td>
+	<td class="summary">Turn a list of parameters into a sequential table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#equalsAll">equalsAll (value, list)</a></td>
+	<td class="summary">Returns if every parameter equals the specified value.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#equalsAny">equalsAny (value, list)</a></td>
+	<td class="summary">Returns if any of the parameters equals the specified value.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#toggle">toggle (x)</a></td>
+	<td class="summary">Toggles between 0 and 1.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#lua">lua (str)</a></td>
+	<td class="summary">Runs the string as lua code.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#memoize">memoize (fn)</a></td>
+	<td class="summary">Wraps the specified function, caching results based on set of parameters.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#readParticleSystem">readParticleSystem (name)</a></td>
+	<td class="summary">Reads particle system configuration.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#openSaveDirectory">openSaveDirectory ()</a></td>
+	<td class="summary">Opens the save directory in the user's operating system.</td>
+	</tr>
+</table>
 
 <br/>
 <br/>
 
 
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "getPathFromFilePath"></a>
+    <strong>getPathFromFilePath (filepath[, sep='/'])</strong>
+    </dt>
+    <dd>
+    Get the path from a file path.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">filepath</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         path to file
+        </li>
+        <li><span class="parameter">sep</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         path seperator
+         (<em>default</em> '/')
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        path
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> path = util.getPathFromFilePath( <span class="string">"C:/test/myfile.lua"</span> ) -- Returns <span class="string">"C:/test/"</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "choose"></a>
+    <strong>choose (...)</strong>
+    </dt>
+    <dd>
+    Choose a random parameter from the provided parameters
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">...</span>
+            <span class="types"><span class="type">mixed</span></span>
+         multiple parameters
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        random parameters
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> param = util.choose(<span class="string">"Five"</span>, <span class="number">5</span>, Vector(<span class="number">0</span>,<span class="number">5</span>)) -- Returns either the <span class="global">string</span>, number <span class="keyword">or</span> vector</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "weightedChoice"></a>
+    <strong>weightedChoice (...)</strong>
+    </dt>
+    <dd>
+    Choose a weighted random parameter from the provided parameters and weights.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">...</span>
+            <span class="types"><span class="type">mixed</span></span>
+         multiple parameters and weights, with weights on the even indices
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        random parameters
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> param = util.weightedChoice(<span class="string">"duck"</span>, <span class="number">20</span>, <span class="string">"cat"</span>, <span class="number">10</span>) -- String <span class="string">"duck"</span> is twice as likely to be returned than <span class="string">"cat"</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "array"></a>
+    <strong>array (...)</strong>
+    </dt>
+    <dd>
+    Turn a list of parameters into a sequential table.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">...</span>
+            <span class="types"><span class="type">mixed</span></span>
+         list of parameters
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        table containing parameters
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "equalsAll"></a>
+    <strong>equalsAll (value, list)</strong>
+    </dt>
+    <dd>
+    Returns if every parameter equals the specified value.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">value</span>
+
+
+
+        </li>
+        <li><span class="parameter">list</span>
+         of parameters
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        true if every parameter equals the value
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "equalsAny"></a>
+    <strong>equalsAny (value, list)</strong>
+    </dt>
+    <dd>
+    Returns if any of the parameters equals the specified value.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">value</span>
+
+
+
+        </li>
+        <li><span class="parameter">list</span>
+         of parameters
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        true if at least one parameter equals the value
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "toggle"></a>
+    <strong>toggle (x)</strong>
+    </dt>
+    <dd>
+    Toggles between 0 and 1.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+            <span class="types"><span class="type">number</span></span>
+         0 or 1
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        0 or 1
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "lua"></a>
+    <strong>lua (str)</strong>
+    </dt>
+    <dd>
+    Runs the string as lua code.
+ Throws assertion if there's an error.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">str</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         lua code to run
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "memoize"></a>
+    <strong>memoize (fn)</strong>
+    </dt>
+    <dd>
+    Wraps the specified function, caching results based on set of parameters.
+ Useful for functions that do deterministic and complex operations that can be sped up by caching the results for subsequent calls.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">fn</span>
+            <span class="types"><span class="type">function</span></span>
+         function to wrap
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">function</span></span>
+        wrapped function
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "readParticleSystem"></a>
+    <strong>readParticleSystem (name)</strong>
+    </dt>
+    <dd>
+    Reads particle system configuration.
+ Looks for the particle system in the directory stored in <a href="../other/constants.html#FOLDER">FOLDER.PARTICLESYSTEMS</a>. Returns a <a href="https://www.love2d.org/wiki/ParticleSystem">ParticleSystem</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         name of particle system
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">ParticleSystem</span></span>
+        particle system
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "openSaveDirectory"></a>
+    <strong>openSaveDirectory ()</strong>
+    </dt>
+    <dd>
+    Opens the save directory in the user's operating system.
+
+
+
+
+
+
+
+</dd>
+</dl>
 
 
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
-<i style="float:right;">Last updated 2015-03-08 16:29:02 </i>
+<i style="float:right;">Last updated 2015-04-17 22:55:40 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

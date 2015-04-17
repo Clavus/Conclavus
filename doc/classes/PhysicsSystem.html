@@ -30,6 +30,10 @@
   <li><a href="../index.html">Index</a></li>
 </ul>
 
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
 
 
 <h2>Classes</h2>
@@ -52,6 +56,7 @@
   <li><a href="../classes/SpriteData.html">SpriteData</a></li>
   <li><a href="../classes/StateAnimatedSprite.html">StateAnimatedSprite</a></li>
   <li><a href="../classes/Vector.html">Vector</a></li>
+  <li><a href="../classes/Object.html">Object</a></li>
 </ul>
 <h2>Mixins</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
@@ -65,6 +70,7 @@
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../utility/angle.html">angle</a></li>
   <li><a href="../utility/easing.html">easing</a></li>
+  <li><a href="../utility/gamestate.html">gamestate</a></li>
   <li><a href="../utility/graphics.html">graphics</a></li>
   <li><a href="../utility/resource.html">resource</a></li>
   <li><a href="../utility/screen.html">screen</a></li>
@@ -80,15 +86,27 @@
   <li><a href="../extensions/string.html">string</a></li>
   <li><a href="../extensions/table.html">table</a></li>
 </ul>
+<h2>Libraries</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../libraries/lovebird.html">lovebird</a></li>
+  <li><a href="../libraries/loveframes.html">loveframes</a></li>
+  <li><a href="../libraries/loveloader.html">loveloader</a></li>
+  <li><a href="../libraries/noise.html">noise</a></li>
+  <li><a href="../libraries/middleclass.html">middleclass</a></li>
+  <li><a href="../libraries/signal.html">signal</a></li>
+  <li><a href="../libraries/timer.html">timer</a></li>
+</ul>
 <h2>Other</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../other/constants.html">constants</a></li>
   <li><a href="../other/global.html">global</a></li>
+  <li><a href="../other/game.html">game</a></li>
 </ul>
 <h2>Topics</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../topics/01-intro.md.html">01-intro</a></li>
   <li><a href="../topics/02-love_differences.md.html">02-love_differences</a></li>
+  <li><a href="../topics/03-signals.md.html">03-signals</a></li>
 </ul>
 
 </div>
@@ -99,19 +117,123 @@
 <p>PhysicsSystem class.</p>
 <p> Manages a physics Box2D physics <a href="https://www.love2d.org/wiki/World">World</a>. Automatically created if you set physics.active = true in the <a href="../classes/LevelData.html#">LevelData</a> passed to a <a href="../classes/Level.html#">Level</a>.</p>
 
+<p> Derived from <a href="../classes/Object.html#">Object</a>.</p>
 
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#update">update (dt)</a></td>
+	<td class="summary">Update physics system.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getWorld">getWorld ()</a></td>
+	<td class="summary">Get physics world object.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setCallbacks">setCallbacks (beginContact, endContact, preSolve, postSolve)</a></td>
+	<td class="summary">Set your own callbacks for collision solvers.</td>
+	</tr>
+</table>
 
 <br/>
 <br/>
 
 
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "update"></a>
+    <strong>update (dt)</strong>
+    </dt>
+    <dd>
+    Update physics system.  The <a href="../classes/Level.html#">Level</a> object handles this itself.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">dt</span>
+            <span class="types"><span class="type">number</span></span>
+         delta time
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "getWorld"></a>
+    <strong>getWorld ()</strong>
+    </dt>
+    <dd>
+    Get physics world object.  Use <a href="../classes/Level.html#Level:getPhysicsWorld">Level.getPhysicsWorld</a> when using a <a href="../classes/Level.html#">Level</a> object.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">World</span></span>
+        <a href="https://www.love2d.org/wiki/World">physics world</a>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setCallbacks"></a>
+    <strong>setCallbacks (beginContact, endContact, preSolve, postSolve)</strong>
+    </dt>
+    <dd>
+    Set your own callbacks for collision solvers.
+ See <a href="https://www.love2d.org/wiki/World:setCallbacks">World:setCallbacks</a> for more info. Note that setting these yourself overrides the functionality of the <a href="../mixins/CollisionResolver.html#">CollisionResolver</a> mixin.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">beginContact</span>
+            <span class="types"><span class="type">function</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">endContact</span>
+            <span class="types"><span class="type">function</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">preSolve</span>
+            <span class="types"><span class="type">function</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">postSolve</span>
+            <span class="types"><span class="type">function</span></span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
 
 
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
-<i style="float:right;">Last updated 2015-03-08 16:29:02 </i>
+<i style="float:right;">Last updated 2015-04-17 22:55:40 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

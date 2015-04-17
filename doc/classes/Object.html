@@ -30,6 +30,10 @@
   <li><a href="../index.html">Index</a></li>
 </ul>
 
+<h2>Contents</h2>
+<ul>
+<li><a href="#Class_Object">Class Object </a></li>
+</ul>
 
 
 <h2>Classes</h2>
@@ -48,11 +52,11 @@
   <li><a href="../classes/LevelData.html">LevelData</a></li>
   <li><a href="../classes/TiledLevelData.html">TiledLevelData</a></li>
   <li><a href="../classes/PhysicsSystem.html">PhysicsSystem</a></li>
-  <li><strong>Sprite</strong></li>
+  <li><a href="../classes/Sprite.html">Sprite</a></li>
   <li><a href="../classes/SpriteData.html">SpriteData</a></li>
   <li><a href="../classes/StateAnimatedSprite.html">StateAnimatedSprite</a></li>
   <li><a href="../classes/Vector.html">Vector</a></li>
-  <li><a href="../classes/Object.html">Object</a></li>
+  <li><strong>Object</strong></li>
 </ul>
 <h2>Mixins</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
@@ -109,18 +113,129 @@
 
 <div id="content">
 
-<h1>Cl <code>Sprite</code></h1>
-<p>Sprite class.</p>
-<p> Your standard animated sprite class.</p>
+<h1>Cl <code>Object</code></h1>
+<p>Object class
+ The parent class from which all other classes are derived.</p>
+<p> See the <a href="https://github.com/kikito/middleclass/wiki">middleclass documentation</a> for more information.</p>
 
-<p> Derived from <a href="../classes/Object.html#">Object</a>.</p>
 
-
+<h2><a href="#Class_Object">Class Object </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Object:instanceOf">Object:instanceOf (class)</a></td>
+	<td class="summary">Returns if object is an instance of the specified class.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Object:isSubclassOf">Object:isSubclassOf (class)</a></td>
+	<td class="summary">Returns if object is in a subclass of the specified class.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Object:includes">Object:includes (mixin)</a></td>
+	<td class="summary">Returns true if this object uses this mixin.</td>
+	</tr>
+</table>
 
 <br/>
 <br/>
 
 
+    <h2 class="section-header "><a name="Class_Object"></a>Class Object </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Object:instanceOf"></a>
+    <strong>Object:instanceOf (class)</strong>
+    </dt>
+    <dd>
+    Returns if object is an instance of the specified class.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">class</span>
+            <span class="types"><span class="type">class</span></span>
+
+
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+
+
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Object:isSubclassOf"></a>
+    <strong>Object:isSubclassOf (class)</strong>
+    </dt>
+    <dd>
+    Returns if object is in a subclass of the specified class.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">class</span>
+            <span class="types"><span class="type">class</span></span>
+
+
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+
+
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Object:includes"></a>
+    <strong>Object:includes (mixin)</strong>
+    </dt>
+    <dd>
+    Returns true if this object uses this mixin.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">mixin</span>
+            <span class="types"><span class="type">Mixin</span></span>
+
+
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+
+
+
+    </ol>
+
+
+
+
+</dd>
+</dl>
 
 
 </div> <!-- id="content" -->

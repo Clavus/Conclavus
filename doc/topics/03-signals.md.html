@@ -32,6 +32,12 @@
 
 
 
+<h2>Topics</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../topics/01-intro.md.html">01-intro</a></li>
+  <li><a href="../topics/02-love_differences.md.html">02-love_differences</a></li>
+  <li><strong>03-signals</strong></li>
+</ul>
 <h2>Classes</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../classes/Color.html">Color</a></li>
@@ -48,7 +54,7 @@
   <li><a href="../classes/LevelData.html">LevelData</a></li>
   <li><a href="../classes/TiledLevelData.html">TiledLevelData</a></li>
   <li><a href="../classes/PhysicsSystem.html">PhysicsSystem</a></li>
-  <li><strong>Sprite</strong></li>
+  <li><a href="../classes/Sprite.html">Sprite</a></li>
   <li><a href="../classes/SpriteData.html">SpriteData</a></li>
   <li><a href="../classes/StateAnimatedSprite.html">StateAnimatedSprite</a></li>
   <li><a href="../classes/Vector.html">Vector</a></li>
@@ -98,29 +104,32 @@
   <li><a href="../other/global.html">global</a></li>
   <li><a href="../other/game.html">game</a></li>
 </ul>
-<h2>Topics</h2>
-<ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><a href="../topics/01-intro.md.html">01-intro</a></li>
-  <li><a href="../topics/02-love_differences.md.html">02-love_differences</a></li>
-  <li><a href="../topics/03-signals.md.html">03-signals</a></li>
-</ul>
 
 </div>
 
 <div id="content">
 
-<h1>Cl <code>Sprite</code></h1>
-<p>Sprite class.</p>
-<p> Your standard animated sprite class.</p>
 
-<p> Derived from <a href="../classes/Object.html#">Object</a>.</p>
+<h1  id="T6"></h1>
+<h1  id="T7">Signals</h1>
 
+<p>signal.register( "SpawnLevelObject", function( level, object )</p>
 
+<pre>
+<span class="comment">-- spawn level objects
+</span>
+</pre>
 
-<br/>
-<br/>
+<p>end)</p>
 
+<p>signal.register( "Trigger", function( trigger, other, contact )</p>
 
+<pre>
+<span class="comment">-- handles triggers
+</span>
+</pre>
+
+<p>end)</p>
 
 
 </div> <!-- id="content" -->
