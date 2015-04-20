@@ -6,13 +6,13 @@ local angle = {}
 
 -- local cache
 local cos, sin, pi, min, clamp = math.cos, math.sin, math.pi, math.min, math.clamp
-local Vector = Vector
 
 --- Get forward vector of the given angle.
 -- @number r angle (radians)
--- @treturn Vector forward vector
+-- @treturn number vector x
+-- @treturn number vector y
 function angle.forward( r )
-	return Vector( cos(r), sin(r) )
+	return cos(r), sin(r)
 end
 
 --- Normalizes the angle to between -pi and pi radians (-180 to 180 degrees).

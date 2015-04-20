@@ -11,7 +11,7 @@ local Object = class("Object")
 --- Returns if object is an instance of the specified class.
 -- @tparam class class
 -- @treturn bool
-function Object:instanceOf( class )
+function Object:isInstanceOf( class )
 	
 end
 

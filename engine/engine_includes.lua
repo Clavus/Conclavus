@@ -26,7 +26,7 @@ local toload = {
 	{ resource = 				"engine/util/resource" },
 	{ graphics = 				"engine/util/graphics" },
 	{ steering = 				"engine/util/steering" },
-	{ gamestate = 			"engine/util/hump/gamestate" },
+	{ gamestate = 			"engine/util/gamestate" },
 	
 	-- Other libraries
 	{ lovebird =				"engine/lib/lovebird/lovebird" },

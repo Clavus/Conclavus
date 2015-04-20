@@ -57,7 +57,7 @@ length2 = vector2d.length2
 -- @number y
 -- @treturn number angle
 function vector2d.angle( x, y )
-	return atan2(y1, x1)
+	return atan2(y, x)
 end
 angle = vector2d.angle
 

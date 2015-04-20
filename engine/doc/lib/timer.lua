@@ -46,7 +46,6 @@ function timer.cancel(handle)
 end
 
 --- Cancel all timers.
--- @tparam table handle timer handle
 function timer.clear()
 end
 

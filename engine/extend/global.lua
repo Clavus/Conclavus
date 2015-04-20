@@ -62,3 +62,28 @@ end
 function getInput()
 	return _inputController()
 end
+
+local delays = {}
+local cur = currentTime
+--- Triggers only once every given interval
+-- @string id delay trigger id
+-- @number interval delay in seconds
+-- @bool[opt] override whether to force triggering this delay
+-- @treturn bool trigger state
+-- @usage if (input:mouseIsDown("l") and delay("fire", 0.4)) then
+--   fireBullet() -- fire every 0.4 seconds when holding down left mouse
+-- end
+function delay( id, interval, override )
+	if (delays[id] == nil or override) then
+		delays[id] = cur()
+		return true
+	else
+		if (delays[id] + interval <= cur()) then
+			delays[id] = cur()
+			return true
+		else
+			return false
+		end
+	end
+end
+

@@ -41,7 +41,8 @@ end
 -- @see Positional
 function Rotatable:moveForward( d )
 	assert(self.move ~= nil, "Function requires :move(x,y) function")
-	local dx, dy = angle.forward( self._angle ):multiply( d ):unpack()
+	local fx, fy = angle.forward( self._angle )
+	local dx, dy = fx * d, fy * d
 	self:move( dx, dy )
 	return self
 end

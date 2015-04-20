@@ -15,7 +15,8 @@ local stack = {state_init}
 -- @tparam[opt] table parent gamestate
 -- @treturn table gamestate table
 function gamestate.new(t)
-	local base = table.copy(t) or {}
+	local base = t or {}
+	base = table.copy(base)
 	base.init = base.init or __NULL__
 	base.enter = base.enter or __NULL__
 	base.leave = base.leave or __NULL__
@@ -32,8 +33,8 @@ function gamestate.switch(to, ...)
 	assert(to, "Missing argument: Gamestate to switch to")
 	assert(to ~= gamestate, "Can't call switch with colon operator")
 	local pre = stack[#stack]
-	pre.leave(pre)
-	to.init(to)
+	pre.leave(pre);
+	(to.init or __NULL__)(to)
 	to.init = nil
 	stack[#stack] = to
 	return (to.enter or __NULL__)(to, pre, ...)

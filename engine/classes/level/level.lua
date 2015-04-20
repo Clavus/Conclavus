@@ -53,7 +53,7 @@ function Level:draw()
 	local cbw, cbh = self._camera:getBackgroundQuadWidth(), self._camera:getBackgroundQuadHeight()
 	
 	for k, layer in ipairs( self._leveldata:getLayers() ) do
-		lg.setColor(255,255,255,255*layer.opacity)
+		lg.setColor(255,255,255,255*(layer.opacity or 1))
 		if (layer.type == LAYER_TYPE.IMAGES) then -- draw image layer (usually background objects)
 			for i, img in pairs(layer.images) do
 				if (img.quad) then
